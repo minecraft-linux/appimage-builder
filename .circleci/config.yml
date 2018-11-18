@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
           command: ./build.sh
