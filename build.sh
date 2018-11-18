@@ -40,7 +40,7 @@ build_component() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
-  cmake $CMAKE_OPTIONS $SOURCE_DIR/$1
+  cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   make -j$(nproc)
   popd
   pushd $OUTPUT_DIR
@@ -51,7 +51,7 @@ build_component() {
   popd
 }
 
-CMAKE_OPTIONS=-DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
+CMAKE_OPTIONS="-DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF"
 build_component msa
 CMAKE_OPTIONS=
 build_component mcpelauncher
