@@ -14,3 +14,6 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - run:
+          name: Upload files to repo
+          command: .circleci/deploy-deps.sh deb-ubuntu bionic output
