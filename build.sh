@@ -56,12 +56,13 @@ reset_cmake_options() {
   CMAKE_OPTIONS=
 }
 add_cmake_options() {
-  CMAKE_OPTIONS=$CMAKE_OPTIONS "$@"
+  CMAKE_OPTIONS="$CMAKE_OPTIONS $@"
 }
 build_component() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
+  echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   make -j$(nproc)
   popd
@@ -76,7 +77,7 @@ build_component() {
 call_quirk build_start
 
 reset_cmake_options
-add_cmake_options DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
+add_cmake_options -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
 call_quirk build_msa
 build_component msa
 reset_cmake_options
