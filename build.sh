@@ -12,11 +12,27 @@ show_status() {
   echo "$COLOR_STATUS=> $1$COLOR_RESET"
 }
 
+shopt -s nullglob
+
+if (( $# >= 1 )); then
+  show_status "Loading quirks file: $1"
+  source $1
+fi
+
+call_quirk() {
+  local QUIRK_NAME="quirk_$1"
+  QUIRK_NAME=`declare -f -F "$QUIRK_NAME"`
+  if (( $? == 0 )); then
+    show_status "Executing $QUIRK_NAME"
+    $QUIRK_NAME
+  fi
+}
+
 mkdir -p $SOURCE_DIR
 mkdir -p $BUILD_DIR
 mkdir -p $OUTPUT_DIR
 
-shopt -s nullglob
+call_quirk init
 
 show_status "Downloading sources"
 
@@ -36,6 +52,12 @@ download_repo msa https://github.com/minecraft-linux/msa-manifest.git
 download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git
 
+reset_cmake_options() {
+  CMAKE_OPTIONS=
+}
+add_cmake_options() {
+  CMAKE_OPTIONS=$CMAKE_OPTIONS "$@"
+}
 build_component() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
@@ -51,10 +73,17 @@ build_component() {
   popd
 }
 
-CMAKE_OPTIONS="-DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF"
+call_quirk build_start
+
+reset_cmake_options
+add_cmake_options DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
+call_quirk build_msa
 build_component msa
-CMAKE_OPTIONS=
+reset_cmake_options
+call_quirk build_mcpelauncher
 build_component mcpelauncher
+reset_cmake_options
+call_quirk build_mcpelauncher_ui
 build_component mcpelauncher-ui
 
 rm -rf $OUTPUT_DIR/_CPack_Packages
