@@ -16,4 +16,4 @@ jobs:
           destination: /
       - run:
           name: Upload files to repo
-          command: .circleci/deploy-deps.sh deb-ubuntu bionic output
+          command: .circleci/deploy-debs.sh deb-ubuntu bionic output
