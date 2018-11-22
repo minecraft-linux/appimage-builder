@@ -11,6 +11,13 @@ COLOR_RESET=$'\033[0m'
 show_status() {
   echo "$COLOR_STATUS=> $1$COLOR_RESET"
 }
+check_run() {
+  $@
+  local STATUS=$?
+  if (( $STATUS != 0 )); then
+    exit $STATUS
+  fi
+}
 
 shopt -s nullglob
 
@@ -40,11 +47,11 @@ download_repo() {
   show_status "Downloading $2"
   if [ -d $SOURCE_DIR/$1 ]; then
     pushd $SOURCE_DIR/$1
-    git pull
-    git submodule update
+    check_run git pull
+    check_run git submodule update
     popd
   else
-    git clone --recursive $2 $SOURCE_DIR/$1
+    check_run git clone --recursive $2 $SOURCE_DIR/$1
   fi
 }
 
@@ -63,13 +70,13 @@ build_component() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  make -j$(nproc)
+  check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  check_run make -j$(nproc)
   popd
   pushd $OUTPUT_DIR
   for cf in $BUILD_DIR/$1/**/CPackConfig.cmake; do
     echo "CPack config: $cf"
-    cpack --config $cf
+    check_run cpack --config $cf
   done
   popd
 }
