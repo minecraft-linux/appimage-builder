@@ -31,3 +31,6 @@ jobs:
       - run:
           name: Run the buildscript
           command: . /opt/qt59/bin/qt59-env.sh && ./build.sh quirks-ubuntu-1604.sh
+      - store_artifacts:
+          path: output
+          destination: /
