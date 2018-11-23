@@ -19,15 +19,9 @@ jobs:
           command: .circleci/deploy-debs.sh deb-ubuntu bionic output
   build-ubuntu-1604:
     docker:
-      - image: buildpack-deps:xenial
+      - image: minecraftlinux/ci-xenial:0.0.1
     steps:
       - checkout
-      - run:
-          name: Install deps
-          command: dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config libssl-dev:i386 libcurl4-openssl-dev g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler software-properties-common
-      - run:
-          name: Install Qt 5.9
-          command: add-apt-repository -y ppa:beineri/opt-qt596-xenial && apt-get update && apt-get install -y qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine
       - run:
           name: Run the buildscript
           command: . /opt/qt59/bin/qt59-env.sh && ./build.sh quirks-ubuntu-1604.sh
