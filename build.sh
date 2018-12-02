@@ -4,6 +4,23 @@ SOURCE_DIR=${PWD}/source
 BUILD_DIR=${PWD}/build
 OUTPUT_DIR=${PWD}/output
 
+MAKE_JOBS=$(nproc)
+QUIRKS_FILE=
+
+while getopts "h?q:j:" opt; do
+    case "$opt" in
+    h|\?)
+        echo "build.sh"
+        echo "-j  Specify the number of jobs (the -j arg to make)"
+        echo "-q  Specify the quirks file"
+        exit 0
+        ;;
+    j)  MAKE_JOBS=$OPTARG
+        ;;
+    q)  QUIRKS_FILE=$OPTARG
+        ;;
+    esac
+done
 
 COLOR_STATUS=$'\033[1m\033[32m'
 COLOR_RESET=$'\033[0m'
@@ -21,9 +38,9 @@ check_run() {
 
 shopt -s nullglob
 
-if (( $# >= 1 )); then
-  show_status "Loading quirks file: $1"
-  source $1
+if [ ! -z "$QUIRKS_FILE" ]; then
+  show_status "Loading quirks file: $QUIRKS_FILE"
+  source $QUIRKS_FILE
 fi
 
 call_quirk() {
@@ -71,7 +88,7 @@ build_component() {
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  check_run make -j$(nproc)
+  check_run make -j${MAKE_JOBS}
   popd
   pushd $OUTPUT_DIR
   for cf in $BUILD_DIR/$1/**/CPackConfig.cmake; do
