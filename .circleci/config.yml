@@ -52,6 +52,6 @@ workflows:
   version: 2
   build:
     jobs:
-      # - build
-      # - build-xenial
+      - build
+      - build-xenial
       - build-appimage
