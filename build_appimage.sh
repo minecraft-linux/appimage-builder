@@ -56,6 +56,8 @@ call_quirk build_mcpelauncher_ui
 build_component mcpelauncher-ui
 install_component mcpelauncher-ui
 
+show_status "Packaging"
+
 cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/Resources/proprietary/mcpelauncher-icon-512.png $BUILD_DIR/mcpelauncher-ui-qt.png
 cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/mcpelauncher-ui-qt.desktop $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
@@ -79,12 +81,12 @@ cd ..
 LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 
-$LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.png -d $BUILD_DIR/mcpelauncher-ui-qt.desktop
+check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.png -d $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
-export QML_SOURCES_PATHS=ui/mcpelauncher-ui-qt/qml/
-$LINUXDEPLOY_PLUGIN_QT_BIN --appdir AppDir
+export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
+check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-$LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
+check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
 
 cleanup_build
