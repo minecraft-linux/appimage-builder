@@ -35,11 +35,14 @@ reset_cmake_options
 add_cmake_options -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
 call_quirk build_msa
 build_component msa
+install_component_cpack msa
 reset_cmake_options
 call_quirk build_mcpelauncher
 build_component mcpelauncher
+install_component_cpack mcpelauncher
 reset_cmake_options
 call_quirk build_mcpelauncher_ui
 build_component mcpelauncher-ui
+install_component_cpack mcpelauncher-ui
 
 cleanup_build

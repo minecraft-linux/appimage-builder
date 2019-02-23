@@ -70,6 +70,8 @@ build_component() {
   check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   check_run make -j${MAKE_JOBS}
   popd
+}
+install_component_cpack() {
   pushd $OUTPUT_DIR
   for cf in $BUILD_DIR/$1/**/CPackConfig.cmake; do
     echo "CPack config: $cf"
