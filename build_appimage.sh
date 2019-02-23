@@ -85,5 +85,6 @@ export QML_SOURCES_PATHS=ui/mcpelauncher-ui-qt/qml/
 $LINUXDEPLOY_PLUGIN_QT_BIN --appdir AppDir
 
 $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
+mv Minecraft*.AppImage output
 
 cleanup_build
