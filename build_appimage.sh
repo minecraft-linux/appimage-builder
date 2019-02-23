@@ -4,18 +4,25 @@ source common.sh
 
 QUIRKS_FILE=
 APP_DIR=${BUILD_DIR}/AppDir
+UPDATE_CMAKE_OPTIONS=""
 
-while getopts "h?q:j:" opt; do
+while getopts "h?q:j:u:i:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
         echo "-j  Specify the number of jobs (the -j arg to make)"
         echo "-q  Specify the quirks file"
+        echo "-u  Specify the update check URL"
+        echo "-i  Specify the build id for update checking"
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
         ;;
     q)  QUIRKS_FILE=$OPTARG
+        ;;
+    u)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_UPDATE_CHECK=ON -DUPDATE_CHECK_URL=$OPTARG"
+        ;;
+    i)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DUPDATE_CHECK_BUILD_ID=$OPTARG"
         ;;
     esac
 done
@@ -51,7 +58,7 @@ call_quirk build_mcpelauncher
 build_component mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=.
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
 call_quirk build_mcpelauncher_ui
 build_component mcpelauncher-ui
 install_component mcpelauncher-ui
