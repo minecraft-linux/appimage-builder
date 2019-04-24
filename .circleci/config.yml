@@ -44,7 +44,7 @@ jobs:
           destination: /
       - run:
           name: Upload the .AppImage to website
-          command: 'curl -X POST -u "ci:$WEBSITE_CI_UPLOAD_PASS" --data-binary "@output/Minecraft_Bedrock_Launcher*-x86_64.AppImage" -H "X-Type: appimage" https://mcpelauncher.mrarm.io/api/v1/upload'
+          command: 'file=(output/Minecraft_Bedrock_Launcher-*-x86_64.AppImage); curl -X POST -u "ci:$WEBSITE_CI_UPLOAD_PASS" --data-binary "@$file" -H "X-Type: appimage" https://mcpelauncher.mrarm.io/api/v1/upload'
       - run:
           name: Update version number
           command: 'curl -X POST -u "ci:$WEBSITE_CI_UPLOAD_PASS" -F "channel=appimage" -F "build_id=$CIRCLE_BUILD_NUM" https://mcpelauncher.mrarm.io/api/v1/version'
