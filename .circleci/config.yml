@@ -70,5 +70,6 @@ workflows:
   build:
     jobs:
       - build
+      - build-disco
       - build-xenial
       - build-appimage
