@@ -3,8 +3,8 @@ jobs:
   build:
     docker:
       - image: buildpack-deps:bionic
-        enviroment:
-          DEBIAN_FRONTEND: noninteractive
+    enviroment:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - checkout
       - run:
@@ -22,8 +22,8 @@ jobs:
   build-disco:
     docker:
       - image: buildpack-deps:disco
-        enviroment:
-          DEBIAN_FRONTEND: noninteractive
+    enviroment:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - checkout
       - run:
@@ -41,8 +41,8 @@ jobs:
   build-xenial:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
-        enviroment:
-          DEBIAN_FRONTEND: noninteractive
+    enviroment:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - checkout
       - run:
