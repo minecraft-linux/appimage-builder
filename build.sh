@@ -5,7 +5,7 @@ source common.sh
 QUIRKS_FILE=
 OS_NAME=
 
-while getopts "h?q:j:" opt; do
+while getopts "h?q:j:o:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
