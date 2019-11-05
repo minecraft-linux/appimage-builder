@@ -15,8 +15,8 @@ jobs:
           path: output
           destination: /
       - run:
-          name: Upload files to repo
-          command: .circleci/deploy-debs.sh deb-ubuntu bionic output
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete Bionic_${CIRCLE_BUILD_NUM} output/
   build-disco:
     docker:
       - image: buildpack-deps:disco
@@ -32,8 +32,8 @@ jobs:
           path: output
           destination: /
       - run:
-          name: Upload files to repo
-          command: .circleci/deploy-debs.sh deb-ubuntu disco output
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete Disco_${CIRCLE_BUILD_NUM} output/
   build-xenial:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -46,8 +46,8 @@ jobs:
           path: output
           destination: /
       - run:
-          name: Upload files to repo
-          command: .circleci/deploy-debs.sh deb-ubuntu xenial output
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete Xenial_${CIRCLE_BUILD_NUM} output/
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -55,16 +55,13 @@ jobs:
       - checkout
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -u https://mcpelauncher.mrarm.io/ver/appimage -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -i $CIRCLE_BUILD_NUM
       - store_artifacts:
           path: output
           destination: /
       - run:
-          name: Upload the .AppImage to website
-          command: 'file=(output/Minecraft_Bedrock_Launcher-*-x86_64.AppImage); curl -X POST -u "ci:$WEBSITE_CI_UPLOAD_PASS" --data-binary "@$file" -H "X-Type: appimage" https://mcpelauncher.mrarm.io/api/v1/upload'
-      - run:
-          name: Update version number
-          command: 'curl -X POST -u "ci:$WEBSITE_CI_UPLOAD_PASS" -F "channel=appimage" -F "build_id=$CIRCLE_BUILD_NUM" https://mcpelauncher.mrarm.io/api/v1/version'
+          name: Upload the .AppImage to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete AppImage_${CIRCLE_BUILD_NUM} output/Minecraft_Bedrock_Launcher-*-x86_64.AppImage
 workflows:
   version: 2
   build:
