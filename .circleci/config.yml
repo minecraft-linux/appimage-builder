@@ -41,7 +41,7 @@ jobs:
       - checkout
       - run:
           name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libstdc++-5-dev:i386
+          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libstdc++-5-dev:i386
       - run:
           name: Run the buildscript
           command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-ubuntu-1604.sh -o ubuntu-xenial
@@ -50,7 +50,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar --no-same-owner -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((${CIRCLE_BUILD_NUM} / 4)).Xenial output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((${CIRCLE_BUILD_NUM} / 4)).Xenial output/
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
