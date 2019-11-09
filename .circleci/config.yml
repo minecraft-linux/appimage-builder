@@ -34,6 +34,40 @@ jobs:
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((${CIRCLE_BUILD_NUM} / 4)).Disco output/
+  build-buster:
+    docker:
+      - image: buildpack-deps:disco
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-8-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+      - run:
+          name: Run the buildscript
+          command: ./build.sh -j4 -o debian-buster
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((${CIRCLE_BUILD_NUM} / 4)).Buster output/
+  build-buster-origin:
+    docker:
+      - image: buildpack-deps:disco
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-8-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+      - run:
+          name: Run the buildscript
+          command: ./buildorigin.sh -j4 -o debian-buster
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((${CIRCLE_BUILD_NUM} / 4)).Buster output/
   build-xenial:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
