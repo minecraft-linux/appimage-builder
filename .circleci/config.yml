@@ -110,3 +110,5 @@ workflows:
       - build-disco
       - build-xenial
       - build-appimage
+      - build-buster
+      - build-buster-origin
