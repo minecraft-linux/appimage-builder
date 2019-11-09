@@ -113,7 +113,7 @@ jobs:
           command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-buster.sh -i $CIRCLE_BUILD_NUM
       - store_artifacts:
           path: output
           destination: /
@@ -124,10 +124,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - build
-      - build-disco
-      - build-xenial
-      - build-appimage
-      - build-buster
-      - build-buster-origin
       - build-buster-appimage-origin
