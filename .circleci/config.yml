@@ -7,12 +7,12 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu --noconfirm clang 
+          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu --noconfirm git
       - run:
-          name: Run the buildscript
-          command: CC=clang CXX=clang++ ./build.sh -j4
+          name: Generate-lib32-evdev
+          command: git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg
       - store_artifacts:
-          path: output
+          path: lib32-libevdev/*.pkg
           destination: /
       # - run:
       #     name: Test install
