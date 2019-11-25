@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu clang 
+          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu --noconfirm clang 
       - run:
           name: Run the buildscript
           command: CC=clang CXX=clang++ ./build.sh -j4
