@@ -114,7 +114,7 @@ jobs:
           destination: /
       - run:
         name: Test install
-        command: dpkg -i mcpelauncher-client-*.deb mcpelauncher-ui-qt-*.deb msa-daemon-*.deb msa-ui-qt-*.deb
+        command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -131,7 +131,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: dpkg -i mcpelauncher-client-*.deb mcpelauncher-ui-qt-*.deb msa-daemon-*.deb msa-ui-qt-*.deb
+          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
 workflows:
   version: 2
   build:
