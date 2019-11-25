@@ -112,6 +112,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - run:
+        name: Test install
+        command: dpkg -i mcpelauncher-client-*.deb mcpelauncher-ui-qt-*.deb msa-daemon-*.deb msa-ui-qt-*.deb
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -126,6 +129,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - run:
+          name: Test install
+          command: dpkg -i mcpelauncher-client-*.deb mcpelauncher-ui-qt-*.deb msa-daemon-*.deb msa-ui-qt-*.deb
 workflows:
   version: 2
   build:
