@@ -14,6 +14,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - run:
+        name: Test install
+        command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
   build-20.04:
     docker:
       - image: buildpack-deps:20.04
@@ -28,6 +31,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - run:
+        name: Test install
+        command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
   build:
     docker:
       - image: buildpack-deps:bionic
@@ -112,9 +118,6 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      - run:
-        name: Test install
-        command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -129,9 +132,6 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      - run:
-          name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
 workflows:
   version: 2
   build:
