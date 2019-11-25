@@ -130,4 +130,5 @@ workflows:
   version: 2
   build:
     jobs:
-      - build-buster-appimage-origin
+      - build-19.10
+      - build-20.04
