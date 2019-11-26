@@ -142,7 +142,7 @@ jobs:
           command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
-          command: ./build.sh -j4 -o debian-buster
+          command: ./build.sh -j4 -o ubuntu-bionic
       - store_artifacts:
           path: output
           destination: /
@@ -152,6 +152,26 @@ jobs:
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).buster output/
+  build-stretch:
+    docker:
+      - image: buildpack-deps:stretch
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+      - run:
+          name: Run the buildscript
+          command: ./build.sh -j4 -o ubuntu-bionic
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Test install
+          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).stretch output/
   build-buster-origin:
     docker:
       - image: buildpack-deps:buster
@@ -213,7 +233,7 @@ jobs:
           command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-buster.sh -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -i $CIRCLE_BUILD_NUM
       - store_artifacts:
           path: output
           destination: /
@@ -225,12 +245,13 @@ workflows:
   build:
     jobs:
       # - build-arch
-      - build-manjaro
+      # - build-manjaro
       # - build-19.10
       # - build-20.04
       # - build
       # - build-disco
       # - build-buster
+      - build-stretch
       # - build-buster-origin
       # - build-buster-appimage-origin
       # - build-xenial
