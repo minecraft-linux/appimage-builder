@@ -210,7 +210,7 @@ jobs:
       - checkout
       - run:
           name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
+          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
       - run:
           name: Run the buildscript
           command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-buster.sh -i $CIRCLE_BUILD_NUM
