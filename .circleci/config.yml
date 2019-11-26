@@ -11,12 +11,7 @@ jobs:
       - run:
           name: Generate-lib32-evdev
           command: runuser -l arch -c "git clone https://github.com/ChristopherHX/lib32-check.git lib32-check && cd lib32-check && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg --syncdeps --noconfirm --install"
-      - run:      - store_artifacts:
-          path: /home/arch/lib32-check/*.pkg.tar.xz
-          destination: /
-      - store_artifacts:
-          path: /home/arch/lib32-libevdev/*.pkg.tar.xz
-          destination: /
+      - run:
           name: Build fork
           command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-linux-git.git mcpelauncher-linux-git && cd mcpelauncher-linux-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
