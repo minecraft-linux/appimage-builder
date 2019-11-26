@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux && useradd -m arch
+          command: echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux fakeroot binutils clang && useradd -m arch
       - run:
           name: Generate-lib32-evdev
-          command: runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && chmod ugoa+rwx lib32-libevdev && cd lib32-libevdev && makepkg"
+          command: runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && chmod ugoa+rwx lib32-libevdev && cd lib32-libevdev && CC=clang CXX=clang++ makepkg"
       - store_artifacts:
           path: /home/arch/lib32-libevdev/*.pkg
           destination: /
