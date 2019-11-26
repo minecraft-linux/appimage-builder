@@ -22,7 +22,7 @@ jobs:
           command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
           name: Copy artifacts
-          command: mkdir -p /home/arch/output/ && cp /home/arch/*/*.pkg.tar.xz
+          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
       - store_artifacts:
           path: /home/arch/output/
           destination: /
