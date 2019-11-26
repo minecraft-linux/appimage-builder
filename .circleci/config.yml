@@ -26,12 +26,38 @@ jobs:
       - store_artifacts:
           path: /home/arch/output/
           destination: /
-      # - run:
-      #     name: Test install
-      #     command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).arch output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).archlinux /home/arch/output/
+  build-manjaro:
+    docker:
+      - image: manjarolinux/build:latest
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: "echo '[multilib]' >> /etc/pacman.conf && echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf file make && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
+      - run:
+          name: Generate-lib32-evdev
+          command: runuser -l arch -c "git clone https://github.com/ChristopherHX/lib32-check.git lib32-check && cd lib32-check && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg --syncdeps --noconfirm --install"
+      - run:
+          name: Build fork
+          command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-linux-git.git mcpelauncher-linux-git && cd mcpelauncher-linux-git && makepkg --syncdeps --noconfirm --install" || true
+      - run:
+          name: Build msa
+          command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-git.git mcpelauncher-msa-git && cd mcpelauncher-msa-git && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-ui-qt-git.git mcpelauncher-msa-ui-qt-git && cd mcpelauncher-msa-ui-qt-git && makepkg --syncdeps --noconfirm --install" || true
+      - run:
+          name: Build Qt launcher
+          command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
+      - run:
+          name: Copy artifacts
+          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
+      - store_artifacts:
+          path: /home/arch/output/
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).manjarolinux /home/arch/output/
   build-19.10:
     docker:
       - image: buildpack-deps:19.10
@@ -49,9 +75,9 @@ jobs:
       - run:
           name: Test install
           command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).19.10 output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).19.10 output/
   build-20.04:
     docker:
       - image: buildpack-deps:20.04
@@ -69,9 +95,9 @@ jobs:
       - run:
           name: Test install
           command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).20.04 output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).20.04 output/
   build:
     docker:
       - image: buildpack-deps:bionic
@@ -86,9 +112,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).bionic output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).bionic output/
   build-disco:
     docker:
       - image: buildpack-deps:disco
@@ -103,9 +129,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).disco output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).disco output/
   build-buster:
     docker:
       - image: buildpack-deps:buster
@@ -123,9 +149,9 @@ jobs:
       - run:
           name: Test install
           command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).buster output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).buster output/
   build-buster-origin:
     docker:
       - image: buildpack-deps:buster
@@ -140,9 +166,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).mrarmbuster output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).mrarmbuster output/
   build-buster-appimage-origin:
     docker:
       - image: buildpack-deps:buster
@@ -157,9 +183,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).mrarmbusterappimage output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).mrarmbusterappimage output/
   build-xenial:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -174,9 +200,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).xenial output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).xenial output/
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -191,20 +217,21 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      # - run:
-      #     name: Upload files to Github
-      #     command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 6) / 9)).appimage output/
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(((${CIRCLE_BUILD_NUM} - 3) / 11)).appimage output/
 workflows:
   version: 2
   build:
     jobs:
       - build-arch
-      # - build-19.10
-      # - build-20.04
-      # - build
-      # - build-disco
-      # - build-buster
-      # - build-buster-origin
-      # - build-buster-appimage-origin
-      # - build-xenial
-      # - build-appimage
+      - build-manjaro
+      - build-19.10
+      - build-20.04
+      - build
+      - build-disco
+      - build-buster
+      - build-buster-origin
+      - build-buster-appimage-origin
+      - build-xenial
+      - build-appimage
