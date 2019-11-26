@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: "echo '[multilib]' >> /etc/pacman.conf && echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
+          command: "echo '[multilib]' >> /etc/pacman.conf && echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf file && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
       - run:
           name: Generate-lib32-evdev
           command: runuser -l arch -c "git clone https://aur.archlinux.org/lib32-check.git lib32-check && cd lib32-check && CC=clang CXX=clang++ makepkg --syncdeps --noconfirm && ls" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && CC=clang CXX=clang++ makepkg --syncdeps --noconfirm" || true
