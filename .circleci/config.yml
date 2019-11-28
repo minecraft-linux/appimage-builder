@@ -244,15 +244,15 @@ workflows:
   version: 2
   build:
     jobs:
-      # - build-arch
-      # - build-manjaro
-      # - build-19.10
-      # - build-20.04
-      # - build
-      # - build-disco
-      # - build-buster
-      - build-stretch
-      # - build-buster-origin
-      # - build-buster-appimage-origin
-      # - build-xenial
-      # - build-appimage
+      - build-arch
+      - build-manjaro
+      - build-19.10
+      - build-20.04
+      - build
+      - build-disco
+      - build-buster
+    #   - build-stretch
+      - build-buster-origin
+      - build-buster-appimage-origin
+      - build-xenial
+      - build-appimage
