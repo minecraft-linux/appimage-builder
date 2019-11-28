@@ -19,7 +19,7 @@ jobs:
           command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-git.git mcpelauncher-msa-git && cd mcpelauncher-msa-git && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-ui-qt-git.git mcpelauncher-msa-ui-qt-git && cd mcpelauncher-msa-ui-qt-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
           name: Build Qt launcher
-          command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
+          command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
           name: Copy artifacts
           command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
