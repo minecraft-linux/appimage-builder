@@ -266,6 +266,7 @@ workflows:
       - build-19.10
       - build-20.04
       - build
+      - build32
       - build-disco
       - build-buster
       # - build-stretch
