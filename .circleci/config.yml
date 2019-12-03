@@ -115,6 +115,23 @@ jobs:
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).bionic output/
+  build32:
+    docker:
+      - image: buildpack-deps:bionic
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev:i386 qtwebengine5-dev:i386 libssl-dev:i386 libcurl4-openssl-dev:i386 libcurl4-openssl-dev:i386 libstdc++-7-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev:i386 libssl-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 protobuf-compiler qtdeclarative5-dev:i386 libqt5svg5-dev:i386 qml-module-qtquick2:i386 qml-module-qtquick-layouts:i386 qml-module-qtquick-controls:i386 qml-module-qtquick-controls2:i386 qml-module-qtquick-window2:i386 qml-module-qtquick-dialogs:i386 qml-module-qt-labs-settings:i386 qml-module-qt-labs-folderlistmodel:i386
+      - run:
+          name: Run the buildscript
+          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-32.sh -o ubuntu-bionic
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).bionic32 output/
   build-disco:
     docker:
       - image: buildpack-deps:disco
@@ -251,8 +268,8 @@ workflows:
       - build
       - build-disco
       - build-buster
-    #   - build-stretch
-      - build-buster-origin
-      - build-buster-appimage-origin
+      # - build-stretch
+      # - build-buster-origin
+      # - build-buster-appimage-origin
       - build-xenial
       - build-appimage
