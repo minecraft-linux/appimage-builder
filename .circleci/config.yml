@@ -240,6 +240,23 @@ jobs:
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).xenial output/
+  build-xenial32:
+    docker:
+      - image: minecraftlinux/ci-xenial:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Download clang 9.0.0 and install libstdc++
+          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386 libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
+      - run:
+          name: Run the buildscript
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-ubuntu-1604-32.sh -o ubuntu-xenial
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).xenial32 output/
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -251,6 +268,23 @@ jobs:
       - run:
           name: Run the buildscript
           command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -i $CIRCLE_BUILD_NUM
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).appimage output/
+  build-appimage32:
+    docker:
+      - image: minecraftlinux/ci-xenial:0.0.1
+    steps:
+      - checkout
+      - run:
+          name: Download clang 9.0.0 and install libstdc++
+          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386 libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
+      - run:
+          name: Run the buildscript
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage_32.sh -j4 -q quirks-ubuntu-1604-32.sh -i $CIRCLE_BUILD_NUM
       - store_artifacts:
           path: output
           destination: /
@@ -273,4 +307,6 @@ workflows:
       # - build-buster-origin
       # - build-buster-appimage-origin
       - build-xenial
+      - build-xenial32
       - build-appimage
+      - build-appimage32
