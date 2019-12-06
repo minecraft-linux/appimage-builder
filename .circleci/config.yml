@@ -48,7 +48,7 @@ jobs:
           command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-git.git mcpelauncher-msa-git && cd mcpelauncher-msa-git && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-msa-ui-qt-git.git mcpelauncher-msa-ui-qt-git && cd mcpelauncher-msa-ui-qt-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
           name: Build Qt launcher
-          command: runuser -l arch -c "git clone https://aur.archlinux.org/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
+          command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install" || true
       - run:
           name: Copy artifacts
           command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
@@ -163,9 +163,9 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      - run:
-          name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+    #   - run:
+    #       name: Test install
+    #       command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $((((${CIRCLE_BUILD_NUM} - 3) / 11) + 13)).buster output/
@@ -300,7 +300,7 @@ workflows:
       - build-19.10
       - build-20.04
       - build
-      - build32
+      # - build32
       - build-disco
       - build-buster
       # - build-stretch

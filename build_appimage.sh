@@ -60,6 +60,11 @@ install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
 call_quirk build_mcpelauncher_ui
+pushd mcpelauncher-ui
+pushd playdl-signin-ui-qt
+check_run git checkout master
+popd
+popd
 build_component mcpelauncher-ui
 install_component mcpelauncher-ui
 
