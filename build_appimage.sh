@@ -97,7 +97,7 @@ export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 useradd -m debiand
-cp ./buildangle32.sh /home/debiand/
+cp ./buildangle32.sh /home/debiand/build.sh
 chown debiand /home/debiand/build.sh
 runuser -l debiand -c 'bash -c ./build.sh'
 cp /home/debiand/angle/out/Release/*.so $APP_DIR/usr/lib/
