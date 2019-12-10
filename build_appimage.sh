@@ -101,6 +101,9 @@ cp ./buildangle32.sh /home/debiand/build.sh
 chown debiand /home/debiand/build.sh
 runuser -l debiand -c 'bash -c ./build.sh'
 cp /home/debiand/angle/out/Release/*.so $APP_DIR/usr/lib/
+pushd $APP_DIR/usr/lib/
+ln -s libEGL.so libEGL.so.1
+popd
 
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
