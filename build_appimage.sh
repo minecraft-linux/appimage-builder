@@ -96,6 +96,12 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
+useradd -m debiand
+cp ./buildangle32.sh /home/debiand/
+chown debiand /home/debiand/build.sh
+runuser -l debiand -c 'bash -c ./build.sh'
+cp /home/debiand/angle/out/Release/*.so $APP_DIR/usr/lib/
+
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
 
