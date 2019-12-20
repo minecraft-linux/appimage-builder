@@ -46,7 +46,7 @@ call_quirk build_start
 install_component() {
   pushd $OUTPUT_DIR
   check_run cpack --config ${BUILD_DIR}/$1/$2/CPackConfig.cmake
-  popd $OUTPUT_DIR
+  popd
 }
 
 build_component2() {
