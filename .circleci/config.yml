@@ -291,6 +291,23 @@ jobs:
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" ${CIRCLE_BUILD_NUM}.appimage32.based.ubuntu.16.04 output/
+  build-buster-appimage-armhf:
+    docker:
+      - image: buildpack-deps:buster
+    steps:
+      - checkout
+      - run:
+          name: Download clang 9.0.0 and install libstdc++
+          command: dpkg --add-architecture armhf && apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3-pip cmake g++-arm-linux-gnueabihf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libcurl4-openssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libasound2:armhf	qt5-default:armhf git cmake pkg-config qtbase5-dev:armhf qtwebengine5-dev:armhf libssl-dev:armhf libcurl4-openssl-dev:armhf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libgl1-mesa-dev:armhf libssl-dev:armhf libuv1-dev:armhf libzip-dev:armhf libprotobuf-dev:armhf protobuf-compiler qtdeclarative5-dev:armhf libqt5svg5-dev:armhf qml-module-qtquick2:armhf qml-module-qtquick-layouts:armhf qml-module-qtquick-controls:armhf qml-module-qtquick-controls2:armhf qml-module-qtquick-window2:armhf qml-module-qtquick-dialogs:armhf qml-module-qt-labs-settings:armhf qml-module-qt-labs-folderlistmodel:armhf && pip3 install jinja2 ds_store ply
+      - run:
+          name: Run the buildscript
+          command: ./build_appimage_armhf.sh -j4 -q quirks-ubuntu-buster.sh -i $CIRCLE_BUILD_NUM
+      - store_artifacts:
+          path: output
+          destination: /
+      - run:
+          name: Upload files to Github
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" ${CIRCLE_BUILD_NUM}.debian.buster.10.armhf.appimage output/
 workflows:
   version: 2
   build:
