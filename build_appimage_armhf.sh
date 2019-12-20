@@ -45,7 +45,7 @@ call_quirk build_start
 
 install_component() {
   pushd $OUTPUT_DIR
-  check_run cpack --config ${BUILD_DIR}/$1/CPackConfig.cmake
+  check_run cpack --config ${BUILD_DIR}/$1/$2/CPackConfig.cmake
   popd $OUTPUT_DIR
 }
 
@@ -64,7 +64,8 @@ reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_msa
 build_component2 msa
-install_component msa
+install_component msa msa-ui-qt
+install_component msa msa-daemon
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_mcpelauncher
@@ -75,12 +76,12 @@ pushd $BUILD_DIR/mcpelauncher/minecraft-symbols/tools
 python3 ./process_headers.py --armhf
 popd
 build_component2 mcpelauncher
-install_component mcpelauncher
+install_component mcpelauncher mcpelauncher-client
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_mcpelauncher_ui
 build_component2 mcpelauncher-ui
-install_component mcpelauncher-ui
+install_component mcpelauncher-ui mcpelauncher-ui-qt
 
 show_status "Packaging"
 
