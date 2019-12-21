@@ -313,21 +313,21 @@ workflows:
   build:
     jobs:
       - build-buster-appimage-armhf
-      # - build-arch
-      # - build-manjaro
-      # - build-19.10
-      # - build-20.04
-      # - build
-      # # - build32
-      # - build-disco
-      # - build-buster
-      # # - build-stretch
-      # # - build-buster-origin
-      # # - build-buster-appimage-origin
-      # - build-xenial
-      # - build-xenial32
-      # - build-appimage
-      # - build-appimage32
+      - build-arch
+      - build-manjaro
+      - build-19.10
+      - build-20.04
+      - build
+      # - build32
+      - build-disco
+      - build-buster
+      # - build-stretch
+      # - build-buster-origin
+      # - build-buster-appimage-origin
+      - build-xenial
+      - build-xenial32
+      - build-appimage
+      - build-appimage32
   # nightly:
   #   triggers:
   #     - schedule:
