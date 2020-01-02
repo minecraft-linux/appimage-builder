@@ -271,9 +271,10 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      - run:
-          name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" -delete amd64.appimage.based.ubuntu.xenial.16.04 output/
+      - persist_to_workspace:
+          root: output
+          paths:
+            - ./*
   build-appimage32:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -288,9 +289,10 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
-      - run:
-          name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" -delete x86.appimage.based.ubuntu.xenial.16.04 output/
+      - persist_to_workspace:
+          root: output
+          paths:
+            - ./*
   build-buster-appimage-armhf:
     docker:
       - image: buildpack-deps:buster
@@ -305,14 +307,23 @@ jobs:
       - store_artifacts:
           path: output
           destination: /
+      - persist_to_workspace:
+          root: output
+          paths:
+            - ./*
+  deploy-appimage:
+    docker:
+    - image: debian:buster
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable"$'\n'"**Only for ARM based PC's, most PC's are not ARM, but amd64 (x86_64, x64)**" -delete armhf.appimage.based.debian.buster.10 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" -delete appimage /tmp/workspace
 workflows:
   version: 2
   build:
     jobs:
-      - build-buster-appimage-armhf
       - build-arch
       - build-manjaro
       - build-19.10
@@ -326,8 +337,15 @@ workflows:
       # - build-buster-appimage-origin
       - build-xenial
       - build-xenial32
+
       - build-appimage
       - build-appimage32
+      - build-buster-appimage-armhf
+      - deploy-appimage:
+          requires:
+          - build-appimage
+          - build-appimage32
+          - build-buster-appimage-armhf
   nightly:
     triggers:
       - schedule:
