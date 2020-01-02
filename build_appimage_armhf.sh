@@ -86,7 +86,7 @@ install_component mcpelauncher-ui mcpelauncher-ui-qt
 show_status "Packaging"
 pushd ${SOURCE_DIR}/mcpelauncher-deb2appimage
 check_run ./updatearmhf.sh
-${SOURCE_DIR}/deb2appimage/deb2appimage.sh -j config-bionic-armhf.json -o ${OUTPUT_DIR}
+${SOURCE_DIR}/deb2appimage/deb2appimage.sh -j config-buster-armhf.json -o ${OUTPUT_DIR}
 popd
 
 cleanup_build
