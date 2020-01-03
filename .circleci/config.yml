@@ -31,12 +31,12 @@ jobs:
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install it via \`sudo pacman -U *.pkg.tar.xz\` or follow the build from source instruction on my README"$'\n'"Now provides protobuf package" -replace amd64.archlinux /home/arch/output/
   build-manjaro:
     docker:
-      - image: manjarolinux/build:latest
+      - image: jonathonf/manjaro:latest
     steps:
       - checkout
       - run:
           name: Install deps
-          command: "pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf file make && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
+          command: "pacman -Syu --noconfirm && pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf file make && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
       - run:
           name: Generate-lib32-evdev
           command: runuser -l arch -c "git clone https://github.com/ChristopherHX/lib32-check.git lib32-check && cd lib32-check && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg --syncdeps --noconfirm --install"
