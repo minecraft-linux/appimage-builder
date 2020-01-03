@@ -316,8 +316,8 @@ jobs:
     - image: debian:buster
     steps:
       - run:
-          name: Install ca-certifactes
-          command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates
+          name: Install ca-certifactes curl
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates curl
       - attach_workspace:
           at: /tmp/workspace
       - run:
