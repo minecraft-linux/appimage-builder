@@ -274,7 +274,7 @@ jobs:
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
   build-appimage32:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -292,7 +292,7 @@ jobs:
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
   build-buster-appimage-armhf:
     docker:
       - image: buildpack-deps:buster
@@ -310,7 +310,7 @@ jobs:
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
   deploy-appimage:
     docker:
     - image: debian:buster
