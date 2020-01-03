@@ -315,6 +315,9 @@ jobs:
     docker:
     - image: debian:buster
     steps:
+      - run:
+          name: Install ca-certifactes
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates
       - attach_workspace:
           at: /tmp/workspace
       - run:
