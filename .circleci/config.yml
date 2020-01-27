@@ -22,7 +22,10 @@ jobs:
           command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install"
       - run:
           name: Copy artifacts
-          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/" && cp /var/cache/pacman/pkg/protobuf*.pkg.tar.xz /home/arch/output/
+          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
+      - run:
+          name: Download protobuf
+          command: pacman -Sp protobuf > protbuf.list && wget -P /home/arch/output/ -i protbuf.list
       - store_artifacts:
           path: /home/arch/output/
           destination: /
@@ -51,7 +54,10 @@ jobs:
           command: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-ui-git.git mcpelauncher-ui-git && cd mcpelauncher-ui-git && makepkg --syncdeps --noconfirm --install"
       - run:
           name: Copy artifacts
-          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/" && cp /var/cache/pacman/pkg/protobuf*.pkg.tar.xz /home/arch/output/
+          command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
+      - run:
+          name: Download protobuf
+          command: pacman -Sp protobuf > protbuf.list && wget -P /home/arch/output/ -i protbuf.list
       - store_artifacts:
           path: /home/arch/output/
           destination: /
