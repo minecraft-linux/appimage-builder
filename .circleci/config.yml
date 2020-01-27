@@ -24,8 +24,8 @@ jobs:
           name: Copy artifacts
           command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
       - run:
-          name: Download protobuf
-          command: pacman -Sp protobuf > protbuf.list && wget -P /home/arch/output/ -i protbuf.list
+          name: Copy protobuf
+          command: cp /var/cache/pacman/pkg/protobuf* /home/arch/output/
       - store_artifacts:
           path: /home/arch/output/
           destination: /
@@ -56,8 +56,8 @@ jobs:
           name: Copy artifacts
           command: runuser -l arch -c "mkdir -p output/ && cp ./*/*.pkg.tar.xz output/"
       - run:
-          name: Download protobuf
-          command: pacman -Sp protobuf > protbuf.list && wget -P /home/arch/output/ -i protbuf.list
+          name: Copy protobuf
+          command: cp /var/cache/pacman/pkg/protobuf* /home/arch/output/
       - store_artifacts:
           path: /home/arch/output/
           destination: /
