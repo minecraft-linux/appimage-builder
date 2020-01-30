@@ -20,7 +20,7 @@ jobs:
         mkdir rootfs
         sudo mount LiveOS/LiveOS/rootfs.img rootfs/
         mkdir root
-        rsync -ptgo -A -X -r --links rootfs root/ || :
+        sudo rsync -ptgo -A -X -r --links rootfs root/ || :
         mkdir -p root/root
         sudo mount --bind $PWD root/root
         sudo mount --bind /proc root/proc
