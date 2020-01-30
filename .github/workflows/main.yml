@@ -23,7 +23,9 @@ jobs:
         sudo rsync -ptgo -A -X -r --links rootfs root/ || :
         mkdir -p root/root
         sudo mount --bind $PWD root/root
+        mkdir -p root/proc
         sudo mount --bind /proc root/proc
+        mkdir -p root/dev
         sudo mount --bind /dev root/dev
         sudo chroot root/ 'sudo eopkg install -c system.devel'
         sudo chroot root/ 'sudo eopkg install git mesalib-32bit-devel openssl-32bit-devel curl-32bit-devel libpng-32bit-devel libx11-32bit-devel gcc g++ libgcc-32bit libstdc++-32bit cmake make binutils glibc-32bit-devel libgudev-32bit-devel libxi-32bit-devel'
