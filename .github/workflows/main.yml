@@ -33,5 +33,5 @@ jobs:
         sudo chroot root/ sudo eopkg install -y git mesalib-32bit-devel openssl-32bit-devel curl-32bit-devel libpng-32bit-devel libx11-32bit-devel gcc g++ libgcc-32bit libstdc++-32bit cmake make binutils glibc-32bit-devel libgudev-32bit-devel libxi-32bit-devel
     - name: Compile Launcher
       run: |
-        sudo chroot root/ bash -c '(git clone https://gitlab.freedesktop.org/libevdev/libevdev.git || cd libevdev && git pull) && cd libevdev && ./autogen.sh CFLAGS=-m32 && make && sudo make install && ln -s /usr/local/lib/libevdev.so.2 /usr/lib32/libevdev.so.2 || :'
-        sudo chroot root/ bash -c '(git clone --recursive https://github.com/ChristopherHX/mcpelauncher-manifest.git mcpelauncher || cd mcpelauncher && git pull) && cd mcpelauncher && mkdir -p build && cd build && cmake .. -DCMAKE_ASM_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 && make && sudo make install || :'
+        sudo chroot root/ bash -c 'cd /root && (git clone https://gitlab.freedesktop.org/libevdev/libevdev.git || cd libevdev && git pull) && cd libevdev && ./autogen.sh CFLAGS=-m32 && make && sudo make install && ln -s /usr/local/lib/libevdev.so.2 /usr/lib32/libevdev.so.2 || :'
+        sudo chroot root/ bash -c 'cd /root && (git clone --recursive https://github.com/ChristopherHX/mcpelauncher-manifest.git mcpelauncher || cd mcpelauncher && git pull) && cd mcpelauncher && mkdir -p build && cd build && cmake .. -DCMAKE_ASM_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 && make && sudo make install || :'
