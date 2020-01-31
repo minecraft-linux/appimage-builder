@@ -27,6 +27,7 @@ jobs:
         sudo mount --bind /proc root/proc
         mkdir -p root/dev
         sudo mount --bind /dev root/dev
+        sudo bash -c 'echo nameserver 8.8.8.8 > root/etc/resolv.conf'
         sudo chroot root/ sudo eopkg update-repo -y
         sudo chroot root/ sudo eopkg install -y -c system.devel
         sudo chroot root/ sudo eopkg install -y git mesalib-32bit-devel openssl-32bit-devel curl-32bit-devel libpng-32bit-devel libx11-32bit-devel gcc g++ libgcc-32bit libstdc++-32bit cmake make binutils glibc-32bit-devel libgudev-32bit-devel libxi-32bit-devel
