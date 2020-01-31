@@ -385,7 +385,7 @@ workflows:
           - build-appimage
           - build-appimage32
           - build-buster-appimage-armhf
-      - solus
+      # - solus
   nightly:
     triggers:
       - schedule:
