@@ -96,6 +96,8 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
+cp -r /usr/lib/i386-linux-gnu/nss $APP_DIR/usr/lib/
+
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
 
