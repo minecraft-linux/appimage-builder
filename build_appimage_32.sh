@@ -53,7 +53,7 @@ call_quirk build_msa
 build_component msa
 install_component msa
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher
 build_component mcpelauncher
 install_component mcpelauncher
