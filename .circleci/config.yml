@@ -80,10 +80,10 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+          command: apt install output/mcpelauncher-*.deb output/msa-*.deb
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.eoan.19.10 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.eoan.19.10 output/
   build-20.04:
     docker:
       - image: buildpack-deps:20.04
@@ -100,10 +100,10 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+          command: apt install output/mcpelauncher-*.deb output/msa-*.deb
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.20.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.20.04 output/
   build:
     docker:
       - image: buildpack-deps:bionic
@@ -120,7 +120,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.bionic.18.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.bionic.18.04 output/
   build32:
     docker:
       - image: buildpack-deps:bionic
@@ -137,7 +137,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.bionic32.18.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.bionic32.18.04 output/
   build-disco:
     docker:
       - image: buildpack-deps:disco
@@ -154,7 +154,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.disco.19.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.disco.19.04 output/
   build-buster:
     docker:
       - image: buildpack-deps:buster
@@ -171,10 +171,10 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+          command: apt install output/mcpelauncher-*.deb output/msa-*.deb
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.buster.10 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.buster.10 output/
   build-stretch:
     docker:
       - image: debian:stretch
@@ -191,10 +191,10 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: dpkg -i output/mcpelauncher-client-*.deb output/mcpelauncher-ui-qt-*.deb output/msa-daemon-*.deb output/msa-ui-qt-*.deb
+          command: apt install output/mcpelauncher-*.deb output/msa-*.deb
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.stretch.9 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.stretch.9 output/
   build-buster-origin:
     docker:
       - image: buildpack-deps:buster
@@ -211,7 +211,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.mrarm.debian.buster.10 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.mrarm.debian.buster.10 output/
   build-buster-appimage-origin:
     docker:
       - image: buildpack-deps:buster
@@ -245,7 +245,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.xenial.16.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.xenial.16.04 output/
   build-xenial32:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -262,7 +262,7 @@ jobs:
           destination: /
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo dpkg -i *.deb && sudo apt-get install -f\`"$'\n'"or double click in Nautilus(Files) to install" -delete x86.ubuntu.xenial.16.04 output/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb`"$'\n'"or double click in Nautilus(Files) to install" -delete x86.ubuntu.xenial.16.04 output/
   build-appimage:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -322,43 +322,16 @@ jobs:
       - image: debian:buster
     steps:
       - run:
-          name: Install ca-certifactes curl
+          name: Install ca-certifactes curl zip coreutils findutils
           command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates curl
       - attach_workspace:
           at: /tmp/workspace
       - run:
+          name: Zip files to preserve executable bit
+          command: mkdir output && (find /tmp/workspace -name "*.AppImage" | xargs -n 1 basename | xargs -i{} -n 1 zip output/{}.zip /tmp/workspace/{}.AppImage)
+      - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Install \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable" -delete appimage /tmp/workspace
-
-  solus:
-    docker:
-      - image: debian:buster
-    steps:
-      - run:
-          name: Install ca-certifactes curl rsync
-          command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y ca-certificates curl rsync
-      - run:
-          name: Download solus 4.1
-          command: curl http://solus.veatnet.de/iso/images/4.1/Solus-4.1-Budgie.iso -o Solus.iso
-      - run:
-          name: Install solus 4.1 chroot
-          command: | 
-            mkdir iso
-            mount Solus.iso iso/
-            mkdir LiveOS
-            mount iso/LiveOS/squashfs.img LiveOS/
-            mkdir rootfs
-            mount LiveOS/LiveOS/rootfs.img rootfs/
-            rsync --progress -ptgo -A -X -r --links /media/christopher/6e41190a-9de6-4eda-aa98-12622b5a0d4b/ manjaro/
-            mkdir root
-            mkdir -p root/root
-            mount --bind $PWD root/root
-            mount --bind /proc root/proc
-            mount --bind /dev root/dev
-            chroot root/ 'sudo eopkg install -c system.devel'
-            chroot root/ 'sudo eopkg install git mesalib-32bit-devel openssl-32bit-devel curl-32bit-devel libpng-32bit-devel libx11-32bit-devel gcc g++ libgcc-32bit libstdc++-32bit cmake make binutils glibc-32bit-devel libgudev-32bit-devel libxi-32bit-devel'
-            chroot root/ '(git clone https://gitlab.freedesktop.org/libevdev/libevdev.git || cd libevdev && git pull) && cd libevdev && ./autogen.sh CFLAGS=-m32 && make && sudo make install && ln -s /usr/local/lib/libevdev.so.2 /usr/lib32/libevdev.so.2 || :'
-            chroot root/ '(git clone --recursive https://github.com/ChristopherHX/mcpelauncher-manifest.git mcpelauncher || cd mcpelauncher && git pull) && cd mcpelauncher && mkdir -p build && cd build && cmake .. -DCMAKE_ASM_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 && make && sudo make install || :'
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"Unzip and double click the file inside the .zip file"$'\n'"For ubuntu x86_64 you might need to install these `sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt install libc6-i386 libegl1-mesa:i386 zlib1g:i386 libstdc++6:i386 libgl1-mesa-dri:i386 libasound2:i386 pulseaudio:i386` other distros similar packages" -delete appimage output/
 workflows:
   version: 2
   build:
