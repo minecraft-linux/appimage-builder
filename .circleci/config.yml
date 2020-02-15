@@ -273,14 +273,19 @@ jobs:
           command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.amd64 -i $CIRCLE_BUILD_NUM
+      - run:
+          name: create update info
+          command: |
+            file=(output/*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.amd64
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*.AppImage
+            - ./*
   build-appimage32:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -291,14 +296,19 @@ jobs:
           command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev  libzip-dev libuv1-dev && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386 libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage_32.sh -j4 -q quirks-ubuntu-1604-32.sh -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage_32.sh -j4 -q quirks-ubuntu-1604-32.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86 -i $CIRCLE_BUILD_NUM
+      - run:
+          name: create update info
+          command: |
+            file=(output/*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.x86
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*.AppImage
+            - ./*
   build-buster-appimage-armhf:
     docker:
       - image: buildpack-deps:buster
@@ -309,14 +319,19 @@ jobs:
           command: dpkg --add-architecture armhf && apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3-pip cmake g++-arm-linux-gnueabihf patchelf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libcurl4-openssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libasound2:armhf	qt5-default:armhf git cmake pkg-config qtbase5-dev:armhf qtwebengine5-dev:armhf libssl-dev:armhf libcurl4-openssl-dev:armhf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libgl1-mesa-dev:armhf libssl-dev:armhf libuv1-dev:armhf libzip-dev:armhf libprotobuf-dev:armhf protobuf-compiler qtdeclarative5-dev:armhf libqt5svg5-dev:armhf qml-module-qtquick2:armhf qml-module-qtquick-layouts:armhf qml-module-qtquick-controls:armhf qml-module-qtquick-controls2:armhf qml-module-qtquick-window2:armhf qml-module-qtquick-dialogs:armhf qml-module-qt-labs-settings:armhf qml-module-qt-labs-folderlistmodel:armhf jq curl binutils desktop-file-utils squashfs-tools && pip3 install jinja2 ds_store ply
       - run:
           name: Run the buildscript
-          command: ./build_appimage_armhf.sh -j4 -q quirks-ubuntu-buster.sh -i $CIRCLE_BUILD_NUM
+          command: ./build_appimage_armhf.sh -j4 -q quirks-ubuntu-buster.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.armhf -i $CIRCLE_BUILD_NUM
+      - run:
+          name: create update info
+          command: |
+            file=(output/*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.armhf
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*.AppImage
+            - ./*
   deploy-appimage:
     docker:
       - image: debian:buster
