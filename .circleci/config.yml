@@ -343,10 +343,13 @@ jobs:
           at: /tmp/workspace
       - run:
           name: Zip files to preserve executable bit
-          command: mkdir output && (find /tmp/workspace -name "*.AppImage" | xargs -n 1 basename | xargs -i{} -n 1 zip output/{}.zip /tmp/workspace/{})
+          command: |
+            mkdir output
+            cp -r tmp/workspace/* output/
+            cd output && (find . -name "*.AppImage" | xargs -n 1 basename | xargs -i{} -n 1 zip {}.zip {})
       - run:
           name: Upload files to Github
-          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"#Download the AppImage for your Computer arch then \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable"$'\n'"#Noob's Unzip and double click the file inside the .zip file"$'\n'"For Debian based x86_64 you might need to install these \`sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt install libc6-i386 libegl1-mesa:i386 zlib1g:i386 libstdc++6:i386 libgl1-mesa-dri:i386 libasound2:i386 pulseaudio:i386\`, for archlinux enable [Multilib](https://wiki.archlinux.org/index.php/Official_repositories#multilib) then install \`sudo pacman -Sy && sudo pacman -S lib32-mesa lib32-libpulse lib32-alsa-plugins\` for other distro figure it out" -delete appimage output/ /tmp/workspace/
+          command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"#Download the AppImage for your Computer arch then \`chmod +x path/to/Minecraft.Appimage\` or in Files properties run as executable"$'\n'"#Noob's Unzip and double click the file inside the .zip file"$'\n'"For Debian based x86_64 you might need to install these \`sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt install libc6-i386 libegl1-mesa:i386 zlib1g:i386 libstdc++6:i386 libgl1-mesa-dri:i386 libasound2:i386 pulseaudio:i386\`, for archlinux enable [Multilib](https://wiki.archlinux.org/index.php/Official_repositories#multilib) then install \`sudo pacman -Sy && sudo pacman -S lib32-mesa lib32-libpulse lib32-alsa-plugins\` for other distro figure it out" -delete appimage output/
 workflows:
   version: 2
   build:
