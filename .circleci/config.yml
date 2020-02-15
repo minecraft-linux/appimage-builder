@@ -277,15 +277,17 @@ jobs:
       - run:
           name: create update info
           command: |
-            file=(output/*.AppImage)
-            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.amd64
+            cd output
+            file=(*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.amd64
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
+            - ./version.*
   build-appimage32:
     docker:
       - image: minecraftlinux/ci-xenial:0.0.1
@@ -300,15 +302,17 @@ jobs:
       - run:
           name: create update info
           command: |
-            file=(output/*.AppImage)
-            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.x86
+            cd output
+            file=(*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.x86
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
+            - ./version.*
   build-buster-appimage-armhf:
     docker:
       - image: buildpack-deps:buster
@@ -323,15 +327,17 @@ jobs:
       - run:
           name: create update info
           command: |
-            file=(output/*.AppImage)
-            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > output/version.armhf
+            cd output
+            file=(*.AppImage)
+            echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.armhf
       - store_artifacts:
           path: output
           destination: /
       - persist_to_workspace:
           root: output
           paths:
-            - ./*
+            - ./*.AppImage
+            - ./version.*
   deploy-appimage:
     docker:
       - image: debian:buster
