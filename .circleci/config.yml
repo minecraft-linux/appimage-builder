@@ -385,6 +385,6 @@ workflows:
   #           branches:
   #             only:
   #               - master
-    jobs:
-      - build-arch
-      - build-manjaro
+  #   jobs:
+  #     - build-arch
+  #     - build-manjaro
