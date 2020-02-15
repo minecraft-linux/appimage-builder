@@ -345,7 +345,7 @@ jobs:
           name: Zip files to preserve executable bit
           command: |
             mkdir output
-            cp -r tmp/workspace/* output/
+            cp -r /tmp/workspace/* output/
             cd output && (find . -name "*.AppImage" | xargs -n 1 basename | xargs -i{} -n 1 zip {}.zip {})
       - run:
           name: Upload files to Github
