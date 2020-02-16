@@ -7,7 +7,7 @@ APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
 export ARCH=x86_64
 
-while getopts "h?q:j:u:i:" opt; do
+while getopts "h?q:j:u:i:a:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
