@@ -5,6 +5,7 @@ source common.sh
 QUIRKS_FILE=
 APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
+export ARCH=x86_64
 
 while getopts "h?q:j:u:i:" opt; do
     case "$opt" in
@@ -24,6 +25,8 @@ while getopts "h?q:j:u:i:" opt; do
         ;;
     i)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DUPDATE_CHECK_BUILD_ID=$OPTARG"
         ;;
+    a)  export ARCH=$OPTARG
+        ;;
     esac
 done
 
@@ -36,8 +39,8 @@ call_quirk init
 
 show_status "Downloading sources"
 download_repo msa https://github.com/minecraft-linux/msa-manifest.git
-download_repo mcpelauncher https://github.com/ChristopherHX/mcpelauncher-manifest.git
-download_repo mcpelauncher-ui https://github.com/ChristopherHX/mcpelauncher-ui-manifest.git
+download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git
+download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git
 
 call_quirk build_start
 
@@ -60,9 +63,6 @@ install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
 call_quirk build_mcpelauncher_ui
-pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
-check_run git checkout master
-popd
 build_component mcpelauncher-ui
 install_component mcpelauncher-ui
 
@@ -77,8 +77,6 @@ wget -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/
 wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
 chmod +x linuxdeploy*-x86_64.AppImage
-
-export ARCH=x86_64
 
 mkdir linuxdeploy
 cd linuxdeploy
@@ -96,7 +94,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
+cp -r /usr/lib/$ARCH-*/nss $APP_DIR/usr/lib/
 
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
