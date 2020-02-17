@@ -93,6 +93,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 if ["$ARCH" == "i386"]
+then
     echo "Symlink lib to lib32"
     pushd $APP_DIR/usr
     ln -s lib32 lib
