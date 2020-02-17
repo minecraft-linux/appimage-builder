@@ -92,6 +92,12 @@ LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.png -d $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
+if ["$ARCH" == "i386"]
+    echo "Symlink lib to lib32"
+    pushd $APP_DIR/usr
+    ln -s lib32 lib
+    popd
+fi
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/$ARCH-*/nss $APP_DIR/usr/lib/
