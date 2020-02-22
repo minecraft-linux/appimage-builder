@@ -71,10 +71,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-8-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
-          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -o ubuntu-disco
+          command: ./build.sh -j4 -o ubuntu-disco
       - store_artifacts:
           path: output
           destination: /
@@ -91,10 +91,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-8-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
-          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -o ubuntu-disco
+          command: ./build.sh -j4 -o ubuntu-disco
       - store_artifacts:
           path: output
           destination: /
@@ -111,10 +111,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-7-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
-          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -o ubuntu-bionic
+          command: ./build.sh -j4 -o ubuntu-bionic
       - store_artifacts:
           path: output
           destination: /
@@ -128,10 +128,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev:i386 qtwebengine5-dev:i386 libssl-dev:i386 libcurl4-openssl-dev:i386 libcurl4-openssl-dev:i386 libstdc++-7-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev:i386 libssl-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 protobuf-compiler qtdeclarative5-dev:i386 libqt5svg5-dev:i386 qml-module-qtquick2:i386 qml-module-qtquick-layouts:i386 qml-module-qtquick-controls:i386 qml-module-qtquick-controls2:i386 qml-module-qtquick-window2:i386 qml-module-qtquick-dialogs:i386 qml-module-qt-labs-settings:i386 qml-module-qt-labs-folderlistmodel:i386
+          command: dpkg --add-architecture i386 && apt-get update && apt-get install -y git cmake pkg-config qtbase5-dev:i386 qtwebengine5-dev:i386 libssl-dev:i386 libcurl4-openssl-dev:i386 libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev:i386 libssl-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 protobuf-compiler qtdeclarative5-dev:i386 libqt5svg5-dev:i386 qml-module-qtquick2:i386 qml-module-qtquick-layouts:i386 qml-module-qtquick-controls:i386 qml-module-qtquick-controls2:i386 qml-module-qtquick-window2:i386 qml-module-qtquick-dialogs:i386 qml-module-qt-labs-settings:i386 qml-module-qt-labs-folderlistmodel:i386
       - run:
           name: Run the buildscript
-          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-32.sh -o ubuntu-bionic
+          command: ./build.sh -j4 -q quirks-32.sh -o ubuntu-bionic
       - store_artifacts:
           path: output
           destination: /
@@ -145,10 +145,10 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz && tar -xf llvm.tar.xz && dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 libstdc++-8-dev:i386 libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
-          command: PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -o ubuntu-disco
+          command: ./build.sh -j4 -o ubuntu-disco
       - store_artifacts:
           path: output
           destination: /
@@ -162,7 +162,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
           command: ./build.sh -j4 -q quirks-buster.sh
@@ -182,7 +182,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
           command: ./build.sh -j4 -o ubuntu-bionic
@@ -202,7 +202,7 @@ jobs:
       - checkout
       - run:
           name: Install deps
-          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	libtinfo5 git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
+          command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
           command: ./buildorigin.sh -j4 -o debian-buster
@@ -218,7 +218,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Download clang 9.0.0 and install libstdc++
+          name: Download deps
           command: dpkg --add-architecture i386 && apt update && DEBIAN_FRONTEND=noninteractive apt install -y 	qt5-default git cmake pkg-config qtbase5-dev qtwebengine5-dev libssl-dev:i386 libcurl4-openssl-dev libcurl4-openssl-dev:i386 g++-multilib libpng-dev:i386 libx11-dev:i386 libxi-dev:i386 libssl-dev libudev-dev:i386 libevdev-dev:i386 libegl1-mesa-dev:i386 libgl1-mesa-dev libssl-dev libuv1-dev libzip-dev libprotobuf-dev protobuf-compiler qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-window2 qml-module-qtquick-dialogs qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel
       - run:
           name: Run the buildscript
@@ -235,11 +235,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libstdc++-5-dev:i386
+          name: Download deps
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt install -y g++-multilib
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-ubuntu-1604.sh -o ubuntu-xenial
+          command: . /opt/qt59/bin/qt59-env.sh && ./build.sh -j4 -q quirks-ubuntu-1604.sh -o ubuntu-xenial
       - store_artifacts:
           path: output
           destination: /
@@ -252,11 +252,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386 libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
+          name: Download deps
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev && DEBIAN_FRONTEND=noninteractive apt -y install g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build.sh -j4 -q quirks-ubuntu-1604-32.sh -o ubuntu-xenial
+          command: . /opt/qt59/bin/qt59-env.sh && ./build.sh -j4 -q quirks-ubuntu-1604-32.sh -o ubuntu-xenial
       - store_artifacts:
           path: output
           destination: /
@@ -269,11 +269,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386
+          name: Download deps
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt -y install g++-multilib
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.amd64 -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.amd64 -i $CIRCLE_BUILD_NUM
       - run:
           name: create update info
           command: |
@@ -294,11 +294,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Download clang 9.0.0 and install libstdc++
-          command: curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz && tar --no-same-owner -xf llvm.tar.xz && apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev  libzip-dev libuv1-dev && DEBIAN_FRONTEND=noninteractive apt -y install libstdc++-5-dev:i386 libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
+          name: Download deps
+          command: apt update && DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev  libzip-dev libuv1-dev && DEBIAN_FRONTEND=noninteractive apt -y install g++-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
       - run:
           name: Run the buildscript
-          command: . /opt/qt59/bin/qt59-env.sh && PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH CC=clang CXX=clang++ ./build_appimage_32.sh -j4 -q quirks-ubuntu-1604-32.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86 -i $CIRCLE_BUILD_NUM
+          command: . /opt/qt59/bin/qt59-env.sh && ./build_appimage_32.sh -j4 -q quirks-ubuntu-1604-32.sh -u https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86 -i $CIRCLE_BUILD_NUM
       - run:
           name: create update info
           command: |
