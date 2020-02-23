@@ -47,15 +47,32 @@ install_component() {
   popd
 }
 
+build_component2() {
+  show_status "Building $1"
+  mkdir -p $BUILD_DIR/$1
+  pushd $BUILD_DIR/$1
+  echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  sed -i 's/x86_64-linux-gnu/arm-linux-gnueabihf/g' CMakeCache.txt
+  check_run make -j${MAKE_JOBS}
+  popd
+}
+
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_msa
-build_component msa
+build_component2 msa
 install_component msa
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher
-build_component mcpelauncher
+pushd $SOURCE_DIR/mcpelauncher/mcpelauncher-linux-bin
+git checkout armhf
+popd
+pushd $SOURCE_DIR/mcpelauncher/minecraft-symbols/tools
+python3 ./process_headers.py --armhf
+popd
+build_component2 mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic
@@ -63,7 +80,7 @@ call_quirk build_mcpelauncher_ui
 pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
 check_run git checkout master
 popd
-build_component mcpelauncher-ui
+build_component2 mcpelauncher-ui
 install_component mcpelauncher-ui
 
 show_status "Packaging"
