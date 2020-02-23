@@ -98,7 +98,7 @@ wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/app
 wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf
 
 chmod +x linuxdeploy*-i386.AppImage
-chmod +x appimagetool*-i386.AppImage
+chmod +x appimagetool*.AppImage
 
 export ARCH=armhf
 
