@@ -17,7 +17,7 @@ jobs:
         sudo bash -c "echo 'deb [arch=arm64,armhf] http://ports.ubuntu.com/ubuntu-ports/ bionic-updates main universe multiverse restricted'>>/etc/apt/sources.list"
         sudo rm -rf /etc/apt/sources.list.d/*
         sudo apt update
-        sudo apt upgrade
+        dpkg -l | grep ^iU | awk '{print $2}' | xargs sudo dpkg --purge 
         sudo apt install -f
         sudo dpkg --add-architecture i386 && sudo dpkg --add-architecture armhf && sudo apt update && DEBIAN_FRONTEND=noninteractive sudo apt install -y qemu binfmt-support qemu-user-static python3-pip cmake g++-arm-linux-gnueabihf patchelf libc6-i386 libegl1-mesa:i386 zlib1g:i386 libstdc++6:i386 libgl1-mesa-dri:i386 libasound2:i386 pulseaudio:i386 libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libcurl4-openssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libasound2:armhf	qt5-default:armhf git cmake pkg-config qtbase5-dev:armhf qtwebengine5-dev:armhf libssl-dev:armhf libcurl4-openssl-dev:armhf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libgl1-mesa-dev:armhf libssl-dev:armhf libuv1-dev:armhf libzip-dev:armhf libprotobuf-dev:armhf protobuf-compiler qtdeclarative5-dev:armhf libqt5svg5-dev:armhf qml-module-qtquick2:armhf qml-module-qtquick-layouts:armhf qml-module-qtquick-controls:armhf qml-module-qtquick-controls2:armhf qml-module-qtquick-window2:armhf qml-module-qtquick-dialogs:armhf qml-module-qt-labs-settings:armhf qml-module-qt-labs-folderlistmodel:armhf jq curl binutils desktop-file-utils squashfs-tools && pip3 install jinja2 ds_store ply
     - name: Run the buildscript
