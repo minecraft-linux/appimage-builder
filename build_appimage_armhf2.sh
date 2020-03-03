@@ -113,6 +113,10 @@ cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
 ../linuxdeploy-plugin-qt-i386.AppImage --appimage-extract
+# fix arm
+rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/readelf
+ln -s /usr/arm-linux-gnueabihf/bin/readelf squashfs-root/usr/bin/readelf
+ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 cd ..
 mkdir appimagetool
 cd appimagetool
