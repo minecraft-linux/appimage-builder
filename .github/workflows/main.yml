@@ -17,7 +17,7 @@ jobs:
       run: |
         cd output
         file=(*.AppImage)
-        echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.armhf2
+        sudo bash -c "echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.armhf2" || :
     - uses: actions/upload-artifact@v1
       with:
         name: armhfappimage
