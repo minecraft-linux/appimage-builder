@@ -402,7 +402,7 @@ workflows:
       # - build-appimage
       # - build-appimage32
       # - build-buster-appimage-armhf
-      - build-buster-appimage-armhf2
+      # - build-buster-appimage-armhf2
       # - deploy-appimage:
       #     requires:
       #     - build-appimage
