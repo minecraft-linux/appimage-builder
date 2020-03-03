@@ -108,7 +108,8 @@ cd linuxdeploy
 # fix arm
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/readelf
 ln -s /usr/arm-linux-gnueabihf/bin/readelf squashfs-root/usr/bin/readelf
-ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
+echo '#!/bin/bash' > squashfs-root/usr/bin/strip
+chmod +x squashfs-root/usr/bin/strip
 cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
@@ -116,8 +117,9 @@ cd linuxdeploy-plugin-qt
 # fix arm
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/readelf
 ln -s /usr/arm-linux-gnueabihf/bin/readelf squashfs-root/usr/bin/readelf
-ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
-cd ..
+echo '#!/bin/bash' > squashfs-root/usr/bin/strip
+chmod +x squashfs-root/usr/bin/strip
+cd ..cd ..
 mkdir appimagetool
 cd appimagetool
 ../appimagetool-x86_64.AppImage --appimage-extract
