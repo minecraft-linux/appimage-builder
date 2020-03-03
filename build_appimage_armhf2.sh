@@ -119,7 +119,7 @@ rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/readelf
 ln -s /usr/arm-linux-gnueabihf/bin/readelf squashfs-root/usr/bin/readelf
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
 chmod +x squashfs-root/usr/bin/strip
-cd ..cd ..
+cd ..
 mkdir appimagetool
 cd appimagetool
 ../appimagetool-x86_64.AppImage --appimage-extract
