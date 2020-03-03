@@ -102,23 +102,44 @@ chmod +x appimagetool*.AppImage
 
 export ARCH=armhf
 
+# git clone https://github.com/NixOS/patchelf.git
+# cd patchelf
+# ./bootstrap.sh
+# ./configure
+# make -j2
+# cd ..
+
 mkdir linuxdeploy
 cd linuxdeploy
 ../linuxdeploy-i386.AppImage --appimage-extract
 # fix arm
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
-ln -s /usr/arm-linux-gnueabihf/bin/patchelf squashfs-root/usr/bin/patchelf
-echo '#!/bin/bash' > squashfs-root/usr/bin/strip
-chmod +x squashfs-root/usr/bin/strip
+# ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
+# cp ../patchelf/src/patchelf squashfs-root/usr/bin/
+cp ../patchelf squashfs-root/usr/bin/
+# echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
+# echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
+# chmod +x squashfs-root/usr/bin/patchelf
+# ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
+cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
+# echo '#!/bin/bash' > squashfs-root/usr/bin/strip
+# chmod +x squashfs-root/usr/bin/strip
 cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
 ../linuxdeploy-plugin-qt-i386.AppImage --appimage-extract
 # fix arm
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
-ln -s /usr/arm-linux-gnueabihf/bin/patchelf squashfs-root/usr/bin/patchelf
-echo '#!/bin/bash' > squashfs-root/usr/bin/strip
-chmod +x squashfs-root/usr/bin/strip
+# ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
+# cp ../patchelf/src/patchelf squashfs-root/usr/bin/
+cp ../patchelf squashfs-root/usr/bin/
+# echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
+# echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
+# chmod +x squashfs-root/usr/bin/patchelf
+# ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
+cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
+# echo '#!/bin/bash' > squashfs-root/usr/bin/strip
+# chmod +x squashfs-root/usr/bin/strip
 cd ..
 mkdir appimagetool
 cd appimagetool
@@ -133,7 +154,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-cp -r /usr/lib/arm-linux-gnuabihf/nss $APP_DIR/usr/lib/
+cp -r /usr/lib/arm-linux-gnueabihf/nss $APP_DIR/usr/lib/
 
 check_run $APPIMAGETOOL_BIN --runtime-file runtime-armhf $APP_DIR Minecraft_Bedrock_Launcher-latest-armhf.AppImage
 mv Minecraft*.AppImage output
