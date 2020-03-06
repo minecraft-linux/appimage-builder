@@ -1,0 +1,2 @@
+deb [arch=amd64,i386] http://archive.ubuntu.com/ubuntu/ focal main universe multiverse restricted
+deb [arch=arm64,armhf] http://ports.ubuntu.com/ubuntu-ports/ focal main universe multiverse restricted
