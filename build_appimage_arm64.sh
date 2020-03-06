@@ -129,7 +129,7 @@ rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
 cp ../patchelf squashfs-root/usr/bin/
 # echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
 # echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-# chmod +x squashfs-root/usr/bin/patchelf
+chmod +x squashfs-root/usr/bin/patchelf
 # ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 # cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
@@ -145,7 +145,7 @@ rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
 cp ../patchelf squashfs-root/usr/bin/
 # echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
 # echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-# chmod +x squashfs-root/usr/bin/patchelf
+chmod +x squashfs-root/usr/bin/patchelf
 # ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 # cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
