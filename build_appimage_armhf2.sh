@@ -35,7 +35,7 @@ mkdir -p ${APP_DIR}
 call_quirk init
 
 show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git
+download_repo msa https://github.com/ChristopherHX/msa-manifest.git
 download_repo mcpelauncher https://github.com/ChristopherHX/mcpelauncher-manifest.git
 download_repo mcpelauncher-ui https://github.com/ChristopherHX/mcpelauncher-ui-manifest.git
 
