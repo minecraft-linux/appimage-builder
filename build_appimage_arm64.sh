@@ -110,7 +110,7 @@ wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/run
 chmod +x linuxdeploy*-x86_64.AppImage
 chmod +x appimagetool*.AppImage
 
-export ARCH=aarch64
+export ARCH=arm_aarch64
 
 # git clone https://github.com/NixOS/patchelf.git
 # cd patchelf
