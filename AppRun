@@ -1,0 +1,10 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$DIR/usr/lib:$DIR/usr/lib32
+$DIR/usr/bin/msa-daemon&
+MSADAEMON=$!
+$DIR/usr/bin/msa-ui-qt&
+MSAUIQT=$!
+$DIR/usr/bin/mcpelauncher-ui-qt
+kill MSAUIQT
+kill MSADAEMON
