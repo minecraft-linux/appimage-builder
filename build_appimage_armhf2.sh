@@ -116,10 +116,10 @@ cd linuxdeploy
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
 # ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
 # cp ../patchelf/src/patchelf squashfs-root/usr/bin/
-# cp ../patchelf squashfs-root/usr/bin/
-echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
+cp ../patchelf squashfs-root/usr/bin/
+# echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
 # echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-chmod +x squashfs-root/usr/bin/patchelf
+# chmod +x squashfs-root/usr/bin/patchelf
 # ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 # cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
@@ -132,10 +132,10 @@ cd linuxdeploy-plugin-qt
 rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
 # ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
 # cp ../patchelf/src/patchelf squashfs-root/usr/bin/
-# cp ../patchelf squashfs-root/usr/bin/
-echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
+cp ../patchelf squashfs-root/usr/bin/
+# echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
 # echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-chmod +x squashfs-root/usr/bin/patchelf
+# chmod +x squashfs-root/usr/bin/patchelf
 # ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 # cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
@@ -156,7 +156,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/arm-linux-gnueabihf/nss $APP_DIR/usr/lib/
 
-check_run $APPIMAGETOOL_BIN --runtime-file runtime-armhf $APP_DIR Minecraft_Bedrock_Launcher-latest-armhf.AppImage
+check_run $APPIMAGETOOL_BIN --runtime-file runtime-armhf $APP_DIR Minecraft_Bedrock_Launcher-armhf.AppImage
 mv Minecraft*.AppImage output
 
 cleanup_build
