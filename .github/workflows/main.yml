@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - armhf2
     tags-ignore:
       - '*'
 jobs:
