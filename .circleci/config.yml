@@ -80,7 +80,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: apt install ./output/mcpelauncher-*.deb ./output/msa-*.deb
+          command: apt install -y ./output/mcpelauncher-*.deb ./output/msa-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"**mcpelauncher-server (only supports 1.12.0.28 and 1.12.1.1**"$'\n'"**You might need to remove the minecraft-linux repo from apt to avoid falling back to minecraft-linux during updates or install**"$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.eoan.19.10 output/
@@ -100,7 +100,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: apt install ./output/mcpelauncher-*.deb ./output/msa-*.deb
+          command: apt install -y ./output/mcpelauncher-*.deb ./output/msa-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"**mcpelauncher-server (only supports 1.12.0.28 and 1.12.1.1**"$'\n'"**You might need to remove the minecraft-linux repo from apt to avoid falling back to minecraft-linux during updates or install**"$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.ubuntu.20.04 output/
@@ -171,7 +171,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: apt install ./output/mcpelauncher-*.deb ./output/msa-*.deb
+          command: apt install -y ./output/mcpelauncher-*.deb ./output/msa-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"**mcpelauncher-server (only supports 1.12.0.28 and 1.12.1.1**"$'\n'"**You might need to remove the minecraft-linux repo from apt to avoid falling back to minecraft-linux during updates or install**"$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.buster.10 output/
@@ -191,7 +191,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: apt install ./output/mcpelauncher-*.deb ./output/msa-*.deb
+          command: apt install -y ./output/mcpelauncher-*.deb ./output/msa-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"**mcpelauncher-server (only supports 1.12.0.28 and 1.12.1.1**"$'\n'"**You might need to remove the minecraft-linux repo from apt to avoid falling back to minecraft-linux during updates or install**"$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.stretch.9 output/
@@ -212,7 +212,7 @@ jobs:
           destination: /
       - run:
           name: Test install
-          command: apt install ./output/mcpelauncher-*.deb ./output/msa-*.deb
+          command: apt install -y ./output/mcpelauncher-*.deb ./output/msa-*.deb
       - run:
           name: Upload files to Github
           command: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -b "**Not found? Look at the second Page!**"$'\n'"[First read my README](https://github.com/ChristopherHX/mcpelauncher-manifest) for current Features, known Issues and Bugs."$'\n'"**mcpelauncher-server (only supports 1.12.0.28 and 1.12.1.1**"$'\n'"**You might need to remove the minecraft-linux repo from apt to avoid falling back to minecraft-linux during updates or install**"$'\n'"\`sudo apt install ./mcpelauncher-*.deb ./msa-*.deb\`"$'\n'"or double click in Nautilus(Files) to install" -delete amd64.debian.stretch.9 output/
@@ -403,7 +403,7 @@ workflows:
           requires:
           - build-appimage
           - build-appimage32
-          - build-buster-appimage-armhf
+          #- build-buster-appimage-armhf
       # - solus
   # nightly:
   #   triggers:
