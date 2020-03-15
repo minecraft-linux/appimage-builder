@@ -167,6 +167,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 cp -r /usr/lib/aarch64-linux-gnu/nss $APP_DIR/usr/lib/
 rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
+chmod +x $APP_DIR/AppRun
 
 check_run $APPIMAGETOOL_BIN --runtime-file runtime-aarch64 $APP_DIR Minecraft_Bedrock_Launcher-aarch64.AppImage
 mv Minecraft*.AppImage output
