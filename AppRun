@@ -6,5 +6,5 @@ MSADAEMON=$!
 $DIR/usr/bin/msa-ui-qt&
 MSAUIQT=$!
 $DIR/usr/bin/mcpelauncher-ui-qt
-kill MSAUIQT
-kill MSADAEMON
+kill $MSAUIQT
+kill $MSADAEMON
