@@ -44,14 +44,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: [buildbusterappimage, buildbusterappimage64]
     steps:
-    - name: Download buildbusterappimage
+    - name: Download armhfappimagebuster
       uses: actions/download-artifact@v1
       with:
-        name: buildbusterappimage
-    - name: Download arm64appimagebuster64
+        name: armhfappimagebuster
+    - name: Download arm64appimagebuster
       uses: actions/download-artifact@v1
       with:
-        name: arm64appimagebuster64
+        name: arm64appimagebuster
     - name: Move to artifacts
       run: mkdir -p artifacts && mv *.AppImage version.* ./artifacts/
     - name: Upload Latest
