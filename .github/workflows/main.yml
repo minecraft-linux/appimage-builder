@@ -53,6 +53,6 @@ jobs:
       with:
         name: arm64appimagebuster
     - name: Move to artifacts
-      run: mkdir -p artifacts && mv *.AppImage version.* ./artifacts/
+      run: mkdir -p artifacts && mv armhfappimagebuster/*.AppImage armhfappimagebuster/version.* arm64appimagebuster/*.AppImage arm64appimagebuster/version.* ./artifacts/
     - name: Upload Latest
-      run: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -delete -b " ARM.AppImage artifacts
+      run: curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz && tar -xf ghr.tar.gz && ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -delete -b "**Note Experimental AppImage's ahead**,"$'\n'"Only the armhf one is partially Tested on Raspberry Pi2**" ARM.AppImage artifacts
