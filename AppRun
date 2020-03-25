@@ -1,0 +1,16 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+export XDG_DATA_DIRS=${XDG_DATA_DIRS-"/usr/local/share:/usr/share"}
+for i in ${XDG_DATA_DIRS//:/ }
+do
+    FMOD_RUNPATH=${FMOD_RUNPATH+"${FMOD_RUNPATH}:"}$i/mcpelauncher/libs/native
+done
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$FMOD_RUNPATH:$DIR/usr/share/mcpelauncher/libs/native:$DIR/usr/lib:$DIR/usr/lib32
+export QT_QUICK_BACKEND=software
+$DIR/usr/bin/msa-daemon&
+MSADAEMON=$!
+$DIR/usr/bin/msa-ui-qt&
+MSAUIQT=$!
+$DIR/usr/bin/mcpelauncher-ui-qt
+kill $MSAUIQT
+kill $MSADAEMON
