@@ -67,7 +67,7 @@ build_component() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  check_run cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1" "-DCMAKE_C_FLAGS=-include ${SOURCE_DIR}/../compat.h" "-DCMAKE_CXX_FLAGS-include ${SOURCE_DIR}/../compat.h"
   check_run make -j${MAKE_JOBS}
   popd
 }
