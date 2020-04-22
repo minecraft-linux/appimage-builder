@@ -1,0 +1,1 @@
+#define gettid() 0
