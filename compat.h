@@ -1,6 +1,6 @@
 #define gettid() 0
 #define KeyCode __X11_KeyCode
-#include <EGL/egl.h>
+#include <X11/X.h>
 #undef KeyCode
 #ifdef Success
 #undef Success
