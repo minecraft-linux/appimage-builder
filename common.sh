@@ -57,17 +57,19 @@ download_repo() {
 }
 
 reset_cmake_options() {
-  CMAKE_OPTIONS=
+  CMAKE_OPTIONS=()
 }
+
 add_cmake_options() {
-  CMAKE_OPTIONS="$CMAKE_OPTIONS $@"
+  CMAKE_OPTIONS=("${CMAKE_OPTIONS[@]}" "$@")
 }
+
 build_component() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1" "-DCMAKE_C_FLAGS=-include ${SOURCE_DIR}/../compat.h" "-DCMAKE_CXX_FLAGS=-include ${SOURCE_DIR}/../compat.h"
+  cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   check_run make -j${MAKE_JOBS}
   popd
 }
