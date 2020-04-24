@@ -65,19 +65,18 @@ build_component msa
 install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
-call_quirk build_mcpelauncher
-build_component mcpelauncher
-install_component mcpelauncher
+call_quirk build_mcpelauncher32
+build_component32 mcpelauncher
+cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
 #cleanup
 pushd $BUILD_DIR
 rm -r ./*
 popd
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
-call_quirk build_mcpelauncher32
-build_component32 mcpelauncher
-cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
-add_cmake_options
+call_quirk build_mcpelauncher
+build_component mcpelauncher
+install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
 call_quirk build_mcpelauncher_ui
