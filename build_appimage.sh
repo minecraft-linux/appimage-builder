@@ -53,7 +53,7 @@ build_component32() {
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/i386-linux-gnu/g' CMakeCache.txt
+  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/i386-linux-gnu/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
 }
