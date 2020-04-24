@@ -69,9 +69,7 @@ call_quirk build_mcpelauncher32
 build_component32 mcpelauncher
 cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
 #cleanup
-pushd $BUILD_DIR
-rm -r ./*
-popd
+rm -r $BUILD_DIR/mcpelauncher/
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher
