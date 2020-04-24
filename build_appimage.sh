@@ -46,12 +46,13 @@ install_component() {
   check_run make install DESTDIR="${APP_DIR}"
   popd
 }
+
 build_component32() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  cmake $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   sed -i 's/x86_64-linux-gnu/i386-linux-gnu/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
