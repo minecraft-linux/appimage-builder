@@ -61,7 +61,9 @@ install_component mcpelauncher
 pushd $BUILD_DIR
 rm -r ./*
 popd
-add_cmake_options -DCMAKE_ASM_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS="-m32 -stdlib=libc++" -DCMAKE_CXX_COMPILER_TARGET="i686-linux-gnu"
+reset_cmake_options
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
+call_quirk build_mcpelauncher32
 build_component mcpelauncher
 cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
 add_cmake_options
