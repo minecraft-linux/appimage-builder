@@ -116,7 +116,7 @@ export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
-curl --remote-name --time-cond $APP_DIR/usr/share/mcpelauncher/cacert.pem https://curl.haxx.se/ca/cacert.pem
+curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
