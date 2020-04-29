@@ -52,7 +52,7 @@ build_component32() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/i386-linux-gnu/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
@@ -97,6 +97,7 @@ wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/c
 chmod +x linuxdeploy*-x86_64.AppImage
 
 export ARCH=x86_64
+export UPDATE_INFORMATION=zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/ng.appimage/version.x86_64.zsync
 
 mkdir linuxdeploy
 cd linuxdeploy
@@ -115,8 +116,10 @@ export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
+curl --remote-name --time-cond $APP_DIR/usr/share/mcpelauncher/cacert.pem https://curl.haxx.se/ca/cacert.pem
 
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
+mv *.zsync output/version.x86_64.zsync
 
 cleanup_build
