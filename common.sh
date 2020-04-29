@@ -13,7 +13,7 @@ show_status() {
   echo "$COLOR_STATUS=> $1$COLOR_RESET"
 }
 check_run() {
-  $@
+ "$@"
   local STATUS=$?
   if (( $STATUS != 0 )); then
     exit $STATUS
@@ -69,7 +69,7 @@ build_component() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
-  cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   check_run make -j${MAKE_JOBS}
   popd
 }
