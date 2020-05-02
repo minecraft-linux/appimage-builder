@@ -97,7 +97,7 @@ wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/c
 chmod +x linuxdeploy*-x86_64.AppImage
 
 export ARCH=x86_64
-export UPDATE_INFORMATION=zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/ng.appimage/version.x86_64.zsync
+export UPDATE_INFORMATION="zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/ng.appimage/version.x86_64.zsync"
 
 mkdir linuxdeploy
 cd linuxdeploy
