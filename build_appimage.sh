@@ -6,7 +6,7 @@ QUIRKS_FILE=
 APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
 
-while getopts "h?q:j:u:i:" opt; do
+while getopts "h?q:j:u:i:k:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
@@ -14,6 +14,7 @@ while getopts "h?q:j:u:i:" opt; do
         echo "-q  Specify the quirks file"
         echo "-u  Specify the update check URL"
         echo "-i  Specify the build id for update checking"
+        echo "-k  Specify appimageupdate information"
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
@@ -23,6 +24,9 @@ while getopts "h?q:j:u:i:" opt; do
     u)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_UPDATE_CHECK=ON -DUPDATE_CHECK_URL=$OPTARG"
         ;;
     i)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DUPDATE_CHECK_BUILD_ID=$OPTARG"
+        ;;
+    k)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_APPIMAGE_UPDATE_CHECK=1"
+        export UPDATE_INFORMATION="$OPTARG"
         ;;
     esac
 done
@@ -97,7 +101,6 @@ wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/c
 chmod +x linuxdeploy*-x86_64.AppImage
 
 export ARCH=x86_64
-export UPDATE_INFORMATION="zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/ng.appimage/version.x86_64.zsync"
 
 mkdir linuxdeploy
 cd linuxdeploy
