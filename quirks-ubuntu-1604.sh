@@ -9,6 +9,6 @@ quirk_build_mcpelauncher32() {
   add_cmake_options -DCMAKE_ASM_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS="-m32 -DNDEBUG -stdlib=libc++ -I ${PWD}/curlappimageca" -DCMAKE_CXX_COMPILER_TARGET="i686-linux-gnu" -DBUILD_FAKE_JNI_TESTS=OFF -DBUILD_FAKE_JNI_EXAMPLES=OFF -DUSE_OWN_CURL=ON -DOPENSSL_ROOT_DIR=/usr/lib/i386-linux-gnu/
 }
 quirk_build_mcpelauncher_ui() {
-  add_cmake_options -DCMAKE_INSTALL_RPATH=/opt/qt59/lib/ -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca"
+  add_cmake_options -DQT_RPATH=/opt/qt59/lib/ -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca"
 }
 
