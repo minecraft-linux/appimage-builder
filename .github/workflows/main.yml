@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Download deps
+      shell: /bin/bash
       run: |
         curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
         tar --no-same-owner -xf llvm.tar.xz
@@ -21,6 +22,7 @@ jobs:
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
+      shell: /bin/bash
       run: |
         . /opt/qt59/bin/qt59-env.sh
         export PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PWD/cmake-3.16.2-Linux-x86_64/bin:$PATH
@@ -29,6 +31,7 @@ jobs:
         export CXX=clang++
         ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -k "zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86_64.zsync" -i ${CIRCLE_BUILD_NUM}
     - name: create update info
+      shell: /bin/bash
       run: |
         cd output
         file=(*.AppImage)
@@ -38,6 +41,7 @@ jobs:
         name: x86_64.AppImage
         path: output/
     - name: Upload
+      shell: /bin/bash
       run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
