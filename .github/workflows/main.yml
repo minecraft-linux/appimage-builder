@@ -14,16 +14,17 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download deps
       run: |
-        curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
-        tar --no-same-owner -xf llvm.tar.xz
-        curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
-        tar --no-same-owner -xf cmake.tar.gz
-        apt update
-        DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
-        bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
+        #curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
+        #tar --no-same-owner -xf llvm.tar.xz
+        #curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
+        #tar --no-same-owner -xf cmake.tar.gz
+        #apt update
+        #DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
+        #bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        #DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
       run: |
+        ls /opt/qt59/bin/
         . /opt/qt59/bin/qt59-env.sh
         export PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PWD/cmake-3.16.2-Linux-x86_64/bin:$PATH
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/lib
