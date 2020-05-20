@@ -25,8 +25,11 @@ jobs:
     - name: Run the buildscript
       run: |
         ls /opt/qt59/bin/
+        echo A
         . /opt/qt59/bin/qt59-env.sh
+        echo B
         export PATH=$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/bin:$PWD/cmake-3.16.2-Linux-x86_64/bin:$PATH
+        echo C
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/lib
         export CC=clang
         export CXX=clang++
