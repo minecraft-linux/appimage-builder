@@ -14,14 +14,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download deps
       run: |
-        #curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
-        #tar --no-same-owner -xf llvm.tar.xz
-        #curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
-        #tar --no-same-owner -xf cmake.tar.gz
-        #apt update
-        #DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
-        #bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        #DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
+        curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
+        tar --no-same-owner -xf llvm.tar.xz
+        curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
+        tar --no-same-owner -xf cmake.tar.gz
+        apt update
+        DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
+        bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :
@@ -29,12 +29,12 @@ jobs:
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/lib
         export CC=clang
         export CXX=clang++
-        ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -k "zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86_64.zsync" -i ${CIRCLE_BUILD_NUM}
+        ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -k "zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.x86_64.zsync" -i ${GITHUB_RUN_NUMBER}
     - name: create update info
       run: |
         cd output
         file=(*.AppImage)
-        echo build_id=${CIRCLE_BUILD_NUM}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.amd64
+        echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.amd64
     - uses: actions/upload-artifact@v1
       with:
         name: x86_64.AppImage
