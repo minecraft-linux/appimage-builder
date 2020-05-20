@@ -5,6 +5,7 @@ source common.sh
 QUIRKS_FILE=
 APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
+BUILD_NUM="0"
 
 while getopts "h?q:j:u:i:k:" opt; do
     case "$opt" in
@@ -24,6 +25,7 @@ while getopts "h?q:j:u:i:k:" opt; do
     u)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_UPDATE_CHECK=ON -DUPDATE_CHECK_URL=$OPTARG"
         ;;
     i)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DUPDATE_CHECK_BUILD_ID=$OPTARG"
+        BUILD_NUM="${OPTARG}"
         ;;
     k)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_APPIMAGE_UPDATE_CHECK=1"
         export UPDATE_INFORMATION="$OPTARG"
@@ -70,13 +72,13 @@ install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher32
-build_component32 mcpelauncher
-cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
-#cleanup
-rm -r $BUILD_DIR/mcpelauncher/
-reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
-call_quirk build_mcpelauncher
+# build_component32 mcpelauncher
+# cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
+# #cleanup
+# rm -r $BUILD_DIR/mcpelauncher/
+# reset_cmake_options
+# add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
+# call_quirk build_mcpelauncher
 build_component mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
@@ -121,6 +123,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
 mv *.zsync output/version.x86_64.zsync
