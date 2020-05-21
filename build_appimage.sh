@@ -57,7 +57,7 @@ build_component32() {
   show_status "Building $1"
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
-  echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
+  echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/i386-linux-gnu/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
@@ -126,6 +126,6 @@ curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelaunche
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
-mv *.zsync output/version.x86_64.zsync
+mv *.zsync output/version.${ARCH}.zsync
 
 cleanup_build
