@@ -33,7 +33,7 @@ jobs:
       run: |
         cd output
         file=(*.AppImage)
-        echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.amd64
+        echo build_id=2000$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.amd64
     - uses: actions/upload-artifact@v1
       with:
         name: x86_64.AppImage
@@ -74,7 +74,7 @@ jobs:
       run: |
         cd output
         file=(*.AppImage)
-        echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.x86
+        echo build_id=2000$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.x86
     - uses: actions/upload-artifact@v1
       with:
         name: i386.AppImage
@@ -97,7 +97,7 @@ jobs:
       run: |
         cd output
         file=(*.AppImage)
-        sudo bash -c "echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.armhfbuster" || :
+        sudo bash -c "echo build_id=2000$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.armhfbuster" || :
     - uses: actions/upload-artifact@v1
       with:
         name: armhfappimagebuster
@@ -120,7 +120,7 @@ jobs:
       run: |
         cd output
         file=(*.AppImage)
-        sudo bash -c "echo build_id=${GITHUB_RUN_NUMBER}$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.arm64buster" || :
+        sudo bash -c "echo build_id=2000$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.arm64buster" || :
     - uses: actions/upload-artifact@v1
       with:
         name: arm64appimagebuster
