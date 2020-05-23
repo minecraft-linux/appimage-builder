@@ -167,7 +167,7 @@ cp ./AppRun $APP_DIR/AppRun
 chmod +x $APP_DIR/AppRun
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
-check_run $APPIMAGETOOL_BIN --comp ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-armhf $APP_DIR $OUTPUT
+check_run $APPIMAGETOOL_BIN --comp xz ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-armhf $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
 mv *.zsync output/version.${ARCH}.zsync
 
