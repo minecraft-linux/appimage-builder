@@ -109,12 +109,12 @@ wget -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/
 # also download Qt plugin, which is needed for the Qt UI
 wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
-# wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
 
-# wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64
+wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64
 
 chmod +x linuxdeploy*-x86_64.AppImage
-# chmod +x appimagetool*.AppImage
+chmod +x appimagetool*.AppImage
 
 export ARCH=arm_aarch64
 
@@ -157,10 +157,10 @@ chmod +x squashfs-root/usr/bin/patchelf
 echo '#!/bin/bash' > squashfs-root/usr/bin/strip
 chmod +x squashfs-root/usr/bin/strip
 cd ..
-# mkdir appimagetool
-# cd appimagetool
-# ../appimagetool-x86_64.AppImage --appimage-extract
-# cd ..
+mkdir appimagetool
+cd appimagetool
+../appimagetool-x86_64.AppImage --appimage-extract
+cd ..
 LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 APPIMAGETOOL_BIN=appimagetool/squashfs-root/AppRun
@@ -177,8 +177,7 @@ chmod +x $APP_DIR/AppRun
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
-check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
-# check_run $APPIMAGETOOL_BIN --runtime-file runtime-aarch64 $APP_DIR Minecraft_Bedrock_Launcher-aarch64.AppImage
+check_run $APPIMAGETOOL_BIN --comp ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-aarch64 $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
 mv *.zsync output/version.${ARCH}.zsync
 
