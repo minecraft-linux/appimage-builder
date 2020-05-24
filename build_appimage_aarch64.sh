@@ -53,10 +53,11 @@ install_component() {
   popd
 }
 
+DEBIAN_TUPLE=aarch64-linux-gnu
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_msa
-build_component msa
+build_component msa ${DEBIAN_TUPLE}
 install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic -DMSA_DAEMON_PATH=.
@@ -67,7 +68,7 @@ popd
 pushd $SOURCE_DIR/mcpelauncher/minecraft-symbols/tools
 python3 ./process_headers.py --armhf
 popd
-build_component mcpelauncher
+build_component mcpelauncher ${DEBIAN_TUPLE}
 install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS="-latomic -DDISABLE_64BIT=1" -DQt5QuickCompiler_FOUND:BOOL=OFF
@@ -75,7 +76,7 @@ call_quirk build_mcpelauncher_ui
 pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
 check_run git checkout master
 popd
-build_component mcpelauncher-ui
+build_component mcpelauncher-ui ${DEBIAN_TUPLE}
 install_component mcpelauncher-ui
 
 show_status "Packaging"
@@ -149,7 +150,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-cp -r /usr/lib/aarch64-linux-gnu/nss $APP_DIR/usr/lib/
+cp -r /usr/lib/${DEBIAN_TUPLE}/nss $APP_DIR/usr/lib/
 rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
 chmod +x $APP_DIR/AppRun

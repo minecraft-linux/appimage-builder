@@ -53,22 +53,24 @@ install_component() {
   popd
 }
 
+DEBIAN_TUPLE=x86_64-linux-gnu
+DEBIAN32_TUPLE=i386-linux-gnu
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
 call_quirk build_msa
-build_component msa
+build_component msa ${DEBIAN_TUPLE}
 install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher32
-# build_component mcpelauncher
+build_component mcpelauncher ${DEBIAN32_TUPLE}
 # cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
 # #cleanup
 # rm -r $BUILD_DIR/mcpelauncher/
 # reset_cmake_options
 # add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 # call_quirk build_mcpelauncher
-build_component mcpelauncher
+# build_component mcpelauncher ${DEBIAN_TUPLE}
 install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
@@ -76,7 +78,7 @@ call_quirk build_mcpelauncher_ui
 pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
 check_run git checkout master
 popd
-build_component mcpelauncher-ui
+build_component mcpelauncher-ui ${DEBIAN_TUPLE}
 install_component mcpelauncher-ui
 
 show_status "Packaging"
@@ -109,7 +111,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
+cp -r /usr/lib/${DEBIAN_TUPLE}/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"

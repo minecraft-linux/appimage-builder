@@ -53,10 +53,11 @@ install_component() {
   popd
 }
 
+DEBIAN_TUPLE=arm-linux-gnueabihf
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
 call_quirk build_msa
-build_component msa
+build_component msa ${DEBIAN_TUPLE}
 install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
@@ -67,7 +68,7 @@ popd
 pushd $SOURCE_DIR/mcpelauncher/minecraft-symbols/tools
 python3 ./process_headers.py --armhf
 popd
-build_component mcpelauncher
+build_component mcpelauncher ${DEBIAN_TUPLE}
 install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS
@@ -75,7 +76,7 @@ call_quirk build_mcpelauncher_ui
 pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
 check_run git checkout master
 popd
-build_component mcpelauncher-ui
+build_component mcpelauncher-ui ${DEBIAN_TUPLE}
 install_component mcpelauncher-ui
 
 show_status "Packaging"
@@ -149,7 +150,7 @@ check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.pn
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
-cp -r /usr/lib/arm-linux-gnueabihf/nss $APP_DIR/usr/lib/
+cp -r /usr/lib/${DEBIAN_TUPLE}/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
