@@ -53,17 +53,6 @@ install_component() {
   popd
 }
 
-build_component32() {
-  show_status "Building $1"
-  mkdir -p $BUILD_DIR/$1
-  pushd $BUILD_DIR/$1
-  echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/i386-linux-gnu/g' CMakeCache.txt
-  check_run make -j${MAKE_JOBS}
-  popd
-}
-
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
 call_quirk build_msa
@@ -72,7 +61,7 @@ install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher32
-# build_component32 mcpelauncher
+# build_component mcpelauncher
 # cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
 # #cleanup
 # rm -r $BUILD_DIR/mcpelauncher/
