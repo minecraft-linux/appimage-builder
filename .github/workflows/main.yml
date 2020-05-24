@@ -39,6 +39,7 @@ jobs:
         name: x86_64.AppImage
         path: output/
     - name: Upload
+      if: false
       run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
@@ -80,6 +81,7 @@ jobs:
         name: i386.AppImage
         path: output/
     - name: Upload
+      if: false
       run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
@@ -103,6 +105,7 @@ jobs:
         name: armhfappimagebuster
         path: output/
     - name: Upload Latest
+      if: false
       run: | 
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
@@ -126,6 +129,7 @@ jobs:
         name: arm64appimagebuster
         path: output/
     - name: Upload Latest
+      if: false
       run: | 
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
