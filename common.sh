@@ -70,7 +70,7 @@ build_component() {
   pushd $BUILD_DIR/$1
   echo "cmake" $CMAKE_OPTIONS "$SOURCE_DIR/$1"
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  sed -i 's/\/usr\/([a-z]+)\/[a-z0-9\-_]+/\/usr\/$1\/'$2'/g' CMakeCache.txt
+  sed -i 's/\/usr\/\(include\|lib\)\/\(x86_64-linux-gnu\|i386-linux-gnu\|arm-linux-gnueabihf\|aarch64-linux-gnu\)/\/usr\/\1\/'$2'/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
 }

@@ -54,6 +54,7 @@ install_component() {
 }
 
 DEBIAN_TUPLE=aarch64-linux-gnu
+DEBIAN32_TUPLE=arm-linux-gnueabihf
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS=-latomic
 call_quirk build_msa
@@ -68,7 +69,7 @@ popd
 pushd $SOURCE_DIR/mcpelauncher/minecraft-symbols/tools
 python3 ./process_headers.py --armhf
 popd
-build_component mcpelauncher ${DEBIAN_TUPLE}
+build_component mcpelauncher ${DEBIAN32_TUPLE}
 install_component mcpelauncher
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS="-latomic -DDISABLE_64BIT=1" -DQt5QuickCompiler_FOUND:BOOL=OFF
