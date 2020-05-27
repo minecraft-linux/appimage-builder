@@ -42,7 +42,7 @@ call_quirk init
 
 show_status "Downloading sources"
 download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
-download_repo mcpelauncher https://github.com/ChristopherHX/mcpelauncher-manifest.git master
+download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git ng
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
 
 call_quirk build_start
@@ -72,13 +72,13 @@ install_component msa
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher32
-# build_component32 mcpelauncher
-# cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
-# #cleanup
-# rm -r $BUILD_DIR/mcpelauncher/
-# reset_cmake_options
-# add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
-# call_quirk build_mcpelauncher
+build_component32 mcpelauncher
+cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
+#cleanup
+rm -r $BUILD_DIR/mcpelauncher/
+reset_cmake_options
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
+call_quirk build_mcpelauncher
 build_component mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
