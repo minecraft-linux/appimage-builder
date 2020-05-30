@@ -41,8 +41,8 @@ mkdir -p ${APP_DIR}
 call_quirk init
 
 show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
-download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git ng
+download_repo msa https://github.com/ChristopherHX/msa-manifest.git master
+download_repo mcpelauncher https://github.com/ChristopherHX/mcpelauncher-manifest.git ngunstable
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
 
 call_quirk build_start
@@ -123,9 +123,9 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
-export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}-unstable.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
-mv *.zsync output/version.${ARCH}.zsync
+mv *.zsync output/version.${ARCH}.unstable.zsync
 
 cleanup_build
