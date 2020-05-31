@@ -80,7 +80,7 @@ jobs:
     container: buildpack-deps:${{ matrix.target }}
     strategy:
       matrix:
-          target: [ "scm", "testing-scm", "unstable-scm", "focal-scm", "bionic-scm"]
+          target: [ "scm", "testing-scm", "focal-scm", "bionic-scm"]
     defaults:
       run:
         shell: bash
