@@ -82,7 +82,7 @@ jobs:
       matrix:
         include:
           - target: "scm"
-            libgcc: "9"
+            libgcc: "8"
           - target: "testing-scm"
             libgcc: "10"
           - target: "focal-scm"
