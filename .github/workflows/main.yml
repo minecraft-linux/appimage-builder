@@ -78,8 +78,9 @@ jobs:
   buildappimagesx86_64:
     runs-on: ubuntu-18.04
     container: buildpack-deps:${{ matrix.target }}
-    matrix:
-        target: [ "scm", "testing-scm", "unstable-scm", "focal-scm", "bionic-scm"]
+    strategy:
+      matrix:
+          target: [ "scm", "testing-scm", "unstable-scm", "focal-scm", "bionic-scm"]
     defaults:
       run:
         shell: bash
