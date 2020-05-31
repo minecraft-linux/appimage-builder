@@ -96,16 +96,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: |
-        curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
-        tar --no-same-owner -xf llvm.tar.xz
-        curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
-        tar --no-same-owner -xf cmake.tar.gz
         export ARCH_32=i386
         export ARCH_64=amd64
         dpkg --add-architecture ${ARCH_32}
         dpkg --add-architecture ${ARCH_64}
         apt update
-        DEBIAN_FRONTEND=noninteractive apt install -y wget texinfo apt-transport-https xxd chrpath python3-pip wget cmake libgcc-${{ matrix.libgcc }}-dev:${ARCH_32} libpng-dev:${ARCH_32} libx11-dev:${ARCH_32} libxi-dev:${ARCH_32} libcurl4-openssl-dev:${ARCH_32} libudev-dev:${ARCH_32} libevdev-dev:${ARCH_32} libegl1-mesa-dev:${ARCH_32} libasound2:${ARCH_32} libgcc-${{ matrix.libgcc }}-dev:${ARCH_64} libpng-dev:${ARCH_64} libx11-dev:${ARCH_64} libxi-dev:${ARCH_64} libcurl4-openssl-dev:${ARCH_64} libudev-dev:${ARCH_64} libevdev-dev:${ARCH_64} libegl1-mesa-dev:${ARCH_64} libasound2:${ARCH_64} qt5-default:${ARCH_64} git cmake pkg-config qtbase5-dev:${ARCH_64} qtwebengine5-dev:${ARCH_64} libssl-dev:${ARCH_64} libcurl4-openssl-dev:${ARCH_64} libpng-dev:${ARCH_64} libx11-dev:${ARCH_64} libxi-dev:${ARCH_64} libssl-dev:${ARCH_64} libudev-dev:${ARCH_64} libevdev-dev:${ARCH_64} libegl1-mesa-dev:${ARCH_64} libgl1-mesa-dev:${ARCH_64} libssl-dev:${ARCH_64} libuv1-dev:${ARCH_64} libzip-dev:${ARCH_64} libprotobuf-dev:${ARCH_64} protobuf-compiler qtdeclarative5-dev:${ARCH_64} libqt5svg5-dev:${ARCH_64} qml-module-qtquick2:${ARCH_64} qml-module-qtquick-layouts:${ARCH_64} qml-module-qtquick-controls:${ARCH_64} qml-module-qtquick-controls2:${ARCH_64} qml-module-qtquick-window2:${ARCH_64} qml-module-qtquick-dialogs:${ARCH_64} qml-module-qt-labs-settings:${ARCH_64} qml-module-qt-labs-folderlistmodel:${ARCH_64} jq curl binutils desktop-file-utils squashfs-tools qtdeclarative5-dev-tools:${ARCH_64}
+        DEBIAN_FRONTEND=noninteractive apt install -y xz wget texinfo apt-transport-https xxd chrpath python3-pip wget cmake libgcc-${{ matrix.libgcc }}-dev:${ARCH_32} libpng-dev:${ARCH_32} libx11-dev:${ARCH_32} libxi-dev:${ARCH_32} libcurl4-openssl-dev:${ARCH_32} libudev-dev:${ARCH_32} libevdev-dev:${ARCH_32} libegl1-mesa-dev:${ARCH_32} libasound2:${ARCH_32} libgcc-${{ matrix.libgcc }}-dev:${ARCH_64} libpng-dev:${ARCH_64} libx11-dev:${ARCH_64} libxi-dev:${ARCH_64} libcurl4-openssl-dev:${ARCH_64} libudev-dev:${ARCH_64} libevdev-dev:${ARCH_64} libegl1-mesa-dev:${ARCH_64} libasound2:${ARCH_64} qt5-default:${ARCH_64} git cmake pkg-config qtbase5-dev:${ARCH_64} qtwebengine5-dev:${ARCH_64} libssl-dev:${ARCH_64} libcurl4-openssl-dev:${ARCH_64} libpng-dev:${ARCH_64} libx11-dev:${ARCH_64} libxi-dev:${ARCH_64} libssl-dev:${ARCH_64} libudev-dev:${ARCH_64} libevdev-dev:${ARCH_64} libegl1-mesa-dev:${ARCH_64} libgl1-mesa-dev:${ARCH_64} libssl-dev:${ARCH_64} libuv1-dev:${ARCH_64} libzip-dev:${ARCH_64} libprotobuf-dev:${ARCH_64} protobuf-compiler qtdeclarative5-dev:${ARCH_64} libqt5svg5-dev:${ARCH_64} qml-module-qtquick2:${ARCH_64} qml-module-qtquick-layouts:${ARCH_64} qml-module-qtquick-controls:${ARCH_64} qml-module-qtquick-controls2:${ARCH_64} qml-module-qtquick-window2:${ARCH_64} qml-module-qtquick-dialogs:${ARCH_64} qml-module-qt-labs-settings:${ARCH_64} qml-module-qt-labs-folderlistmodel:${ARCH_64} jq curl binutils desktop-file-utils squashfs-tools qtdeclarative5-dev-tools:${ARCH_64}
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 zsync
         pip3 install jinja2 ds_store ply
@@ -113,6 +109,10 @@ jobs:
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/lib:${PWD}/build/AppDir/usr/lib
         export CC=clang
         export CXX=clang++
+        curl -L http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output llvm.tar.xz
+        tar --no-same-owner -xf llvm.tar.xz
+        curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
+        tar --no-same-owner -xf cmake.tar.gz
         ./build_appimage.sh -j4 -q quirks-${{ matrix.target }}.sh -k "zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/ng.appimage/version.x86_64.unstable.${{ matrix.target }}.zsync" -v 0.0.0.${GITHUB_RUN_NUMBER}_${{ matrix.target }}
     - uses: actions/upload-artifact@v1
       with:
