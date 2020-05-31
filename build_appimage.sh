@@ -5,9 +5,9 @@ source common.sh
 QUIRKS_FILE=
 APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
-BUILD_NUM="0"
+VERSION="0.0.0.0-SOURCE"
 
-while getopts "h?q:j:u:i:k:" opt; do
+while getopts "h?q:j:u:i:v:k:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
@@ -16,6 +16,7 @@ while getopts "h?q:j:u:i:k:" opt; do
         echo "-u  Specify the update check URL"
         echo "-i  Specify the build id for update checking"
         echo "-k  Specify appimageupdate information"
+        echo "-v  Specify version"
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
@@ -25,7 +26,8 @@ while getopts "h?q:j:u:i:k:" opt; do
     u)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_UPDATE_CHECK=ON -DUPDATE_CHECK_URL=$OPTARG"
         ;;
     i)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DUPDATE_CHECK_BUILD_ID=$OPTARG"
-        BUILD_NUM="${OPTARG}"
+        ;;
+    v)  VERSION="${OPTARG}"
         ;;
     k)  UPDATE_CMAKE_OPTIONS="$UPDATE_CMAKE_OPTIONS -DENABLE_APPIMAGE_UPDATE_CHECK=1"
         export UPDATE_INFORMATION="$OPTARG"
@@ -123,7 +125,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
-export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}-unstable.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-${VERSION}-unstable.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 mv Minecraft*.AppImage output
 mv *.zsync output/version.${ARCH}.unstable.zsync
