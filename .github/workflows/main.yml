@@ -85,10 +85,6 @@ jobs:
             libgcc: "8"
           - target: "testing-scm"
             libgcc: "10"
-          - target: "focal-scm"
-            libgcc: "10"
-          - target: "bionic-scm"
-            libgcc: "8"
     defaults:
       run:
         shell: bash
