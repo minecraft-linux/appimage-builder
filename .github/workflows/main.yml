@@ -83,6 +83,8 @@ jobs:
         include:
           - target: "bionic"
             libgcc: "8"
+          - target: "focal"
+            libgcc: "10"
     defaults:
       run:
         shell: bash
