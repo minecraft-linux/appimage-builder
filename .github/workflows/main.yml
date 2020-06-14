@@ -81,7 +81,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: "scm"
+          - target: "bionic"
             libgcc: "8"
     defaults:
       run:
