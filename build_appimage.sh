@@ -72,12 +72,13 @@ call_quirk build_msa
 build_component msa
 install_component msa
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
-call_quirk build_mcpelauncher32
-build_component32 mcpelauncher
-cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
-#cleanup
-rm -r $BUILD_DIR/mcpelauncher/
+# Skip 32bit build broken on ubuntu 18.04
+# add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
+# call_quirk build_mcpelauncher32
+# build_component32 mcpelauncher
+# cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
+# #cleanup
+# rm -r $BUILD_DIR/mcpelauncher/
 reset_cmake_options
 add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=.
 call_quirk build_mcpelauncher
