@@ -76,6 +76,7 @@ jobs:
         tar -xf ghr.tar.gz
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
   buildappimagesx86_64:
+    if: false
     runs-on: ubuntu-18.04
     container: buildpack-deps:${{ matrix.target }}
     strategy:
