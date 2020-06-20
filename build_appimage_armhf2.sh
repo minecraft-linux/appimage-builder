@@ -44,6 +44,8 @@ show_status "Downloading sources"
 download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
 download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git ng
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
+mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
+git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 
 call_quirk build_start
 
