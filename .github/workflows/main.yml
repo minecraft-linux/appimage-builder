@@ -20,7 +20,7 @@ jobs:
         apt update
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
+        DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync uuid-dev uuid-dev:i386
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :
