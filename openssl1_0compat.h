@@ -1,2 +1,6 @@
 #define EVP_MD_CTX_new(...) EVP_MD_CTX_create(__VA_ARGS__)
 #define EVP_MD_CTX_free(...) EVP_MD_CTX_destroy(__VA_ARGS__)
+#define EC_POINT_get_affine_coordinates(...) EC_POINT_get_affine_coordinates_GFp(__VA_ARGS__)
+#define ECDSA_SIG_get0_r(sig) (sig->r)
+#define ECDSA_SIG_get0_s(sig) (sig->s)
+#define EC_GROUP_order_bits(ecgroup) BN_num_bits(sig->r)
