@@ -4,3 +4,4 @@
 #define ECDSA_SIG_get0_r(sig) (sig->r)
 #define ECDSA_SIG_get0_s(sig) (sig->s)
 #define EC_GROUP_order_bits(ecgroup) BN_num_bits(sig->r)
+#define BN_bn2binpad(a,b,c) BN_bn2bin(a,b)
