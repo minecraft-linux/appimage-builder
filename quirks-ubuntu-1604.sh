@@ -5,7 +5,7 @@ make install
 ./config --prefix=$PWD/../copenssl64 --openssldir=$PWD/../copenssl64/ssl
 make clean
 make install
-export LD_LIBRARY_PATH=$PWD/../copenssl64/lib:$PWD/../copenssl32/lib
+export LD_LIBRARY_PATH=$PWD/../copenssl64/lib:$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
 quirk_build_msa() {
   add_cmake_options -DQT_RPATH=/opt/qt59/lib/ -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca"
 }
