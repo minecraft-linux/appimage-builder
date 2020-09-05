@@ -127,7 +127,9 @@ curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelaunche
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
-mv Minecraft*.AppImage output
+
+mkdir -p output/
+mv Minecraft*.AppImage output/
 mv *.zsync output/version.${ARCH}.zsync
 
 cleanup_build
