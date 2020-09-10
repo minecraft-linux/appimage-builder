@@ -47,6 +47,9 @@ download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui
 pushd "$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt"
 git checkout ng-v0.0.1-rp1
 popd
+pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-client"
+git checkout feature-jnivm
+popd
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 
