@@ -53,6 +53,9 @@ popd
 pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-core"
 git checkout feature-1.16.20-32bit
 popd
+pushd "$SOURCE_DIR/mcpelauncher/minecraft-imported-symbols"
+git checkout ng
+popd
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 
