@@ -44,7 +44,6 @@ jobs:
         tar -xf ghr.tar.gz
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
   build32:
-    if: false
     runs-on: ubuntu-latest
     container: minecraftlinux/ci-xenial:0.0.1
     defaults:
@@ -62,7 +61,7 @@ jobs:
         DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        DEBIAN_FRONTEND=noninteractive apt -y install libc++-10-dev:i386 libc++abi-10-dev:i386 libegl1-mesa-dev:i386 zsync
+        DEBIAN_FRONTEND=noninteractive apt -y install libc++-11-dev:i386 libc++abi-11-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :

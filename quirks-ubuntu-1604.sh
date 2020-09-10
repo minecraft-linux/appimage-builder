@@ -1,12 +1,12 @@
 git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
-cd openssl
+pushd openssl
 setarch i386 ./config -m32 --prefix=$PWD/../copenssl32 --openssldir=$PWD/../copenssl32/ssl
 make install_sw
 ./config --prefix=$PWD/../copenssl64 --openssldir=$PWD/../copenssl64/ssl
 make clean
 make install_sw
 export LD_LIBRARY_PATH=$PWD/../copenssl64/lib:$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
-cd ..
+popd
 quirk_build_msa() {
   add_cmake_options -DQT_RPATH=/opt/qt59/lib/ -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca"
 }

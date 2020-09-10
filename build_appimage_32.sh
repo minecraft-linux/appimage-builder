@@ -41,9 +41,18 @@ mkdir -p ${APP_DIR}
 call_quirk init
 
 show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
-download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git ng
+download_repo msa https://github.com/minecraft-linux/msa-manifest.git feature-xal
+download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git feature-jnivm
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
+pushd "$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt"
+git checkout ng-v0.0.1-rp1
+popd
+pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-client"
+git checkout feature-jnivm
+popd
+pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-core"
+git checkout feature-1.16.20-32bit
+popd
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 
@@ -52,6 +61,17 @@ call_quirk build_start
 install_component() {
   pushd $BUILD_DIR/$1
   check_run make install DESTDIR="${APP_DIR}"
+  popd
+}
+
+build_component32() {
+  show_status "Building $1"
+  mkdir -p $BUILD_DIR/$1
+  pushd $BUILD_DIR/$1
+  echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/i386-linux-gnu/g' CMakeCache.txt
+  check_run make -j${MAKE_JOBS}
   popd
 }
 
