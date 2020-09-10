@@ -1,10 +1,10 @@
 git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
 cd openssl
 setarch i386 ./config -m32 --prefix=$PWD/../copenssl32 --openssldir=$PWD/../copenssl32/ssl
-make install
+make install_sw
 ./config --prefix=$PWD/../copenssl64 --openssldir=$PWD/../copenssl64/ssl
 make clean
-make install
+make install_sw
 export LD_LIBRARY_PATH=$PWD/../copenssl64/lib:$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
 cd ..
 quirk_build_msa() {
