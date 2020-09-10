@@ -50,6 +50,9 @@ popd
 pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-client"
 git checkout feature-jnivm
 popd
+pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-core"
+git checkout feature-1.16.20-32bit
+popd
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 
