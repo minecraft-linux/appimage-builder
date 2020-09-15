@@ -44,9 +44,9 @@ show_status "Downloading sources"
 download_repo msa https://github.com/minecraft-linux/msa-manifest.git feature-xal
 download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git feature-jnivm
 download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
-pushd "$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt"
-git checkout ng-v0.0.1-rp1
-popd
+#pushd "$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt"
+#git checkout ng-v0.0.1-rp1
+#popd
 pushd "$SOURCE_DIR/mcpelauncher/mcpelauncher-client"
 git checkout feature-jnivm
 popd
@@ -55,6 +55,9 @@ git checkout feature-1.16.20-32bit
 popd
 pushd "$SOURCE_DIR/mcpelauncher/minecraft-imported-symbols"
 git checkout ng
+popd
+pushd "$SOURCE_DIR/mcpelauncher/libjnivm"
+git checkout feature-jnivm
 popd
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
