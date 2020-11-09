@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    if: 'false'
     runs-on: ubuntu-latest
     container: minecraftlinux/ci-xenial:0.0.1
     defaults:
@@ -44,6 +45,7 @@ jobs:
         tar -xf ghr.tar.gz
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace appimage output/
   build32:
+    if: 'false'
     runs-on: ubuntu-latest
     container: minecraftlinux/ci-xenial:0.0.1
     defaults:
@@ -85,6 +87,7 @@ jobs:
         tar -xf ghr.tar.gz
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace appimage output/
   buildbusterappimage:
+    if: 'false'
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -117,15 +120,18 @@ jobs:
         docker pull buildpack-deps:buster
         docker run -e GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER} -v $PWD/ldd:/usr/bin/ldd -v $PWD:$PWD -w $PWD --rm buildpack-deps:buster bash -c "dpkg --add-architecture arm64 && dpkg --add-architecture armhf && apt update && DEBIAN_FRONTEND=noninteractive apt install -y wget texinfo apt-transport-https vim-common chrpath libatomic1:armhf libatomic1:arm64 python3-pip wget cmake g++-arm-linux-gnueabihf g++-aarch64-linux-gnu patchelf libpng-dev:armhf libx11-dev:armhf libxi-dev:armhf libcurl4-openssl-dev:armhf libudev-dev:armhf libevdev-dev:armhf libegl1-mesa-dev:armhf libasound2:armhf qt5-default:arm64 git cmake pkg-config qtbase5-dev:arm64 qtwebengine5-dev:arm64 libssl-dev:arm64 libcurl4-openssl-dev:arm64 libpng-dev:arm64 libx11-dev:arm64 libxi-dev:arm64 libssl-dev:arm64 libudev-dev:arm64 libevdev-dev:arm64 libegl1-mesa-dev:arm64 libgl1-mesa-dev:arm64 libssl-dev:arm64 libuv1-dev:arm64 libzip-dev:arm64 libprotobuf-dev:arm64 protobuf-compiler qtdeclarative5-dev:arm64 libqt5svg5-dev:arm64 qml-module-qtquick2:arm64 qml-module-qtquick-layouts:arm64 qml-module-qtquick-controls:arm64 qml-module-qtquick-controls2:arm64 qml-module-qtquick-window2:arm64 qml-module-qtquick-dialogs:arm64 qml-module-qt-labs-settings:arm64 qml-module-qt-labs-folderlistmodel:arm64 jq curl binutils desktop-file-utils squashfs-tools qtdeclarative5-dev-tools:arm64 && pip3 install jinja2 ds_store ply && QMAKE=/usr/bin/aarch64-linux-gnu-qmake PATH=/usr/lib/aarch64-linux-gnu/qt5/bin/:$PATH LD_LIBRARY_PATH=${PWD}/build/AppDir/usr/lib NO_STRIP=1 ./build_appimage_arm64.sh -j4 -k 'zsync|https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/version.arm_aarch64.zsync' -i ${GITHUB_RUN_NUMBER}"
     - name: Generate update info
+      if: 'false'
       run: |
         cd output
         file=(*.AppImage)
         sudo bash -c "echo build_id=2000$'\n'download_url=https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/appimage/${file} > version.arm64buster" || :
     - uses: actions/upload-artifact@v1
+      if: 'false'
       with:
         name: arm64appimagebuster
         path: output/
     - name: Upload Latest
+      if: 'false'
       run: | 
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
