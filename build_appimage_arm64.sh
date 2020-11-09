@@ -97,7 +97,7 @@ popd
 build_component32 mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS="-latomic -DDISABLE_64BIT=1" -DQt5QuickCompiler_FOUND:BOOL=OFF
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS="-latomic -DDISABLE_64BIT=1" -DQt5LinguistTools_FOUND=OFF -DQt5LinguistTools_DIR=/usr/lib/x86_64-linux-gnu/cmake/Qt5LinguistTools -DQt5QuickCompiler_FOUND:BOOL=OFF
 call_quirk build_mcpelauncher_ui
 pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
 check_run git checkout master
