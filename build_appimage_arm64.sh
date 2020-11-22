@@ -128,6 +128,11 @@ cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
 ../linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
+cd ..
+mkdir appimagetool
+cd appimagetool
+../appimagetool-x86_64.AppImage --appimage-extract
+cd ..
 LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 APPIMAGETOOL_BIN=appimagetool/squashfs-root/AppRun
