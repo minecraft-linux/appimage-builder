@@ -49,9 +49,7 @@ install_component_cpack mcpelauncher
 reset_cmake_options
 add_cmake_options -DDEB_OS_NAME=$OS_NAME
 call_quirk build_mcpelauncher_ui
-pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
-check_run git checkout master
-popd
+
 build_component mcpelauncher-ui
 install_component_cpack mcpelauncher-ui
 

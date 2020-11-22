@@ -177,8 +177,9 @@ for file do
       try_trace "$RTLD" "$file" || result=1
       ;;
     *)
-      echo 'ldd:' ${RTLD} $"exited with unknown exit code" "($ret)" >&2
-      exit 1
+#       echo 'ldd:' ${RTLD} $"exited with unknown exit code" "($ret)" >&2
+#       exit 1
+      qemu-aarch64 -E LD_TRACE_LOADED_OBJECTS=1 /lib/ld-linux-aarch64.so.1 "$file" || result=1
       ;;
     esac
   else

@@ -61,7 +61,8 @@ build_component32() {
   pushd $BUILD_DIR/$1
   echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  sed -i 's/x86_64-linux-gnu/arm-linux-gnueabihf/g' CMakeCache.txt
+  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/arm-linux-gnueabihf/g' CMakeCache.txt
+  sed -i 's/\/usr\/include\/x86_64-linux-gnu/\/usr\/include\/arm-linux-gnueabihf/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
 }
@@ -71,33 +72,33 @@ build_component64() {
   pushd $BUILD_DIR/$1
   echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
-  sed -i 's/x86_64-linux-gnu/aarch64-linux-gnu/g' CMakeCache.txt
+  sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/aarch64-linux-gnu/g' CMakeCache.txt
+  sed -i 's/\/usr\/include\/x86_64-linux-gnu/\/usr\/include\/aarch64-linux-gnu/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
   popd
 }
 
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS=-latomic
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_ASM_FLAGS="--target=aarch64-linux-gnu" -DCMAKE_C_FLAGS="-latomic --target=aarch64-linux-gnu" -DCMAKE_CXX_FLAGS="-latomic --target=aarch64-linux-gnu"
 call_quirk build_msa
 build_component64 msa
 install_component msa
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_CXX_FLAGS=-latomic -DMSA_DAEMON_PATH=.
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DMSA_DAEMON_PATH=. -DCMAKE_ASM_FLAGS="--target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_C_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_CXX_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DBUILD_WEBVIEW=OFF -DJNI_USE_JNIVM=ON -DXAL_WEBVIEW_QT_PATH=.
 call_quirk build_mcpelauncher
-pushd $SOURCE_DIR/mcpelauncher/mcpelauncher-linux-bin
-git checkout armhf
-popd
-pushd $SOURCE_DIR/mcpelauncher/minecraft-symbols/tools
-python3 ./process_headers.py --armhf
-popd
 build_component32 mcpelauncher
+cp $BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client "${APP_DIR}/usr/bin/mcpelauncher-client32"
+#cleanup
+rm -r $BUILD_DIR/mcpelauncher/
+reset_cmake_options
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_ASM_FLAGS="--target=aarch64-linux-gnu" -DCMAKE_C_FLAGS="-latomic --target=aarch64-linux-gnu" -DCMAKE_CXX_FLAGS="-latomic --target=aarch64-linux-gnu" -DJNI_USE_JNIVM=ON -DXAL_WEBVIEW_QT_PATH=.
+call_quirk build_mcpelauncher
+build_component64 mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_CXX_FLAGS="-latomic -DDISABLE_64BIT=1" -DQt5QuickCompiler_FOUND:BOOL=OFF
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_ASM_FLAGS="--target=aarch64-linux-gnu" -DCMAKE_C_FLAGS="-latomic --target=aarch64-linux-gnu" -DCMAKE_CXX_FLAGS="-latomic --target=aarch64-linux-gnu" -DQt5QuickCompiler_FOUND:BOOL=OFF
 call_quirk build_mcpelauncher_ui
-pushd $SOURCE_DIR/mcpelauncher-ui/playdl-signin-ui-qt
-check_run git checkout master
-popd
+
 build_component64 mcpelauncher-ui
 install_component mcpelauncher-ui
 
@@ -107,7 +108,7 @@ cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/Resources/proprietary/mcpelaun
 cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/mcpelauncher-ui-qt.desktop $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
 # download linuxdeploy and make it executable
-wget -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+wget -N https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
 # also download Qt plugin, which is needed for the Qt UI
 wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
@@ -120,48 +121,13 @@ chmod +x appimagetool*.AppImage
 
 export ARCH=arm_aarch64
 
-# git clone https://github.com/NixOS/patchelf.git
-# cd patchelf
-# ./bootstrap.sh
-# ./configure
-# make -j2
-# cd ..
-
 mkdir linuxdeploy
 cd linuxdeploy
 ../linuxdeploy-x86_64.AppImage --appimage-extract
-# fix arm
-rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
-# ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
-# cp ../patchelf/src/patchelf squashfs-root/usr/bin/
-# cp ../patchelf squashfs-root/usr/bin/
-echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
-# echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-chmod +x squashfs-root/usr/bin/patchelf
-# ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
-# cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
-echo '#!/bin/bash' > squashfs-root/usr/bin/strip
-chmod +x squashfs-root/usr/bin/strip
 cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
 ../linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
-# fix arm
-rm -rf squashfs-root/usr/bin/strip squashfs-root/usr/bin/patchelf
-# ln -s ../../../../patchelf/src/patchelf squashfs-root/usr/bin/patchelf
-# cp ../patchelf/src/patchelf squashfs-root/usr/bin/
-# cp ../patchelf squashfs-root/usr/bin/
-echo '#!/bin/bash' > squashfs-root/usr/bin/patchelf
-# echo 'echo patchelf $@>>/home/christopher/linux-packaging-scripts/patchelf.log' >> squashfs-root/usr/bin/patchelf
-chmod +x squashfs-root/usr/bin/patchelf
-# ln -s /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
-# cp /usr/arm-linux-gnueabihf/bin/strip squashfs-root/usr/bin/strip
-echo '#!/bin/bash' > squashfs-root/usr/bin/strip
-chmod +x squashfs-root/usr/bin/strip
-cd ..
-mkdir appimagetool
-cd appimagetool
-../appimagetool-x86_64.AppImage --appimage-extract
 cd ..
 LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
@@ -169,13 +135,10 @@ APPIMAGETOOL_BIN=appimagetool/squashfs-root/AppRun
 
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.png -d $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
-export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/
+export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/aarch64-linux-gnu/nss $APP_DIR/usr/lib/
-rm $APP_DIR/AppRun
-cp ./AppRun $APP_DIR/AppRun
-chmod +x $APP_DIR/AppRun
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
