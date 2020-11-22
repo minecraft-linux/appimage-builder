@@ -101,7 +101,7 @@ wget -N https://github.com/AppImage/AppImageKit/releases/download/continuous/run
 chmod +x linuxdeploy*-i386.AppImage
 chmod +x appimagetool*.AppImage
 
-export ARCH=armhf
+export ARCH=arm
 
 # git clone https://github.com/NixOS/patchelf.git
 # cd patchelf
@@ -162,6 +162,7 @@ cp ./AppRun $APP_DIR/AppRun
 chmod +x $APP_DIR/AppRun
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
+export ARCH=arm
 check_run $APPIMAGETOOL_BIN --comp xz ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-armhf $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
 mv *.zsync output/version.${ARCH}.zsync

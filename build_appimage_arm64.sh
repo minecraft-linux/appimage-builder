@@ -128,7 +128,6 @@ cd ..
 mkdir linuxdeploy-plugin-qt
 cd linuxdeploy-plugin-qt
 ../linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
-cd ..
 LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 APPIMAGETOOL_BIN=appimagetool/squashfs-root/AppRun
@@ -142,6 +141,7 @@ cp -r /usr/lib/aarch64-linux-gnu/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
+export ARCH=arm_aarch64
 check_run $APPIMAGETOOL_BIN --comp xz ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-aarch64 $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
 mv *.zsync output/version.${ARCH}.zsync
