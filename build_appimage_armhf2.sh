@@ -79,7 +79,7 @@ call_quirk build_msa
 build_component32 msa
 install_component msa
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DMSA_DAEMON_PATH=. -DCMAKE_ASM_FLAGS="--target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_C_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_CXX_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon -DNDEBUG -I ${PWD}/curlappimageca" -DJNI_USE_JNIVM=ON -DXAL_WEBVIEW_QT_PATH=. -DCURL_INCLUDE_DIRS="$APP_DIR/usr/include" -DCURL_LIBRARIES="$APP_DIR/usr/lib/libcurl.so"
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DMSA_DAEMON_PATH=. -DCMAKE_ASM_FLAGS="--target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_C_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_CXX_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon -DNDEBUG -I ${PWD}/curlappimageca" -DJNI_USE_JNIVM=ON -DXAL_WEBVIEW_QT_PATH=. -DCURL_INCLUDE_DIRS="$APP_DIR/usr/include" -DCURL_LIBRARIES="$APP_DIR/usr/lib/libcurl.so" -DQt5QuickCompiler_FOUND:BOOL=OFF
 call_quirk build_mcpelauncher
 build_component32 mcpelauncher
 install_component mcpelauncher
