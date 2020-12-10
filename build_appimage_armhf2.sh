@@ -171,6 +171,6 @@ export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
 export ARCH=arm
 check_run $APPIMAGETOOL_BIN --comp xz ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-armhf $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
-mv *.zsync output/version.${ARCH}.zsync
+mv *.zsync output/version.armhf.zsync
 
 cleanup_build
