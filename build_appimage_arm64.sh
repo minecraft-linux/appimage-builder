@@ -60,10 +60,13 @@ build_component32() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  PKG64_CONFIG_PATH="${PKG_CONFIG_PATH}"
+  export PKG_CONFIG_PATH=""
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/arm-linux-gnueabihf/g' CMakeCache.txt
   sed -i 's/\/usr\/include\/x86_64-linux-gnu/\/usr\/include\/arm-linux-gnueabihf/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
+  export PKG_CONFIG_PATH="${PKG64_CONFIG_PATH}"
   popd
 }
 build_component64() {
@@ -108,7 +111,7 @@ cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/Resources/proprietary/mcpelaun
 cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/mcpelauncher-ui-qt.desktop $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
 # download linuxdeploy and make it executable
-wget -N https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
+wget -N https://artifacts.assassinate-you.net/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
 # also download Qt plugin, which is needed for the Qt UI
 wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 
