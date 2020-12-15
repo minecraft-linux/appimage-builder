@@ -60,10 +60,13 @@ build_component32() {
   mkdir -p $BUILD_DIR/$1
   pushd $BUILD_DIR/$1
   echo "cmake" "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
+  PKG64_CONFIG_PATH="${PKG_CONFIG_PATH}"
+  export PKG_CONFIG_PATH=""
   check_run cmake "${CMAKE_OPTIONS[@]}" "$SOURCE_DIR/$1"
   sed -i 's/\/usr\/lib\/x86_64-linux-gnu/\/usr\/lib\/arm-linux-gnueabihf/g' CMakeCache.txt
   sed -i 's/\/usr\/include\/x86_64-linux-gnu/\/usr\/include\/arm-linux-gnueabihf/g' CMakeCache.txt
   check_run make -j${MAKE_JOBS}
+  export PKG_CONFIG_PATH="${PKG64_CONFIG_PATH}"
   popd
 }
 build_component64() {
