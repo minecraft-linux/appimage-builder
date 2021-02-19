@@ -1,6 +1,6 @@
 name: Containers
 
-on: [push, workflow-dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
