@@ -21,7 +21,7 @@ jobs:
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        sudo ./llvm.sh 11
+        ./llvm.sh 11
         DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev libc++-11-dev:i386 libc++abi-11-dev:i386 libegl1-mesa-dev:i386 zsync uuid-dev uuid-dev:i386
     - name: Run the buildscript
       run: |
@@ -64,7 +64,7 @@ jobs:
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        sudo ./llvm.sh 11
+        ./llvm.sh 11
         DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev:i386 libc++-11-dev:i386 libc++abi-11-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
       run: |
