@@ -42,7 +42,7 @@ jobs:
       run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)" output/
   build32:
     runs-on: ubuntu-latest
     container: minecraftlinux/ci-xenial:0.0.1
@@ -84,7 +84,7 @@ jobs:
       run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)" output/
   buildbusterappimage:
     runs-on: ubuntu-18.04
     steps:
@@ -107,7 +107,7 @@ jobs:
       run: | 
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)" output/
   buildbusterappimage64:
     runs-on: ubuntu-18.04
     steps:
@@ -130,4 +130,4 @@ jobs:
       run: | 
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)" output/

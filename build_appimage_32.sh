@@ -41,9 +41,9 @@ mkdir -p ${APP_DIR}
 call_quirk init
 
 show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
-download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git ng
-download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git ng
+download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
+download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat mcpelauncher.commit)
+download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat mcpelauncher-ui.commit)
 mkdir -p "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate"
 git clone --recursive https://github.com/AppImage/AppImageUpdate "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" || cd "$SOURCE_DIR/mcpelauncher-ui/lib/AppImageUpdate" && git pull && git submodule update --init --recursive
 

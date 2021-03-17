@@ -29,9 +29,9 @@ create_build_directories
 call_quirk init
 
 show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git master
-download_repo mcpelauncher https://github.com/ChristopherHX/mcpelauncher-manifest.git ng
-download_repo mcpelauncher-ui https://github.com/ChristopherHX/mcpelauncher-ui-manifest.git ng
+download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
+download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat mcpelauncher.commit)
+download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat mcpelauncher-ui.commit)
 
 call_quirk build_start
 

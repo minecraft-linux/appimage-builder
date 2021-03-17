@@ -52,7 +52,14 @@ download_repo() {
     check_run git submodule update
     popd
   else
-    check_run git clone --recursive -b $3 $2 $SOURCE_DIR/$1
+    mkdir -p $SOURCE_DIR/$1
+    pushd $SOURCE_DIR/$1
+    check_run git init
+    check_run git remote add origin $2
+    check_run git fetch origin $3
+    check_run git reset --hard FETCH_HEAD
+    check_run git submodule update --init --recursive
+    popd
   fi
 }
 
