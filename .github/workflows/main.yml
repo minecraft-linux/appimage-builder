@@ -20,7 +20,7 @@ jobs:
         apt update
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev libc++-dev:i386 libc++abi-dev:i386 libegl1-mesa-dev:i386 zsync uuid-dev uuid-dev:i386
+        DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev libc++-12-dev:i386 libc++abi-12-dev:i386 libegl1-mesa-dev:i386 zsync uuid-dev uuid-dev:i386
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :
@@ -61,7 +61,7 @@ jobs:
         DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev:i386 libc++-dev:i386 libc++abi-dev:i386 libegl1-mesa-dev:i386 zsync
+        DEBIAN_FRONTEND=noninteractive apt -y install libfuse-dev:i386 libc++-12-dev:i386 libc++abi-12-dev:i386 libegl1-mesa-dev:i386 zsync
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :
