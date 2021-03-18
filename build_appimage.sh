@@ -121,8 +121,7 @@ export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SO
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
-curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
-
+curl -L https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 
