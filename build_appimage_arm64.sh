@@ -99,7 +99,8 @@ call_quirk build_mcpelauncher
 build_component64 mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_ASM_FLAGS="--target=aarch64-linux-gnu" -DCMAKE_C_FLAGS="-latomic --target=aarch64-linux-gnu" -DCMAKE_CXX_FLAGS="-latomic --target=aarch64-linux-gnu -DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-arm64.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DQt5QuickCompiler_FOUND:BOOL=OFF
+download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../arm64toolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=arm64 -DCMAKE_ASM_FLAGS="--target=aarch64-linux-gnu" -DCMAKE_C_FLAGS="-latomic --target=aarch64-linux-gnu" -DCMAKE_CXX_FLAGS="-latomic --target=aarch64-linux-gnu -DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-arm64.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DQt5QuickCompiler_FOUND:BOOL=OFF -DLAUNCHER_ENABLE_GOOGLE_PLAY_LICENCE_CHECK=ON -DLAUNCHER_DISABLE_DEV_MODE=ON -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/$(cat versionsdb.txt) -DLAUNCHER_VERSIONDB_PATH=$PWD/versionsdb
 call_quirk build_mcpelauncher_ui
 
 build_component64 mcpelauncher-ui
@@ -175,10 +176,10 @@ rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
 chmod +x $APP_DIR/AppRun
 
-export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}.AppImage"
 export ARCH=arm_aarch64
 check_run $APPIMAGETOOL_BIN --comp xz ${UPDATE_INFORMATION+"-u"} ${UPDATE_INFORMATION} --runtime-file runtime-aarch64 $APP_DIR $OUTPUT
 mv Minecraft*.AppImage output
-mv *.zsync output/version.${ARCH}.zsync
+cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > output/version.${ARCH}.zsync
 
 cleanup_build

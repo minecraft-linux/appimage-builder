@@ -123,11 +123,11 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
 curl  https://curl.haxx.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
-export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}.0.0.${BUILD_NUM}.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 
 mkdir -p output/
 mv Minecraft*.AppImage output/
-mv *.zsync output/version.${ARCH}.zsync
+cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > output/version.${ARCH}.zsync
 
 cleanup_build
