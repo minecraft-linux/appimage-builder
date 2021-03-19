@@ -40,11 +40,6 @@ jobs:
       with:
         name: x86_64.AppImage
         path: output/
-    - name: Upload
-      run: |
-        curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
-        tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
   build32:
     runs-on: ubuntu-latest
     container: minecraftlinux/ci-xenial:0.0.1
@@ -84,11 +79,6 @@ jobs:
       with:
         name: i386.AppImage
         path: output/
-    - name: Upload
-      run: |
-        curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
-        tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
   buildbusterappimage:
     runs-on: ubuntu-18.04
     steps:
@@ -107,11 +97,6 @@ jobs:
       with:
         name: armhfappimagebuster
         path: output/
-    - name: Upload Latest
-      run: | 
-        curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
-        tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
   buildbusterappimage64:
     runs-on: ubuntu-18.04
     steps:
@@ -130,8 +115,46 @@ jobs:
       with:
         name: arm64appimagebuster
         path: output/
-    - name: Upload Latest
-      run: | 
+  publish:
+    runs-on: ubuntu-18.04
+    needs: [ build, build32, buildbusterappimage, buildbusterappimage64 ]
+    if: ${{ always() }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download everything
+      uses: actions/download-artifact@v2
+      with:
+        path: output2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: reorganize Artifacts
+      shell: python
+      run: |
+        from os import makedirs, fsencode, fsdecode, listdir, path, rename, getenv
+        from subprocess import check_call
+        directory = fsencode('output2')
+        makedirs('output')
+        for folder in listdir(directory):
+            foldername = fsdecode(folder)
+            for file in listdir(fsencode(path.join('output2', foldername))):
+                filename = fsdecode(file)
+                print(filename)
+                rename(path.join('output2', foldername, filename), path.join('output', filename))
+    - name: Download ghr
+      run: |
         curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz --output ghr.tar.gz
         tar -xf ghr.tar.gz
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace -draft -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
+    - name: Upload Draft
+      if: github.ref != 'refs/heads/main'
+      run: | 
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -draft -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
+    - name: Upload Release
+      if: github.ref == 'refs/heads/main'
+      run: |
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
+        mkdir -p output3
+        cp output/*.zsync output3/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.dmg output3/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace stable output3/
