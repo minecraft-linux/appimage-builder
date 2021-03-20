@@ -156,5 +156,5 @@ jobs:
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
         mkdir -p output3
         cp output/*.zsync output3/
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.dmg output3/
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace stable output3/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output3/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace appimage output3/
