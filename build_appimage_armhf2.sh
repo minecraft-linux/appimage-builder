@@ -163,7 +163,10 @@ export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SO
 check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/arm-linux-gnueabihf/nss $APP_DIR/usr/lib/
-curl -L https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pemrm $APP_DIR/AppRun
+
+curl -L https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
+
+rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
 chmod +x $APP_DIR/AppRun
 
