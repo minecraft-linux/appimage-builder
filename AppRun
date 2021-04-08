@@ -11,6 +11,6 @@ $DIR/usr/bin/msa-daemon&
 MSADAEMON=$!
 $DIR/usr/bin/msa-ui-qt&
 MSAUIQT=$!
-$DIR/usr/bin/mcpelauncher-ui-qt
+$DIR/usr/bin/mcpelauncher-ui-qt "$@"
 kill $MSAUIQT
 kill $MSADAEMON
