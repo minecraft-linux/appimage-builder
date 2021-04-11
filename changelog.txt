@@ -1,1 +1,1 @@
-<p>Fixed arm, arm64 appimage creation due to missing space</p>
+<p>Feature Update for 1.16.220. Fixed several incompatibilities with 1.16.220 and 1.16.230</p>
