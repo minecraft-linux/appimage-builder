@@ -1,1 +1,1 @@
-<p>Feature Update for 1.16.220. Fixed several incompatibilities with 1.16.220 and 1.16.230</p>
+<p>Realms might work time to time, but is unsupported and not tested by maintainers</p><p>Improve internal storage handling of 1.16.220 and later</p><p>Fixed a rare crash while loading resources</p>
