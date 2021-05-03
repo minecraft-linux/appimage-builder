@@ -1,1 +1,1 @@
-<p>Realms might work time to time, but is unsupported and not tested by maintainers</p><p>Improve internal storage handling of 1.16.220 and later</p><p>Fixed a rare crash while loading resources</p>
+<p>Disable use .apk from launcher login</p><p>Add workaround for texture off by one 1.16.210-1.17.0.52 and beyond revision 2</p><p>Test a new 1.16.230+ workaround due to stack corruption</p><p>Add the two big bugs of 1.16.210 and later to titlescreen</p>
