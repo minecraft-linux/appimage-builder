@@ -97,7 +97,7 @@ jobs:
       with:
         name: armhfappimagebuster
         path: output/
-  buildappimage64:
+  buildarmappimage64:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -117,7 +117,7 @@ jobs:
         path: output/
   publish:
     runs-on: ubuntu-18.04
-    needs: [ build, build32, buildbusterappimage, buildbusterappimage64 ]
+    needs: [ build, build32, buildbusterappimage, buildarmappimage64 ]
     if: ${{ always() }}
     steps:
     - uses: actions/checkout@v2
