@@ -1,1 +1,1 @@
-<p>Hotfix: old x86_64 devices got not purchased error for launcher latest, issues appeard on Tuesday 10.8 with the unsupported message of the next MC update</p><p>Due to heavy abuse of this launchers sourcecode for piracy, further updates to GPL Launcher code are at risk</p>
+<p>Anti piracy update, starting 1.17.40+ currently requires an internet connection</p><p>I forget what exactly I have changed during the last months</p>

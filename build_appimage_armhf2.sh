@@ -164,7 +164,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/arm-linux-gnueabihf/nss $APP_DIR/usr/lib/
 
-curl -L https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
+curl -L -k https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
 
 rm $APP_DIR/AppRun
 cp ./AppRun $APP_DIR/AppRun
