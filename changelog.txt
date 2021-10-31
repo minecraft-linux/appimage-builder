@@ -1,1 +1,1 @@
-<p>Anti piracy update, starting 1.17.40+ currently requires an internet connection</p><p>I forget what exactly I have changed during the last months</p>
+<p>Remove proprietary Extensions</p>
