@@ -121,6 +121,7 @@ jobs:
     if: ${{ always() }}
     steps:
     - uses: actions/checkout@v2
+    - run: echo "APPIMAGE_VERSION=$(cat version.txt)" >> $GITHUB_ENV
     - name: Download everything
       uses: actions/download-artifact@v2
       with:
@@ -153,8 +154,26 @@ jobs:
     - name: Upload Release
       if: github.ref == 'refs/heads/main'
       run: |
-        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -b "$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
+        ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -b "$LAUNCHER_RELEASE_DESCRIPTION$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
         mkdir -p output3
         cp output/*.zsync output3/
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace ng.appimage output3/
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts -replace appimage output3/
+      env:
+        LAUNCHER_RELEASE_DESCRIPTION: |
+          # This Project has been suspended by me since 2021/11/1, further changes or bug fixes are requiring Pull Requests to github repositories of minecraft-linux See https://github.com/ChristopherHX/mcpelauncher-manifest/issues/48#issuecomment-962518143
+          This Release is for Minecraft Android 1.13.0 - 1.18.2
+
+          **You need to own Minecraft on the google play store and login with your google account to use this launcher**
+          Links for linux flatpak or macOS can be found on our wiki https://mcpelauncher.readthedocs.io.
+
+          [Download link for intel or amd based 64bit systems ( known as amd64, intel64 and x86_64 e.g. most PC's or Laptops )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-x86_64-0.0.${{github.run_number}}.AppImage)
+
+          [Download link for arm based 64bit systems ( known as arm64 and aarch64 e.g. raspberry Pi3+, pinephone or pinebook )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-arm_aarch64-0.0.${{github.run_number}}.AppImage)
+
+          - run `uname -a` to know which system you are using
+          - once downloaded the launcher shows you banner if an update are available
+            - no need to download the whole file again
+            - you can update it externally with appimageupdate or appimagelauncher
+
+          ### Changelog

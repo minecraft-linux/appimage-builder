@@ -20,6 +20,6 @@ quirk_build_mcpelauncher32() {
 }
 quirk_build_mcpelauncher_ui() {
   download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
-  add_cmake_options -DCMAKE_INSTALL_RPATH="/opt/qt59/lib/:${APP_DIR}/usr/lib/" -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-x86_64-0.0.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DLAUNCHER_ENABLE_GOOGLE_PLAY_LICENCE_CHECK=ON -DLAUNCHER_DISABLE_DEV_MODE=ON -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/$(cat versionsdbremote.txt) -DLAUNCHER_VERSIONDB_PATH=$SOURCE_DIR/versionsdb
+  add_cmake_options -DCMAKE_INSTALL_RPATH="/opt/qt59/lib/:${APP_DIR}/usr/lib/" -DCMAKE_CXX_FLAGS="-DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-x86_64-0.0.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DLAUNCHER_ENABLE_GOOGLE_PLAY_LICENCE_CHECK=ON -DLAUNCHER_DISABLE_DEV_MODE=OFF -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/$(cat versionsdbremote.txt) -DLAUNCHER_VERSIONDB_PATH=$SOURCE_DIR/versionsdb
 }
 

@@ -85,7 +85,7 @@ build_component32 mcpelauncher
 install_component mcpelauncher
 reset_cmake_options
 download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_ASM_FLAGS="--target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_C_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_CXX_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon -DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-armhf-0.0.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DQt5QuickCompiler_FOUND:BOOL=OFF -DCURL_INCLUDE_DIRS="$APP_DIR/usr/include" -DCURL_LIBRARIES="$APP_DIR/usr/lib/libcurl.so" -DLAUNCHER_ENABLE_GOOGLE_PLAY_LICENCE_CHECK=ON -DLAUNCHER_DISABLE_DEV_MODE=ON -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/$(cat versionsdbremote.txt) -DLAUNCHER_VERSIONDB_PATH=$SOURCE_DIR/versionsdb
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DGAME_LAUNCHER_PATH=. $UPDATE_CMAKE_OPTIONS -DCMAKE_TOOLCHAIN_FILE=${OUTPUT_DIR}/../armhftoolchain.txt -DCPACK_DEBIAN_PACKAGE_ARCHITECTURE=armhf -DCMAKE_ASM_FLAGS="--target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_C_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon" -DCMAKE_CXX_FLAGS="-latomic --target=arm-linux-gnueabihf -march=armv7 -mfpu=neon -DNDEBUG -I ${PWD}/curlappimageca" -DLAUNCHER_VERSION_NAME="$(cat version.txt)-AppImage-armhf-0.0.${BUILD_NUM}" -DLAUNCHER_VERSION_CODE=${BUILD_NUM} -DLAUNCHER_CHANGE_LOG="Launcher $(cat version.txt)<br/>$(cat changelog.txt)" -DQt5QuickCompiler_FOUND:BOOL=OFF -DCURL_INCLUDE_DIRS="$APP_DIR/usr/include" -DCURL_LIBRARIES="$APP_DIR/usr/lib/libcurl.so" -DLAUNCHER_ENABLE_GOOGLE_PLAY_LICENCE_CHECK=ON -DLAUNCHER_DISABLE_DEV_MODE=OFF -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/$(cat versionsdbremote.txt) -DLAUNCHER_VERSIONDB_PATH=$SOURCE_DIR/versionsdb
 call_quirk build_mcpelauncher_ui
 
 build_component32 mcpelauncher-ui
@@ -97,7 +97,7 @@ cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/Resources/proprietary/mcpelaun
 cp $SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/mcpelauncher-ui-qt.desktop $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
 # download linuxdeploy and make it executable
-wget -N https://artifacts.assassinate-you.net/linuxdeploy/travis-456/linuxdeploy-i386.AppImage
+wget -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-i386.AppImage
 # also download Qt plugin, which is needed for the Qt UI
 wget -N https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-i386.AppImage
 
