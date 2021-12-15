@@ -165,6 +165,7 @@ LINUXDEPLOY_BIN=linuxdeploy/squashfs-root/AppRun
 LINUXDEPLOY_PLUGIN_QT_BIN=linuxdeploy-plugin-qt/squashfs-root/AppRun
 APPIMAGETOOL_BIN=appimagetool/squashfs-root/AppRun
 
+rm -rf ./*.AppImage
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR -i $BUILD_DIR/mcpelauncher-ui-qt.png -d $BUILD_DIR/mcpelauncher-ui-qt.desktop
 
 export QML_SOURCES_PATHS=$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview
