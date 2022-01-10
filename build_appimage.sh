@@ -123,7 +123,7 @@ check_run $LINUXDEPLOY_PLUGIN_QT_BIN --appdir $APP_DIR
 
 cp -r /usr/lib/x86_64-linux-gnu/nss $APP_DIR/usr/lib/
 curl -L -k https://curl.se/ca/cacert.pem --output $APP_DIR/usr/share/mcpelauncher/cacert.pem
-export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-0.0.${BUILD_NUM}.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher-${ARCH}-$(cat version.txt).${BUILD_NUM}.AppImage"
 check_run $LINUXDEPLOY_BIN --appdir $APP_DIR --output appimage
 
 mkdir -p output/
