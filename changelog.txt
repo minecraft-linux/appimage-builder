@@ -1,1 +1,1 @@
-<p>Removed libgmodule-2.0.so.0 from arm based AppImages</p><p>Changed naming convention of AppImage files</p><p>The arm based AppImages are still experimental and barely tested, initially created for raspbian buster with missing qt5-webengine package</p>
+<p>Disable chromium sandbox to fix loading the sign in pages on linux distributions newer than ubuntu 20.04, this AppImage contains an outdated qt5.9 version and other old ubuntu 16.04 libraries. Both don't receive any ( security ) updates for years.</p>
