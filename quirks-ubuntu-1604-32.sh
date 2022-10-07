@@ -1,5 +1,6 @@
 git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
 pushd openssl
+git checkout 26cfeb76cfda55ba5248219f40252af7c2b22be1
 setarch i386 ./config -m32 --prefix=$PWD/../copenssl32 --openssldir=$PWD/../copenssl32/ssl
 make install_sw -j8
 export LD_LIBRARY_PATH=$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
