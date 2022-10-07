@@ -45,13 +45,15 @@ create_build_directories() {
 }
 
 download_repo() {
-  show_status "Downloading $2"
   if [ -d $SOURCE_DIR/$1 ]; then
+    show_status "Updating $2"
     pushd $SOURCE_DIR/$1
-    check_run git pull
-    check_run git submodule update
+    check_run git fetch origin $3
+    check_run git reset --hard FETCH_HEAD
+    check_run git submodule update --init --recursive
     popd
   else
+    show_status "Downloading $2"
     mkdir -p $SOURCE_DIR/$1
     pushd $SOURCE_DIR/$1
     check_run git init

@@ -5,7 +5,7 @@
 
 static inline void __curl_appimage_ca(CURL *curl) {
     const char* appdir = getenv("APPDIR");
-    if (appdir) {
+    if (appdir && !getenv("MCPELAUNCHER_NOCAINFO")) {
         std::ostringstream cacert;
         cacert << appdir << "/usr/share/mcpelauncher/cacert.pem";
         curl_easy_setopt(curl, CURLOPT_CAINFO, cacert.str().data());
