@@ -183,7 +183,7 @@ if [ -n "$DEBIANTARGET32" ] && [ -z "$DISABLE_32BIT" ]
 then
     reset_cmake_options
     add_cmake_options "${DEFAULT_CMAKE_OPTIONS32[@]}" -DCMAKE_ASM_FLAGS="$MCPELAUNCHER_CFLAGS32 $CFLAGS32" -DCMAKE_C_FLAGS="$MCPELAUNCHER_CFLAGS32 $CFLAGS32" -DCMAKE_CXX_FLAGS="$MCPELAUNCHER_CXXFLAGS32 $MCPELAUNCHER_CFLAGS32 $CXXFLAGS32 $CFLAGS32"
-    add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DBUILD_UI=OFF
+    add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DXAL_WEBVIEW_QT_PATH=. -DBUILD_UI=OFF
     call_quirk build_mcpelauncher32
     build_component32 mcpelauncher
     cp "$BUILD_DIR/mcpelauncher/mcpelauncher-client/mcpelauncher-client" "${APP_DIR}/usr/bin/mcpelauncher-client32"
@@ -192,7 +192,7 @@ then
 fi
 reset_cmake_options
 add_cmake_options "${DEFAULT_CMAKE_OPTIONS[@]}" -DCMAKE_ASM_FLAGS="$MCPELAUNCHER_CFLAGS $CFLAGS" -DCMAKE_C_FLAGS="$MCPELAUNCHER_CFLAGS $CFLAGS" -DCMAKE_CXX_FLAGS="$MCPELAUNCHER_CXXFLAGS $MCPELAUNCHER_CFLAGS $CXXFLAGS $CFLAGS"
-add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DENABLE_QT_ERROR_UI=OFF
+add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DMSA_DAEMON_PATH=. -DXAL_WEBVIEW_QT_PATH=. -DENABLE_QT_ERROR_UI=OFF
 call_quirk build_mcpelauncher
 build_component64 mcpelauncher
 install_component mcpelauncher
