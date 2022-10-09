@@ -169,7 +169,7 @@ jobs:
 
           [Download link for intel or amd based 64bit systems ( known as amd64, intel64 and x86_64 e.g. most PC's or Laptops )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-x86_64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
 
-          [Download link for arm based 64bit systems ( known as arm64 and aarch64 e.g. raspberry Pi3+, pinephone or pinebook )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-arm_aarch64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
+          [Download link for arm based 64bit systems ( known as arm64 and aarch64 e.g. raspberry Pi3+, pinephone or pinebook )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-arm64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
 
           - run `uname -a` to know which system you are using
           - once downloaded the launcher shows you banner if an update are available
