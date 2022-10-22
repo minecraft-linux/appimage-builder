@@ -125,7 +125,7 @@ rm -rf ${APP_DIR}
 mkdir -p ${APP_DIR}
 call_quirk init
 
-if [ -n "$SKIP_SOURCES" ]
+if [ -z "$SKIP_SOURCES" ]
 then
     show_status "Downloading sources"
     download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
