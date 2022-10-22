@@ -8,7 +8,7 @@ UPDATE_CMAKE_OPTIONS=""
 BUILD_NUM="0"
 TARGETARCH="x86_64"
 
-while getopts "h?q:j:u:i:k:t:n?m?" opt; do
+while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
@@ -20,6 +20,7 @@ while getopts "h?q:j:u:i:k:t:n?m?" opt; do
         echo "-t  Specify the target arch of the appimage"
         echo "-n  Disable compiling mcpelauncher-client32 for 64bit targets"
         echo "-m  Disable compiling msa"
+        echo "-s  Skip sync sources"
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
@@ -39,6 +40,8 @@ while getopts "h?q:j:u:i:k:t:n?m?" opt; do
     n)  DISABLE_32BIT="1"
         ;;
     m)  DISABLE_MSA="1"
+        ;;
+    s)  SKIP_SOURCES="1"
         ;;
     esac
 done
@@ -122,10 +125,13 @@ rm -rf ${APP_DIR}
 mkdir -p ${APP_DIR}
 call_quirk init
 
-show_status "Downloading sources"
-download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
-download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat mcpelauncher.commit)
-download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat mcpelauncher-ui.commit)
+if [ -n "$SKIP_SOURCES" ]
+then
+    show_status "Downloading sources"
+    download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
+    download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat mcpelauncher.commit)
+    download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat mcpelauncher-ui.commit)
+fi
 download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
 if [ -n "$UPDATE_INFORMATION" ]
 then
