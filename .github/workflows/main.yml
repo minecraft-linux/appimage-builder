@@ -13,19 +13,19 @@ on:
         default: https://github.com/minecraft-linux/mcpelauncher-manifest
       mcpelauncher-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.sha || github.ref) || 'ng' }
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.sha || github.ref) || 'ng' }}
       mcpelauncher-ui-repo:
         type: string
         default: https://github.com/minecraft-linux/mcpelauncher-ui-manifest
       mcpelauncher-ui-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.sha || github.ref) || 'ng' }
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.sha || github.ref) || 'ng' }}
       msa-repo:
         type: string
         default: https://github.com/minecraft-linux/msa-manifest
       msa-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/msa-manifest' && (github.sha || github.ref) || 'ng' }
+        default: ${{ github.repository == 'minecraft-linux/msa-manifest' && (github.sha || github.ref) || 'ng' }}
 
 permissions:
   id-token: write
@@ -44,7 +44,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.ref }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -117,7 +117,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.ref }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -188,7 +188,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.ref }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -242,7 +242,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.ref }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
