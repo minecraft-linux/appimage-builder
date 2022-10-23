@@ -25,7 +25,7 @@ on:
         default: https://github.com/minecraft-linux/msa-manifest
       msa-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/msa-manifest' && (github.sha || github.ref) || 'ng' }}
+        default: ${{ github.repository == 'minecraft-linux/msa-manifest' && (github.sha || github.ref) || 'master' }}
 
 permissions:
   id-token: write
