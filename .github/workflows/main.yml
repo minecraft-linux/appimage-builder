@@ -42,8 +42,8 @@ jobs:
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || github.sha || github.ref }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -115,8 +115,8 @@ jobs:
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || github.sha || github.ref }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -186,8 +186,8 @@ jobs:
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || github.sha || github.ref }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -240,8 +240,8 @@ jobs:
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || github.repository }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || github.sha || github.ref }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
