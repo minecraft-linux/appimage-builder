@@ -7,24 +7,25 @@ on:
     inputs:
       submodule-refs:
         type: string
+        default: "[]"
       mcpelauncher-repo:
         type: string
         default: https://github.com/minecraft-linux/mcpelauncher-manifest
       mcpelauncher-ref:
         type: string
-        default: ng
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.sha || github.ref) || 'ng' }
       mcpelauncher-ui-repo:
         type: string
         default: https://github.com/minecraft-linux/mcpelauncher-ui-manifest
       mcpelauncher-ui-ref:
         type: string
-        default: ng
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.sha || github.ref) || 'ng' }
       msa-repo:
         type: string
         default: https://github.com/minecraft-linux/msa-manifest
       msa-ref:
         type: string
-        default: master
+        default: ${{ github.repository == 'minecraft-linux/msa-manifest' && (github.sha || github.ref) || 'ng' }
 
 permissions:
   id-token: write
@@ -37,13 +38,13 @@ jobs:
       run:
         shell: bash
     steps:
-    - uses: ChristopherHX/oidc@45e798774435c73c1bbf62e2df0ba60f95cdb457
+    - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
       id: oidc
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -110,13 +111,13 @@ jobs:
       run:
         shell: bash
     steps:
-    - uses: ChristopherHX/oidc@45e798774435c73c1bbf62e2df0ba60f95cdb457
+    - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
       id: oidc
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -181,13 +182,13 @@ jobs:
   buildbusterappimage:
     runs-on: ubuntu-latest
     steps:
-    - uses: ChristopherHX/oidc@45e798774435c73c1bbf62e2df0ba60f95cdb457
+    - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
       id: oidc
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
@@ -235,13 +236,13 @@ jobs:
   buildarmappimage64:
     runs-on: ubuntu-latest
     steps:
-    - uses: ChristopherHX/oidc@45e798774435c73c1bbf62e2df0ba60f95cdb457
+    - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
       id: oidc
       continue-on-error: true
     - uses: actions/checkout@v3
       with:
-        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || 'ChristopherHX/linux-packaging-scripts' }}
-        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || 'main' }}
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'ChristopherHX/linux-packaging-scripts' || github.repository }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.sha }}
     - name: Sync Submodule Sources
       if: ${{ inputs.submodule-refs }}
       uses: actions/github-script@v6
