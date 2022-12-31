@@ -1,1 +1,1 @@
-<p>Fix Xboxlive Sign in Window fails to open after installing the 0.5.0 release of the arm AppImages, adjusted appimage scripts</p><p>You should now be able to use buildappimage.sh on a ubuntu 20.04 x86_64 to create your own AppImage, this script cross compiles to arm if you specify the target</p>
+<p>You can play up to Minecraft 1.19.60.23</p>
