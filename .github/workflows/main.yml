@@ -329,8 +329,8 @@ jobs:
     steps:
     - name: Install deps
       run: "echo '[multilib]' >> /etc/pacman.conf && echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf && pacman -Syu --noconfirm git util-linux sudo fakeroot binutils autoconf automake libtool pkgconf file make && useradd -m arch && echo 'arch ALL=(ALL) NOPASSWD: ALL' | (EDITOR='tee -a' visudo)"
-    - name: Generate-lib32-evdev
-      run: runuser -l arch -c "git clone https://aur.archlinux.org/lib32-check.git lib32-check && cd lib32-check && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg --syncdeps --noconfirm --install"
+    #- name: Generate-lib32-evdev
+    #  run: runuser -l arch -c "git clone https://aur.archlinux.org/lib32-check.git lib32-check && cd lib32-check && makepkg --syncdeps --noconfirm --install" && runuser -l arch -c "git clone https://aur.archlinux.org/lib32-libevdev.git lib32-libevdev && cd lib32-libevdev && makepkg --syncdeps --noconfirm --install"
     - name: Build launcher
       run: runuser -l arch -c "git clone https://github.com/ChristopherHX/mcpelauncher-linux-git mcpelauncher-linux-git && cd mcpelauncher-linux-git && makepkg --syncdeps --noconfirm --install" || true
     #- name: Build msa
