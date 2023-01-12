@@ -1,1 +1,1 @@
-<p>You can play up to Minecraft 1.19.60.23</p>
+<p>Fix 1.19.51.01 (arm64) by @0xCatPKG in https://github.com/minecraft-linux/mcpelauncher-manifest/pull/755</p><p>Fix viewing marketplace (1.16.210+) and using skin editor (1.18.30+)</p><p>Fix for 1.19.60.26 by @ChristopherHX in https://github.com/minecraft-linux/mcpelauncher-manifest/pull/759</p><p>Make xbox http client async by @ChristopherHX in #752</p><p>1.19.60.25 symbols by @0xCatPKG #752</p><p>Fix minecraft logo aspect ratio in old qt5 versions</p><p>Fix undefined behavior http 405</p>
