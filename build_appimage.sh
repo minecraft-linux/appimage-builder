@@ -46,8 +46,8 @@ while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
     esac
 done
 
-DEFAULT_CMAKE_OPTIONS=("-DUSE_SNMALLOC")
-DEFAULT_CMAKE_OPTIONS32=("-DUSE_SNMALLOC")
+DEFAULT_CMAKE_OPTIONS=("-DUSE_SNMALLOC=ON")
+DEFAULT_CMAKE_OPTIONS32=("-DUSE_SNMALLOC=ON")
 add_default_cmake_options() {
   DEFAULT_CMAKE_OPTIONS=("${DEFAULT_CMAKE_OPTIONS[@]}" "$@")
 }
