@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-build-arch:
+  build-arch:
     name: "arch"
     runs-on: ubuntu-latest
     container:
