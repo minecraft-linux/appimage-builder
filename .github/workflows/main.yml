@@ -324,20 +324,19 @@ jobs:
         ./ghr*/ghr -t ${{ secrets.GITHUB_TOKEN }} -u ChristopherHX -r linux-packaging-scripts ${{ !(github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[DRAFT]')) && '-draft ' || '' }}-b "$LAUNCHER_RELEASE_DESCRIPTION$(cat changelog.txt)" "$(cat version.txt)-${GITHUB_RUN_NUMBER}" output/
       env:
         LAUNCHER_RELEASE_DESCRIPTION: |
-          This Release is for Minecraft Android 1.13.0 - 1.19.30
-          Compatbility with the official release of 1.19.40 is unknown
-
           **You need to own Minecraft on the google play store and login with your google account to use this launcher**
           Links for linux flatpak or macOS can be found on our wiki https://mcpelauncher.readthedocs.io.
 
           [Download link for intel or amd based 64bit systems ( known as amd64, intel64 and x86_64 e.g. most PC's or Laptops )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-x86_64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
 
-          [Download link for arm based 64bit systems ( known as arm64 and aarch64 e.g. raspberry Pi3+, pinephone or pinebook )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-arm64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
+          [Download link for arm based 64bit systems ( known as arm64 and aarch64 e.g. raspberry Pi3 or later, pinephone or pinebook )](https://github.com/ChristopherHX/linux-packaging-scripts/releases/download/${{env.APPIMAGE_VERSION}}-${{github.run_number}}/Minecraft_Bedrock_Launcher-arm64-${{env.APPIMAGE_VERSION}}.${{github.run_number}}.AppImage)
 
           - run `uname -a` to know which system you are using
-          - once downloaded the launcher shows you banner if an update are available
+          - once downloaded the launcher shows you banner if an update is available
             - no need to download the whole file again
+            - usually small updates with less than 5MB
             - you can update it externally with appimageupdate or appimagelauncher
+            - the check for updates can be disabled in settings
 
           ### Changelog
     - name: Publish release
