@@ -46,8 +46,8 @@ while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
     esac
 done
 
-DEFAULT_CMAKE_OPTIONS=("-DUSE_SNMALLOC=ON")
-DEFAULT_CMAKE_OPTIONS32=("-DUSE_SNMALLOC=ON")
+DEFAULT_CMAKE_OPTIONS=()
+DEFAULT_CMAKE_OPTIONS32=()
 add_default_cmake_options() {
   DEFAULT_CMAKE_OPTIONS=("${DEFAULT_CMAKE_OPTIONS[@]}" "$@")
 }
@@ -103,8 +103,6 @@ then
     APPIMAGE_RUNTIME_FILE="runtime-x86_64"
     LINUXDEPLOY_ARCH="x86_64"
     CFLAGS32="-m32 $CFLAGS32"
-    # snmalloc cannot detect this, due to werror in check and some warnings of this build scripts
-    add_default_cmake_options -DSNMALLOC_COMPILER_SUPPORT_MCX16=ON
 fi
 
 show_status "Downloading AppImage tools"
