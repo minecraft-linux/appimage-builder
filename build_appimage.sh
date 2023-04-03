@@ -55,10 +55,10 @@ add_default_cmake_options32() {
   DEFAULT_CMAKE_OPTIONS32=("${DEFAULT_CMAKE_OPTIONS32[@]}" "$@")
 }
 
-CFLAGS32="-DNDEBUG"
-CFLAGS="-DNDEBUG"
-CXXFLAGS32="-I ${PWD}/curlappimageca"
-CXXFLAGS="-I ${PWD}/curlappimageca"
+CFLAGS32="-DNDEBUG $CFLAGS32"
+CFLAGS="-DNDEBUG $CFLAGS"
+CXXFLAGS32="-I ${PWD}/curlappimageca $CXXFLAGS32"
+CXXFLAGS="-I ${PWD}/curlappimageca $CXXFLAGS"
 MCPELAUNCHERUI_CXXFLAGS="-DLAUNCHER_INIT_PATCH=\"if(!getenv(\\\"QTWEBENGINE_CHROMIUM_FLAGS\\\")) putenv(\\\"QTWEBENGINE_CHROMIUM_FLAGS=--no-sandbox\\\");\""
 if [ -n "$DISABLE_32BIT" ]
 then
