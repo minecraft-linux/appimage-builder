@@ -1,1 +1,1 @@
-<p>Initial 1.19.8x support with rollforward, no longer waiting for every Minecraft patch release to be tested</p><p>Implement xbox live websockets to fix joining xbox live friends</p>
+<p>Port game launcher to macOS/arm64</p><p>Fix issues with 1.20.0 and 1.20.10.21</p><p>File picking on linux, this does not work on macOS yet</p><p>Fix a crash while using xbox live multiplayer</p>
