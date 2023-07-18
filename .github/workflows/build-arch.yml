@@ -1,5 +1,4 @@
 name: arch
-
 on:
   push:
   workflow_dispatch:
