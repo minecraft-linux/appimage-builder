@@ -257,8 +257,6 @@ check_run "$LINUXDEPLOY_BIN" --appdir "$APP_DIR" -i "$BUILD_DIR/mcpelauncher-ui-
 export QML_SOURCES_PATHS="$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview"
 check_run "$LINUXDEPLOY_PLUGIN_QT_BIN" --appdir "$APP_DIR"
 
-# libnss needs it's subdirectory to load the google login view
-check_run cp -r "/usr/lib/$DEBIANTARGET/nss" "$APP_DIR/usr/lib/"
 # glib is excluded by appimagekit, but gmodule isn't which causes issues
 check_run rm -rf "$APP_DIR/usr/lib/libgmodule-2.0.so.0"
 # these files where removed from the exclude list
