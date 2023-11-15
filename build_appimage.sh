@@ -257,6 +257,8 @@ check_run "$LINUXDEPLOY_BIN" --appdir "$APP_DIR" -i "$BUILD_DIR/mcpelauncher-ui-
 export QML_SOURCES_PATHS="$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview"
 export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so"
 export EXTRA_QT_PLUGINS="wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration"
+check_run mkdir -p "$APP_DIR/usr/plugins/"
+check_run cp -R /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-decoration-client /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-graphics-integration-client /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-shell-integration "$APP_DIR/usr/plugins/"
 check_run "$LINUXDEPLOY_PLUGIN_QT_BIN" --appdir "$APP_DIR"
 
 # glib is excluded by appimagekit, but gmodule isn't which causes issues
