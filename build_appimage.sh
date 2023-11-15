@@ -10,7 +10,7 @@ TARGETARCH="x86_64"
 COMMIT_FILE_SUFFIX=""
 MSA_QT6_OPT=""
 
-while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
+while getopts "h?q:j:u:i:k:t:n?m?o?s?" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
