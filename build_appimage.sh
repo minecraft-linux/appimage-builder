@@ -7,6 +7,8 @@ APP_DIR=${BUILD_DIR}/AppDir
 UPDATE_CMAKE_OPTIONS=""
 BUILD_NUM="0"
 TARGETARCH="x86_64"
+COMMIT_FILE_SUFFIX=""
+MSA_QT6_OPT=""
 
 while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
     case "$opt" in
@@ -20,6 +22,7 @@ while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
         echo "-t  Specify the target arch of the appimage"
         echo "-n  Disable compiling mcpelauncher-client32 for 64bit targets"
         echo "-m  Disable compiling msa"
+        echo "-o  Build qt6 AppImage"
         echo "-s  Skip sync sources"
         exit 0
         ;;
@@ -40,6 +43,9 @@ while getopts "h?q:j:u:i:k:t:n?m?s?" opt; do
     n)  DISABLE_32BIT="1"
         ;;
     m)  DISABLE_MSA="1"
+        ;;
+    o)  COMMIT_FILE_SUFFIX="-qt6"
+        MSA_QT6_OPT="-DQT_VERSION=6"
         ;;
     s)  SKIP_SOURCES="1"
         ;;
@@ -129,8 +135,8 @@ if [ -z "$SKIP_SOURCES" ]
 then
     show_status "Downloading sources"
     download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
-    download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git qt6
-    download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git qt6
+    download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat "mcpelauncher${COMMIT_FILE_SUFFIX}.commit")
+    download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat "mcpelauncher-ui${COMMIT_FILE_SUFFIX}.commit")
 fi
 download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
 if [ -n "$UPDATE_INFORMATION" ]
@@ -180,7 +186,7 @@ if [ -z "$DISABLE_MSA" ]
 then
     reset_cmake_options
     add_cmake_options "${DEFAULT_CMAKE_OPTIONS[@]}" -DCMAKE_ASM_FLAGS="$MSA_CFLAGS $CFLAGS" -DCMAKE_C_FLAGS="$MSA_CFLAGS $CFLAGS" -DCMAKE_CXX_FLAGS="$MSA_CXXFLAGS $MSA_CFLAGS $CXXFLAGS $CFLAGS"
-    add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF
+    add_cmake_options -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_MSA_QT_UI=ON -DMSA_UI_PATH_DEV=OFF $MSA_QT6_OPT
     call_quirk build_msa
     build_component64 msa
     install_component msa
@@ -255,12 +261,21 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}"$APP_DIR/usr/lib
 check_run "$LINUXDEPLOY_BIN" --appdir "$APP_DIR" -i "$BUILD_DIR/mcpelauncher-ui-qt.svg" -d "$BUILD_DIR/mcpelauncher-ui-qt.desktop"
 
 export QML_SOURCES_PATHS="$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview"
-export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so"
-export EXTRA_QT_PLUGINS="wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration"
-check_run mkdir -p "$APP_DIR/usr/plugins/"
-check_run cp -R /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-decoration-client /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-graphics-integration-client /usr/lib/aarch64-linux-gnu/qt6/plugins/wayland-shell-integration "$APP_DIR/usr/plugins/"
+if [ -z "$MSA_QT6_OPT" ]
+then
+    export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so"
+    export EXTRA_QT_PLUGINS="wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration"
+    check_run mkdir -p "$APP_DIR/usr/plugins/"
+    check_run cp -R "/usr/lib/$DEBIANTARGET/qt6/plugins/wayland-decoration-client" "/usr/lib/$DEBIANTARGET/qt6/plugins/wayland-graphics-integration-client" "/usr/lib/$DEBIANTARGET/qt6/plugins/wayland-shell-integration" "$APP_DIR/usr/plugins/"
+fi
 check_run "$LINUXDEPLOY_PLUGIN_QT_BIN" --appdir "$APP_DIR"
 
+# Bookworm AppImage doesn't have it anymore?
+if [ -n "$MSA_QT6_OPT" ]
+then
+    # libnss needs it's subdirectory to load the google login view
+    check_run cp -r "/usr/lib/$DEBIANTARGET/nss" "$APP_DIR/usr/lib/"
+fi
 # glib is excluded by appimagekit, but gmodule isn't which causes issues
 check_run rm -rf "$APP_DIR/usr/lib/libgmodule-2.0.so.0"
 # these files where removed from the exclude list
