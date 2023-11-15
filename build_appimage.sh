@@ -129,8 +129,8 @@ if [ -z "$SKIP_SOURCES" ]
 then
     show_status "Downloading sources"
     download_repo msa https://github.com/minecraft-linux/msa-manifest.git $(cat msa.commit)
-    download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git $(cat mcpelauncher.commit)
-    download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git $(cat mcpelauncher-ui.commit)
+    download_repo mcpelauncher https://github.com/minecraft-linux/mcpelauncher-manifest.git qt6
+    download_repo mcpelauncher-ui https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git qt6
 fi
 download_repo versionsdb https://github.com/minecraft-linux/mcpelauncher-versiondb.git $(cat versionsdb.txt)
 if [ -n "$UPDATE_INFORMATION" ]
