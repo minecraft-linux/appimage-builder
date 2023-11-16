@@ -26,7 +26,7 @@
 TEXTDOMAIN=libc
 TEXTDOMAINDIR=/usr/share/locale
 
-RTLDLIST="/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2 /libx32/ld-linux-x32.so.2 /lib/ld-linux-armhf.so.3 /lib/ld-linux-aarch64.so.1"
+RTLDLIST=("/lib/ld-linux.so.2" "/lib64/ld-linux-x86-64.so.2" "/libx32/ld-linux-x32.so.2" "/lib/ld-linux-armhf.so.3" "qemu-aarch64 /lib/ld-linux-aarch64.so.1" "/lib/ld-linux-aarch64.so.1")
 warn=
 bind_now=
 verbose=
@@ -101,7 +101,6 @@ nonelf ()
 }
 
 add_env="LD_TRACE_LOADED_OBJECTS=1 LD_WARN=$warn LD_BIND_NOW=$bind_now"
-add_env="$add_env LD_LIBRARY_VERSION=\$verify_out"
 add_env="$add_env LD_VERBOSE=$verbose"
 if test "$unused" = yes; then
   add_env="$add_env LD_DEBUG=\"$LD_DEBUG${LD_DEBUG:+,}unused\""
@@ -153,10 +152,10 @@ for file do
   elif test -r "$file"; then
     RTLD=
     ret=1
-    for rtld in ${RTLDLIST}; do
+    for rtld in "${RTLDLIST[@]}"; do
       if test -x $rtld; then
-	dummy=`$rtld 2>&1` 
-	if test $? = 127; then
+	dummy=`$rtld --version 2>&1` 
+	if test $? = 0; then
 	  verify_out=`${rtld} --verify "$file"`
 	  ret=$?
 	  case $ret in
@@ -174,12 +173,11 @@ for file do
       }
       ;;
     0|2)
-      try_trace "$RTLD" "$file" || result=1
+      try_trace $RTLD "$file" || result=1
       ;;
     *)
-#       echo 'ldd:' ${RTLD} $"exited with unknown exit code" "($ret)" >&2
-#       exit 1
-      qemu-aarch64 -E LD_TRACE_LOADED_OBJECTS=1 /lib/ld-linux-aarch64.so.1 "$file" || result=1
+      echo 'ldd:' ${RTLD} $"exited with unknown exit code" "($ret)" >&2
+      exit 1
       ;;
     esac
   else
