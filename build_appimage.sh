@@ -9,8 +9,9 @@ BUILD_NUM="0"
 TARGETARCH="x86_64"
 COMMIT_FILE_SUFFIX=""
 MSA_QT6_OPT=""
+OUTPUT_SUFFIX=""
 
-while getopts "h?q:j:u:i:k:t:n?m?o?s?" opt; do
+while getopts "h?q:j:u:i:k:t:n?m?o?s?p:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
@@ -23,6 +24,7 @@ while getopts "h?q:j:u:i:k:t:n?m?o?s?" opt; do
         echo "-n  Disable compiling mcpelauncher-client32 for 64bit targets"
         echo "-m  Disable compiling msa"
         echo "-o  Build qt6 AppImage"
+        echo "-p  Suffix"
         echo "-s  Skip sync sources"
         exit 0
         ;;
@@ -46,6 +48,8 @@ while getopts "h?q:j:u:i:k:t:n?m?o?s?" opt; do
         ;;
     o)  COMMIT_FILE_SUFFIX="-qt6"
         MSA_QT6_OPT="-DQT_VERSION=6"
+        ;;
+    p)  OUTPUT_SUFFIX="$OPTARG"
         ;;
     s)  SKIP_SOURCES="1"
         ;;
@@ -292,7 +296,7 @@ then
    check_run chmod +x $APP_DIR/AppRun
 fi
 
-export OUTPUT="Minecraft_Bedrock_Launcher-${TARGETARCH}-$(cat version.txt).${BUILD_NUM}.AppImage"
+export OUTPUT="Minecraft_Bedrock_Launcher${OUTPUT_SUFFIX}-${TARGETARCH}-$(cat version.txt).${BUILD_NUM}.AppImage"
 export ARCH="$APPIMAGE_ARCH"
 if [ -n "$UPDATE_INFORMATION" ]
 then
@@ -302,7 +306,7 @@ check_run "$APPIMAGETOOL_BIN" --comp xz --runtime-file "tools/$APPIMAGE_RUNTIME_
 
 mkdir -p output/
 check_run mv Minecraft*.AppImage output/
-cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version.${ARCH}.zsync"
+cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${ARCH}.zsync"
 rm *.zsync
 
 cleanup_build
