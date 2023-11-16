@@ -15,13 +15,19 @@ on:
         default: https://github.com/minecraft-linux/mcpelauncher-manifest
       mcpelauncher-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.sha || github.ref) || 'ng' }}
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.ref_name == 'ng' && github.sha) || 'ng' }}
+      mcpelauncher-qt6-ref:
+        type: string
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.ref_name == 'qt6' && github.sha) || 'qt6' }}
       mcpelauncher-ui-repo:
         type: string
         default: https://github.com/minecraft-linux/mcpelauncher-ui-manifest
       mcpelauncher-ui-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.sha || github.ref) || 'ng' }}
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.ref_name == 'ng' && github.sha) || 'ng' }}
+      mcpelauncher-ui-qt-ref:
+        type: string
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.ref_name == 'qt6' && github.sha) || 'qt6' }}
       msa-repo:
         type: string
         default: https://github.com/minecraft-linux/msa-manifest
@@ -90,8 +96,8 @@ jobs:
             await exec.exec("git", ["reset", "--hard", "FETCH_HEAD"], { cwd: path });
             await exec.exec("git", ["submodule", "update", "--init", "--recursive"], { cwd: path });
           };
-          await downloadRepo("source/mcpelauncher", process.env.MCPELAUNCHER_REPO, "qt6");
-          await downloadRepo("source/mcpelauncher-ui", process.env.MCPELAUNCHER_UI_REPO, "qt6");
+          await downloadRepo("source/mcpelauncher", process.env.MCPELAUNCHER_REPO, process.env.MCPELAUNCHER_REF);
+          await downloadRepo("source/mcpelauncher-ui", process.env.MCPELAUNCHER_UI_REPO, process.env.MCPELAUNCHER_UI_REF);
           await downloadRepo("source/msa", process.env.MSA_REPO, process.env.MSA_REF);
           var submoduleRefs = JSON.parse(process.env.SUBMODULEREFS);
           for(var submoduleRef of submoduleRefs) {
@@ -101,9 +107,9 @@ jobs:
       env:
         SUBMODULEREFS: ${{ inputs.submodule-refs }}
         MCPELAUNCHER_REPO: ${{ inputs.mcpelauncher-repo }}
-        MCPELAUNCHER_REF: ${{ inputs.mcpelauncher-ref }}
+        MCPELAUNCHER_REF: ${{ inputs.mcpelauncher-qt6-ref }}
         MCPELAUNCHER_UI_REPO: ${{ inputs.mcpelauncher-ui-repo }}
-        MCPELAUNCHER_UI_REF: ${{ inputs.mcpelauncher-ui-ref }}
+        MCPELAUNCHER_UI_REF: ${{ inputs.mcpelauncher-ui-qt6-ref }}
         MSA_REPO: ${{ inputs.msa-repo }}
         MSA_REF: ${{ inputs.msa-ref }}
     - name: Build
