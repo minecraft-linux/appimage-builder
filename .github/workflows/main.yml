@@ -58,7 +58,7 @@ jobs:
           triple: x86_64-linux-gnu
           extra-opts: -q quirks-bookworm.sh
           extra-pkgs: libegl1-mesa:amd64 zlib1g:amd64 libstdc++6:amd64 libgl1-mesa-dri:amd64 libasound2:amd64
-          extra-env: CMAKE_PREFIX_PATH=/usr/lib/${{ matrix.triple }}:/usr/lib/${{ matrix.triple }}/cmake
+          extra-env: CMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/cmake
         - arch: armhf
           gxx: g++-arm-linux-gnueabihf
           triple: arm-linux-gnueabihf
