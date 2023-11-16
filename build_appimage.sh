@@ -261,7 +261,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}"$APP_DIR/usr/lib
 check_run "$LINUXDEPLOY_BIN" --appdir "$APP_DIR" -i "$BUILD_DIR/mcpelauncher-ui-qt.svg" -d "$BUILD_DIR/mcpelauncher-ui-qt.desktop"
 
 export QML_SOURCES_PATHS="$SOURCE_DIR/mcpelauncher-ui/mcpelauncher-ui-qt/qml/:$SOURCE_DIR/mcpelauncher/mcpelauncher-webview"
-if [ -z "$MSA_QT6_OPT" ]
+if [ -n "$MSA_QT6_OPT" ]
 then
     export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so"
     export EXTRA_QT_PLUGINS="wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration"
@@ -271,7 +271,7 @@ fi
 check_run "$LINUXDEPLOY_PLUGIN_QT_BIN" --appdir "$APP_DIR"
 
 # Bookworm AppImage doesn't have it anymore?
-if [ -n "$MSA_QT6_OPT" ]
+if [ -z "$MSA_QT6_OPT" ]
 then
     # libnss needs it's subdirectory to load the google login view
     check_run cp -r "/usr/lib/$DEBIANTARGET/nss" "$APP_DIR/usr/lib/"
