@@ -15,13 +15,19 @@ on:
         default: https://github.com/minecraft-linux/mcpelauncher-manifest
       mcpelauncher-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.sha || github.ref) || 'ng' }}
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.ref_name == 'ng' && github.sha) || 'ng' }}
+      mcpelauncher-qt6-ref:
+        type: string
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-manifest' && (github.ref_name == 'qt6' && github.sha) || 'qt6' }}
       mcpelauncher-ui-repo:
         type: string
         default: https://github.com/minecraft-linux/mcpelauncher-ui-manifest
       mcpelauncher-ui-ref:
         type: string
-        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.sha || github.ref) || 'ng' }}
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.ref_name == 'ng' && github.sha) || 'ng' }}
+      mcpelauncher-ui-qt6-ref:
+        type: string
+        default: ${{ github.repository == 'minecraft-linux/mcpelauncher-ui-manifest' && (github.ref_name == 'qt6' && github.sha) || 'qt6' }}
       msa-repo:
         type: string
         default: https://github.com/minecraft-linux/msa-manifest
@@ -291,10 +297,96 @@ jobs:
       with:
         name: arm64appimagebuster
         path: output/
+  appimage-bookworm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+        - x86
+        - armhf
+        - x86_64
+        - arm64
+        darch:
+        - x86: i386
+          armhf: armhf
+          x86_64: amd64
+          arm64: arm64
+        include:
+        - arch: x86
+          gxx: g++-multilib
+          triple: i386-linux-gnu
+          qmaketriple: i686-linux-gnu
+        - arch: x86_64
+          arch32: x86
+          gxx: g++-multilib
+          triple: x86_64-linux-gnu
+          extra-opts: -q quirks-bookworm.sh
+          extra-pkgs: libegl1-mesa:amd64 zlib1g:amd64 libstdc++6:amd64 libgl1-mesa-dri:amd64 libasound2:amd64
+          extra-env: CMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/cmake
+        - arch: armhf
+          gxx: g++-arm-linux-gnueabihf
+          triple: arm-linux-gnueabihf
+        - arch: arm64
+          arch32: armhf
+          gxx: g++-arm-linux-gnueabihf g++-aarch64-linux-gnu
+          triple: aarch64-linux-gnu
+      fail-fast: false
+    name: bookworm ( ${{ matrix.arch }} )
+    steps:
+    - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
+      id: oidc
+      continue-on-error: true
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ steps.oidc.outputs.job_workflow_repo_name_and_owner || inputs.submodule-refs && 'minecraft-linux/appimage-builder' || github.repository }}
+        ref: ${{ steps.oidc.outputs.job_workflow_repo_ref || inputs.submodule-refs && 'main' || github.sha || github.ref }}
+    - name: Sync Submodule Sources
+      if: ${{ inputs.submodule-refs }}
+      uses: actions/github-script@v6
+      with:
+        github-token: none
+        script: |
+          var downloadRepo = async function(path, repo, ref) {
+            await io.mkdirP(path);
+            await exec.exec("git", ["init"], { cwd: path });
+            await exec.exec("git", ["remote", "add", "origin", repo], { cwd: path });
+            await exec.exec("git", ["fetch", "origin", ref], { cwd: path });
+            await exec.exec("git", ["reset", "--hard", "FETCH_HEAD"], { cwd: path });
+            await exec.exec("git", ["submodule", "update", "--init", "--recursive"], { cwd: path });
+          };
+          await downloadRepo("source/mcpelauncher", process.env.MCPELAUNCHER_REPO, process.env.MCPELAUNCHER_REF);
+          await downloadRepo("source/mcpelauncher-ui", process.env.MCPELAUNCHER_UI_REPO, process.env.MCPELAUNCHER_UI_REF);
+          await downloadRepo("source/msa", process.env.MSA_REPO, process.env.MSA_REF);
+          var submoduleRefs = JSON.parse(process.env.SUBMODULEREFS);
+          for(var submoduleRef of submoduleRefs) {
+            await exec.exec("git", ["fetch", submoduleRef.origin || "origin", submoduleRef.ref], { cwd: `source/${submoduleRef.project}/${submoduleRef.path}` });
+            await exec.exec("git", ["checkout", "FETCH_HEAD"], { cwd: `source/${submoduleRef.project}/${submoduleRef.path}` });
+          }
+      env:
+        SUBMODULEREFS: ${{ inputs.submodule-refs }}
+        MCPELAUNCHER_REPO: ${{ inputs.mcpelauncher-repo }}
+        MCPELAUNCHER_REF: ${{ inputs.mcpelauncher-qt6-ref }}
+        MCPELAUNCHER_UI_REPO: ${{ inputs.mcpelauncher-ui-repo }}
+        MCPELAUNCHER_UI_REF: ${{ inputs.mcpelauncher-ui-qt6-ref }}
+        MSA_REPO: ${{ inputs.msa-repo }}
+        MSA_REF: ${{ inputs.msa-ref }}
+    - name: Build
+      run: |
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+        docker pull buildpack-deps:bookworm
+        curl -L https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz --output cmake.tar.gz
+        tar --no-same-owner -xf cmake.tar.gz
+        curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/clang+llvm-15.0.6-x86_64-linux-gnu-ubuntu-18.04.tar.xz --output llvm.tar.xz
+        tar --no-same-owner -xf llvm.tar.xz
+        docker run -e GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER} -v $PWD/ldd-bookworm:/usr/bin/ldd -v $PWD:$PWD -w $PWD --rm buildpack-deps:bookworm bash -c "dpkg --add-architecture i386 && dpkg --add-architecture ${{ matrix.darch[matrix.arch] }} && dpkg --add-architecture ${{ matrix.darch[matrix.arch32 || matrix.arch] }} && apt update && DEBIAN_FRONTEND=noninteractive apt install -y libegl1-mesa:i386 zlib1g:i386 libstdc++6:i386 libgl1-mesa-dri:i386 libasound2:i386 ${{ matrix.extra-pkgs }} qmake6:${{ matrix.darch[matrix.arch] }} qt6-wayland:${{ matrix.darch[matrix.arch] }} libfuse-dev:${{ matrix.darch[matrix.arch] }} wget texinfo apt-transport-https vim-common qemu-user clang chrpath libstdc++-*-dev:${{ matrix.darch[matrix.arch] }} libstdc++-*-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libatomic1:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libatomic1:${{ matrix.darch[matrix.arch] }} wget cmake ${{ matrix.gxx }} patchelf libpng-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libx11-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libxcursor-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libxinerama-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libxi-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libxrandr-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libudev-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libevdev-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libegl1-mesa-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libasound2:${{ matrix.darch[matrix.arch32 || matrix.arch] }} git cmake pkg-config libssl-dev:${{ matrix.darch[matrix.arch] }} libcurl4-openssl-dev:${{ matrix.darch[matrix.arch] }} libpng-dev:${{ matrix.darch[matrix.arch] }} libx11-dev:${{ matrix.darch[matrix.arch] }} libxcursor-dev:${{ matrix.darch[matrix.arch] }} libxinerama-dev:${{ matrix.darch[matrix.arch] }} libxi-dev:${{ matrix.darch[matrix.arch] }} libxrandr-dev:${{ matrix.darch[matrix.arch] }} libssl-dev:${{ matrix.darch[matrix.arch] }} libudev-dev:${{ matrix.darch[matrix.arch] }} libevdev-dev:${{ matrix.darch[matrix.arch] }} libegl1-mesa-dev:${{ matrix.darch[matrix.arch] }} libgl1-mesa-dev:${{ matrix.darch[matrix.arch] }} libssl-dev:${{ matrix.darch[matrix.arch] }} libuv1-dev:${{ matrix.darch[matrix.arch] }} libzip-dev:${{ matrix.darch[matrix.arch] }} libprotobuf-dev:${{ matrix.darch[matrix.arch] }} protobuf-compiler  jq curl binutils desktop-file-utils squashfs-tools qtdeclarative5-dev-tools:${{ matrix.darch[matrix.arch] }} libssl-dev:${{ matrix.darch[matrix.arch] }} libpulse-dev:${{ matrix.darch[matrix.arch] }} libssl-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} libpulse-dev:${{ matrix.darch[matrix.arch32 || matrix.arch] }} qt6-base-dev:${{ matrix.darch[matrix.arch] }} libqt6opengl6-dev:${{ matrix.darch[matrix.arch] }} qt6-webengine-dev:${{ matrix.darch[matrix.arch] }} qt6-webengine-dev-tools:${{ matrix.darch[matrix.arch] }} libqt6webenginecore6-bin:${{ matrix.darch[matrix.arch] }} qt6-declarative-dev:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-layouts:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-controls:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-window:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-dialogs:${{ matrix.darch[matrix.arch] }} qml6-module-qt-labs-settings:${{ matrix.darch[matrix.arch] }} qml6-module-qt-labs-folderlistmodel:${{ matrix.darch[matrix.arch] }} qml6-module-qtwebengine:${{ matrix.darch[matrix.arch] }} qt6-base-dev:${{ matrix.darch[matrix.arch] }} libqt6opengl6-dev:${{ matrix.darch[matrix.arch] }} qt6-webengine-dev:${{ matrix.darch[matrix.arch] }} qt6-declarative-dev:${{ matrix.darch[matrix.arch] }} libqt6svg6-dev:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-layouts:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-controls:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-controls:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-dialogs:${{ matrix.darch[matrix.arch] }} qml6-module-qt-labs-settings:${{ matrix.darch[matrix.arch] }} qml6-module-qt-labs-folderlistmodel:${{ matrix.darch[matrix.arch] }} qml6-module-qt-labs-platform:${{ matrix.darch[matrix.arch] }} qml6-module-qtquick-shapes:${{ matrix.darch[matrix.arch] }} qml6-module-qtqml:${{ matrix.darch[matrix.arch] }} qml6-module-qtqml-workerscript:${{ matrix.darch[matrix.arch] }} 'qml6-module-*:${{ matrix.darch[matrix.arch] }}' 'libopengl-dev:${{ matrix.darch[matrix.arch] }}' && ${{ matrix.extra-env }} QMAKE=/usr/bin/${{ matrix.qmaketriple || matrix.triple }}-qmake6 PKG_CONFIG_PATH=/usr/lib/${{ matrix.triple }}/pkgconfig/ PATH=/usr/lib/${{ matrix.triple }}/qt6/bin/:$PWD/cmake-3.16.2-Linux-x86_64/bin:$PWD/clang+llvm-15.0.6-x86_64-linux-gnu-ubuntu-18.04/bin:$PATH LD_LIBRARY_PATH=${PWD}/build/AppDir/usr/lib NO_STRIP=1 CC=clang CXX=clang++ CFLAGS32="-lstdc++fs" CFLAGS="-lstdc++fs" ./build_appimage.sh ${{ matrix.extra-opts }} -p "-bookworm" -o -t ${{ matrix.arch }} -j4 -k 'zsync|https://github.com/minecraft-linux/appimage-builder/releases/download/ng.appimage/version-bookworm.${{ matrix.arch }}.zsync' -i ${GITHUB_RUN_NUMBER}${{ inputs.submodule-refs && ' -s' || '' }}"
+    - uses: actions/upload-artifact@v1
+      with:
+        name: appimage-bookworm-${{ matrix.arch }}
+        path: output/
   publish:
     permissions: write-all
     runs-on: ubuntu-latest
-    needs: [ build, build32, buildbusterappimage, buildarmappimage64 ]
+    needs: [ build, build32, buildbusterappimage, buildarmappimage64, appimage-bookworm ]
     if: ${{ !cancelled() && github.event_name == 'push' && github.server_url == 'https://github.com' && github.repository == 'minecraft-linux/appimage-builder' }}
     steps:
     - uses: actions/checkout@v3
