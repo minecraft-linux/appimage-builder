@@ -64,6 +64,8 @@ add_default_cmake_options() {
 add_default_cmake_options32() {
   DEFAULT_CMAKE_OPTIONS32=("${DEFAULT_CMAKE_OPTIONS32[@]}" "$@")
 }
+add_default_cmake_options -DJNIVM_ENABLE_TRACE=ON
+add_default_cmake_options32 -DJNIVM_ENABLE_TRACE=ON
 
 CFLAGS32="$CFLAGS32"
 CFLAGS="$CFLAGS"
