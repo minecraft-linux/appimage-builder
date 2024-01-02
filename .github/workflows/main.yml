@@ -110,7 +110,7 @@ jobs:
         cd output
         file=(*.AppImage)
         echo build_id=2000$'\n'download_url=${{ inputs.update-information || 'https://github.com/minecraft-linux/appimage-builder/releases/download/ng.appimage' }}/${file} > version.amd64
-    - uses: actions/upload-artifact@v4
+    - uses: minecraft-linux/actions-upload-artifact-node-16@v4 #actions/upload-artifact@v4 node20 doesn't work on xenial
       with:
         name: appimage-xenial-x86_64
         path: output/
@@ -184,7 +184,7 @@ jobs:
         cd output
         file=(*.AppImage)
         echo build_id=2000$'\n'download_url=${{ inputs.update-information || 'https://github.com/minecraft-linux/appimage-builder/releases/download/ng.appimage' }}/${file} > version.x86
-    - uses: actions/upload-artifact@v4
+    - uses: minecraft-linux/actions-upload-artifact-node-16@v4 #actions/upload-artifact@v4 node20 doesn't work on xenial
       with:
         name: appimage-xenial-i386
         path: output/
