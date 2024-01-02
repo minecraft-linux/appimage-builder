@@ -307,6 +307,7 @@ check_run "$APPIMAGETOOL_BIN" --comp xz --runtime-file "tools/$APPIMAGE_RUNTIME_
 mkdir -p output/
 check_run mv Minecraft*.AppImage output/
 cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${ARCH}.zsync"
+cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${TARGETARCH}.zsync"
 rm *.zsync
 
 cleanup_build
