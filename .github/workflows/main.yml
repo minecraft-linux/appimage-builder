@@ -37,6 +37,9 @@ on:
       update-information:
         type: string
         default: ""
+      tag-name:
+        type: string
+        default: ""
 
 permissions:
   id-token: write
@@ -104,7 +107,7 @@ jobs:
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH+"${LD_LIBRARY_PATH}:"}$PWD/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-16.04/lib:${PWD}/build/AppDir/usr/lib
         export CC=clang
         export CXX=clang++
-        ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -k "zsync|${{ inputs.update-information || 'https://github.com/minecraft-linux/appimage-builder/releases/download/ng.appimage' }}/version.x86_64.zsync" -i ${GITHUB_RUN_NUMBER}${{ inputs.submodule-refs && ' -s' || '' }}
+        ./build_appimage.sh -j4 -q quirks-ubuntu-1604.sh -k "zsync|${{ inputs.update-information || 'https://github.com/minecraft-linux/appimage-builder/releases/download/ng.appimage' }}/version.x86_64.zsync" -i ${GITHUB_RUN_NUMBER}${{ inputs.submodule-refs && ' -s' || '' }}${{ inputs.tag-name && format(' -r {0}', inputs.tag-name) || '' }}
     - name: create update info
       run: |
         cd output

@@ -10,8 +10,9 @@ TARGETARCH="x86_64"
 COMMIT_FILE_SUFFIX=""
 MSA_QT6_OPT=""
 OUTPUT_SUFFIX=""
+TAGNAME=""
 
-while getopts "h?q:j:u:i:k:t:n?m?o?s?p:" opt; do
+while getopts "h?q:j:u:i:k:t:n?m?o?s?p:r:" opt; do
     case "$opt" in
     h|\?)
         echo "build.sh"
@@ -26,6 +27,7 @@ while getopts "h?q:j:u:i:k:t:n?m?o?s?p:" opt; do
         echo "-o  Build qt6 AppImage"
         echo "-p  Suffix"
         echo "-s  Skip sync sources"
+        echo "-r  TAGNAME of the release 
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
@@ -53,8 +55,15 @@ while getopts "h?q:j:u:i:k:t:n?m?o?s?p:" opt; do
         ;;
     s)  SKIP_SOURCES="1"
         ;;
+    r)  TAGNAME="$OPTARG"
+        ;;
     esac
 done
+
+if [ -z "${TAGNAME}" ]
+then
+    TAGNAME=$(cat version.txt)-${BUILD_NUM}
+fi
 
 DEFAULT_CMAKE_OPTIONS=()
 DEFAULT_CMAKE_OPTIONS32=()
@@ -306,8 +315,14 @@ check_run "$APPIMAGETOOL_BIN" --comp xz --runtime-file "tools/$APPIMAGE_RUNTIME_
 
 mkdir -p output/
 check_run mv Minecraft*.AppImage output/
-cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${ARCH}.zsync"
-cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/$(cat version.txt)-${BUILD_NUM}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${TARGETARCH}.zsync"
+if [ "${TAGNAME}" = "-" ]
+then
+    cat *.zsync > "output/version${OUTPUT_SUFFIX}.${ARCH}.zsync"
+    cat *.zsync > "output/version${OUTPUT_SUFFIX}.${TARGETARCH}.zsync"
+else
+    cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/${TAGNAME}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${ARCH}.zsync"
+    cat *.zsync | sed -e "s/\(URL: \)\(.*\)/\1..\/${TAGNAME}\/\2/g" > "output/version${OUTPUT_SUFFIX}.${TARGETARCH}.zsync"
+fi
 rm *.zsync
 
 cleanup_build
