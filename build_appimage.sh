@@ -27,7 +27,7 @@ while getopts "h?q:j:u:i:k:t:n?m?o?s?p:r:" opt; do
         echo "-o  Build qt6 AppImage"
         echo "-p  Suffix"
         echo "-s  Skip sync sources"
-        echo "-r  TAGNAME of the release 
+        echo "-r  TAGNAME of the release"
         exit 0
         ;;
     j)  MAKE_JOBS=$OPTARG
@@ -62,7 +62,7 @@ done
 
 if [ -z "${TAGNAME}" ]
 then
-    TAGNAME=$(cat version.txt)-${BUILD_NUM}
+    TAGNAME="$(cat version.txt)-${BUILD_NUM}"
 fi
 
 DEFAULT_CMAKE_OPTIONS=()
