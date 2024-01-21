@@ -1,4 +1,4 @@
-git clone https://github.com/openssl/openssl.git -b OpenSSL_1_1_1-stable
+git clone https://github.com/openssl/openssl.git -b openssl-3.2
 pushd openssl
 setarch i386 ./config -m32 --prefix=$PWD/../copenssl32 --openssldir=$PWD/../copenssl32/ssl
 make install_sw
@@ -11,6 +11,7 @@ MCPELAUNCHER_CFLAGS32="-I ${PWD}/copenssl32/include -Wl,-L$PWD/copenssl32/lib $M
 MCPELAUNCHER_CFLAGS="-stdlib=libc++ -I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib $MCPELAUNCHER_CFLAGS"
 MCPELAUNCHER_CXXFLAGS32="-stdlib=libc++ $MCPELAUNCHER_CXXFLAGS32"
 MCPELAUNCHER_CXXFLAGS="-stdlib=libc++ $MCPELAUNCHER_CXXFLAGS"
+MCPELAUNCHERUI_CFLAGS="-I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib $MCPELAUNCHERUI_CFLAGS"
 
 quirk_build_msa() {
   add_cmake_options -DQT_RPATH=/opt/qt59/lib/
