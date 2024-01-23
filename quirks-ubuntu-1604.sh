@@ -5,13 +5,13 @@ make install_sw
 ./config --prefix=$PWD/../copenssl64 --openssldir=$PWD/../copenssl64/ssl
 make clean
 make install_sw
-export LD_LIBRARY_PATH=$PWD/../copenssl64/lib:$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=$PWD/../copenssl64/lib64:$PWD/../copenssl32/lib:${LD_LIBRARY_PATH}
 popd
 MCPELAUNCHER_CFLAGS32="-I ${PWD}/copenssl32/include -Wl,-L$PWD/copenssl32/lib $MCPELAUNCHER_CFLAGS32"
-MCPELAUNCHER_CFLAGS="-stdlib=libc++ -I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib $MCPELAUNCHER_CFLAGS"
+MCPELAUNCHER_CFLAGS="-stdlib=libc++ -I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib64 $MCPELAUNCHER_CFLAGS"
 MCPELAUNCHER_CXXFLAGS32="-stdlib=libc++ $MCPELAUNCHER_CXXFLAGS32"
 MCPELAUNCHER_CXXFLAGS="-stdlib=libc++ $MCPELAUNCHER_CXXFLAGS"
-MCPELAUNCHERUI_CFLAGS="-I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib $MCPELAUNCHERUI_CFLAGS"
+MCPELAUNCHERUI_CFLAGS="-I ${PWD}/copenssl64/include -Wl,-L$PWD/copenssl64/lib64 $MCPELAUNCHERUI_CFLAGS"
 
 quirk_build_msa() {
   add_cmake_options -DQT_RPATH=/opt/qt59/lib/
