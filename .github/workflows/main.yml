@@ -97,7 +97,7 @@ jobs:
         tar --no-same-owner -xf cmake.tar.gz
         apt update
         apt upgrade -y
-        apt remove libglib2.0-dev
+        apt remove -y libglib2.0-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
         chmod +x llvm.sh
         ./llvm.sh 11
@@ -174,7 +174,7 @@ jobs:
         tar --no-same-owner -xf cmake.tar.gz
         apt update
         apt upgrade -y
-        apt remove libglib2.0-dev
+        apt remove -y libglib2.0-dev
         DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386 libxcursor-dev:i386 libxinerama-dev:i386 libxi-dev:i386 libxrandr-dev:i386
         chmod +x llvm.sh
