@@ -209,11 +209,6 @@ jobs:
         - arch: armhf
           gxx: g++-arm-linux-gnueabihf
           triple: arm-linux-gnueabihf
-        - arch: arm64
-          arch32: armhf
-          gxx: g++-arm-linux-gnueabihf g++-aarch64-linux-gnu
-          triple: aarch64-linux-gnu
-          triple32: arm-linux-gnueabihf
     steps:
     - uses: ChristopherHX/oidc@f8f35d97bc37ffbe779bb3ab8453920fedf6fb37
       id: oidc
