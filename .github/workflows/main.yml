@@ -97,11 +97,11 @@ jobs:
         tar --no-same-owner -xf cmake.tar.gz
         apt update
         apt upgrade -y
+        apt remove libglib2.0-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils
         chmod +x llvm.sh
         ./llvm.sh 11
         DEBIAN_FRONTEND=noninteractive apt -y --allow-unauthenticated install libfuse-dev libc++-11-dev:i386 libc++abi-11-dev:i386 libegl1-mesa-dev:i386 zsync uuid-dev uuid-dev:i386 libxcursor-dev:i386 libxinerama-dev:i386 libxi-dev:i386 libxrandr-dev:i386
-        DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential git make pkg-config cmake ninja-build gnome-desktop-testing libasound2-dev libpulse-dev libaudio-dev libsndio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev
         DEBIAN_FRONTEND=noninteractive apt-get install -y libasound2-dev:i386 libpulse-dev:i386 libaudio-dev:i386 libsndio-dev:i386 libx11-dev:i386 libxext-dev:i386 libxrandr-dev:i386 libxcursor-dev:i386 libxfixes-dev:i386 libxi-dev:i386 libxss-dev:i386 libxkbcommon-dev:i386 libdrm-dev:i386 libgbm-dev:i386 libgl1-mesa-dev:i386 libgles2-mesa-dev:i386 libegl1-mesa-dev:i386 libdbus-1-dev:i386 libibus-1.0-dev:i386 libudev-dev:i386
         # fcitx-libs-dev:i386 Conflict with 64 bit
     - name: Run the buildscript
@@ -174,6 +174,7 @@ jobs:
         tar --no-same-owner -xf cmake.tar.gz
         apt update
         apt upgrade -y
+        apt remove libglib2.0-dev
         DEBIAN_FRONTEND=noninteractive apt -y remove qt59base qt59declarative qt59quickcontrols qt59quickcontrols2 qt59svg qt59webengine libcurl4-openssl-dev libzip-dev libuv1-dev
         DEBIAN_FRONTEND=noninteractive apt -y install wget g++-multilib texinfo apt-transport-https vim-common desktop-file-utils libcurl4-openssl-dev:i386 libssl-dev:i386 libgl1-mesa-dev:i386 libuv1-dev:i386 libzip-dev:i386 libprotobuf-dev:i386 qt59base:i386 qt59declarative:i386 qt59quickcontrols:i386 qt59quickcontrols2:i386 qt59svg:i386 qt59webengine:i386 libxcursor-dev:i386 libxinerama-dev:i386 libxi-dev:i386 libxrandr-dev:i386
         chmod +x llvm.sh
