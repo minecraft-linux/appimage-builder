@@ -180,7 +180,7 @@ jobs:
         chmod +x llvm.sh
         ./llvm.sh 11
         DEBIAN_FRONTEND=noninteractive apt -y --allow-unauthenticated install libfuse-dev:i386 libc++-11-dev:i386 libc++abi-11-dev:i386 libegl1-mesa-dev:i386 zsync
-        DEBIAN_FRONTEND=noninteractive apt-get install -y libasound2-dev:i386 libpulse-dev:i386 libaudio-dev:i386 libsndio-dev:i386 libx11-dev:i386 libxext-dev:i386 libxrandr-dev:i386 libxcursor-dev:i386 libxfixes-dev:i386 libxi-dev:i386 libxss-dev:i386 libxkbcommon-dev:i386 libdrm-dev:i386 libgbm-dev:i386 libgl1-mesa-dev:i386 libgles2-mesa-dev:i386 libegl1-mesa-dev:i386 libdbus-1-dev:i386 libibus-1.0-dev:i386 libudev-dev:i386 fcitx-libs-dev:i386 libcairo2-dev:i386
+        DEBIAN_FRONTEND=noninteractive apt-get install -y libasound2-dev:i386 libpulse-dev:i386 libaudio-dev:i386 libsndio-dev:i386 libx11-dev:i386 libxext-dev:i386 libxrandr-dev:i386 libxcursor-dev:i386 libxfixes-dev:i386 libxi-dev:i386 libxss-dev:i386 libxkbcommon-dev:i386 libdrm-dev:i386 libgbm-dev:i386 libgl1-mesa-dev:i386 libgles2-mesa-dev:i386 libegl1-mesa-dev:i386 libdbus-1-dev:i386 libibus-1.0-dev:i386 libudev-dev:i386 fcitx-libs-dev:i386 libcairo2-dev:i386 libgdk-pixbuf2.0-dev:i386 libglib2.0-dev:i386 libmagickcore-6.q16-dev:i386 libmagickcore-dev:i386 libmagickwand-6.q16-dev:i386 libmagickwand-dev:i386 librsvg2-dev:i386
     - name: Run the buildscript
       run: |
         . /opt/qt59/bin/qt59-env.sh || :
