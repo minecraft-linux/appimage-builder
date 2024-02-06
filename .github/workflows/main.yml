@@ -468,6 +468,19 @@ jobs:
             - you can update it externally with appimageupdate or appimagelauncher
             - the check for updates can be disabled in settings
 
+          # Not available Features you may miss
+          - Xbox live friend joining
+            - usually times out or crashs the game in both directions
+            - consider using the offical server software <https://www.minecraft.net/en-us/download/server/bedrock>
+              - connect all by ip as external server
+          - Xbox live login
+            - a lot of devices seem to get error code "drowned" without beeing asked for login
+              - error code "drowned" has more meanings like you closed the webview window without sign in
+            - there is no resolution for those getting this error
+            - programs that rewrite http requests sent by this launcher could also cause this problem
+              - all xbox http requests are signed by an ecdsa key
+              - the second request using the token for sisu auth are always rejected by Xbox Live Servers with http code 403 Forbidden
+            - this problem is not reproducable for developers
           ### Changelog
     - name: Publish release
       if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[DRAFT]')
