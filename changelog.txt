@@ -1,1 +1,1 @@
-<p>Fixup localtime function of Europe/Dublin glibc incompatibility with android</p><p>Fix loading android elf files using gnu hash</p><p>Added a menubar using imgui</p><p>Toogle fullscreen via the menubar</p><p>Change fullscreen resolution in flatpak/macOS releases</p><p>Ability to show an fps hud via the menubar</p><p>View opengl renderer/launcher version via menubar</p><p>Unblocked 1.20.71.01</p>
+<p>Disabled all features of menubar due to amd radeon driver problems</p>
