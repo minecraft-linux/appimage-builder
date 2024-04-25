@@ -1,1 +1,1 @@
-<p>Disabled all features of menubar due to amd radeon driver problems</p>
+<p>Revert changes to fix Xbox Login with Timezone Dublin in Winter Time, it causes Problems in several Timezones</p>                 <p>Includes a lot of patches for freebsd support</p>                 <p>Update flatpak runtime to 6.7</p>                 <p>menubar enabled again on Intel and Google Drivers</p>
